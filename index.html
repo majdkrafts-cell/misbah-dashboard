@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>مِسباح | من الطالب إلى المعلمة خلال ثوانٍ</title>
+<meta name="description" content="MISBAH: a calm, non-verbal way for students to reach their teacher in seconds. مِسباح: تواصل هادئ بين الطالب والمعلمة.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📿</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&family=Reem+Kufi:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#8A1538; --brand-deep:#5E0F27; --brand-text:#8A1538; --gold:#B08A4F;
+  --bg:#FBF7F8; --surface:#FFFFFF; --surface-2:#F5ECEF; --text:#2B1A21; --muted:#6B5761; --line:#EADDE3;
+  --bezel:#2B1A21;
+  --b-green:#2E9E5B; --b-yellow:#F4C21B; --b-blue:#2F6FD6; --b-orange:#EC7A22; --b-purple:#7B4BB8; --b-red:#D63B3B; --b-white:#F2ECEE;
+  --amber:#F0A92B; --glow:#3BD17A;
+  --tint-amber:#FDF1DC; --tint-blue:#E5EEFC; --tint-green:#E2F5EA;
+  --font-body:"Readex Pro","Segoe UI",Tahoma,"Geeza Pro",system-ui,sans-serif;
+  --font-display:"Reem Kufi","Readex Pro","Segoe UI",Tahoma,system-ui,sans-serif;
+  --shadow:0 1px 2px rgba(43,26,33,.06),0 14px 34px -14px rgba(94,15,39,.25);
+  --sig:650ms;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --brand:#9C1D43; --brand-deep:#74132F; --brand-text:#EE9AB3; --gold:#D3B07A;
+    --bg:#1B1216; --surface:#251A1F; --surface-2:#2F2228; --text:#F5EDF0; --muted:#BBA6AF; --line:#433139;
+    --bezel:#3A2A31; --b-white:#E9E2E5;
+    --tint-amber:#45351C; --tint-blue:#1F2E48; --tint-green:#1D3A2A;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 14px 34px -14px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --brand:#9C1D43; --brand-deep:#74132F; --brand-text:#EE9AB3; --gold:#D3B07A;
+  --bg:#1B1216; --surface:#251A1F; --surface-2:#2F2228; --text:#F5EDF0; --muted:#BBA6AF; --line:#433139;
+  --bezel:#3A2A31; --b-white:#E9E2E5;
+  --tint-amber:#45351C; --tint-blue:#1F2E48; --tint-green:#1D3A2A;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 14px 34px -14px rgba(0,0,0,.6);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 84px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:17px;line-height:1.75}
+html[lang="en"] body{line-height:1.6}
+img,svg{max-width:100%}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.wrap{max-width:1200px;margin:0 auto;padding-inline:24px}
+
+/* Header */
+.site-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:color-mix(in srgb,var(--bg) 90%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.header-inner{max-width:1200px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;gap:20px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--brand-text)}
+.brand svg{width:30px;height:40px;flex:none}
+.brand-name{font-family:var(--font-display);font-size:1.55rem;font-weight:700;line-height:1}
+.brand-latin{display:block;font-size:.72rem;font-weight:600;color:var(--muted);line-height:1.3;margin-top:3px}
+.site-nav{margin-inline-start:auto}
+.site-nav ul{display:flex;gap:2px;list-style:none;margin:0;padding:0}
+.site-nav a{display:block;color:var(--muted);text-decoration:none;padding:7px 12px;border-radius:10px;font-size:.93rem}
+.site-nav a:hover{color:var(--text);background:var(--surface-2)}
+.lang-btn{font:inherit;font-size:.9rem;font-weight:600;color:var(--brand-text);background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:6px 14px;cursor:pointer}
+.lang-btn:hover{border-color:var(--brand)}
+@media (max-width:900px){.site-nav{display:none}.lang-btn{margin-inline-start:auto}}
+
+/* Buttons */
+.btn{font:inherit;font-weight:600;font-size:1rem;border-radius:12px;padding:12px 22px;border:1.5px solid transparent;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;line-height:1.3;transition:background .15s,border-color .15s}
+.btn svg{width:1.15em;height:1.15em;flex:none}
+.btn-primary{background:var(--brand);color:#fff}
+.btn-primary:hover{background:var(--brand-deep)}
+.btn-ghost{background:var(--surface);color:var(--text);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--brand)}
+.btn-small{font-size:.88rem;padding:8px 14px;border-radius:10px}
+
+/* Hero */
+.hero{text-align:center;padding:68px 0 28px}
+.hero h1{font-family:var(--font-display);font-weight:700;color:var(--brand-text);font-size:clamp(2.3rem,6.2vw,4.7rem);line-height:1.3;margin:0 auto;max-width:15ch}
+html[lang="en"] .hero h1{line-height:1.12;max-width:13ch}
+.swoosh{display:block;width:min(520px,78%);height:24px;margin:8px auto 18px;color:var(--gold)}
+.lead{font-size:clamp(1.05rem,1.7vw,1.22rem);color:var(--muted);max-width:52ch;margin:0 auto}
+.actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:28px}
+
+/* Demo */
+.demo{padding:28px 0 80px}
+.demo-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 32px;margin-bottom:18px}
+.demo-head h2{font-family:var(--font-display);font-size:clamp(1.6rem,3vw,2.2rem);color:var(--brand-text);margin:0;line-height:1.3}
+.demo-head p{margin:4px 0 0;color:var(--muted);max-width:60ch}
+.demo-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.switch{font:inherit;font-size:.9rem;font-weight:500;display:inline-flex;align-items:center;gap:10px;background:var(--surface);color:var(--text);border:1.5px solid var(--line);border-radius:10px;padding:7px 12px;cursor:pointer}
+.switch .track-ui{width:34px;height:20px;border-radius:999px;background:var(--line);position:relative;transition:background .2s;flex:none}
+.switch .track-ui::after{content:"";position:absolute;top:3px;inset-inline-start:3px;width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:inset-inline-start .2s}
+.switch[aria-checked="true"]{border-color:var(--brand)}
+.switch[aria-checked="true"] .track-ui{background:var(--brand)}
+.switch[aria-checked="true"] .track-ui::after{inset-inline-start:17px}
+
+.stage{display:grid;grid-template-columns:minmax(0,.95fr) 116px minmax(0,1.45fr);align-items:center;background:var(--surface-2);border:1px solid var(--line);border-radius:28px;padding:28px}
+.demo-note{font-size:.85rem;color:var(--muted);margin:12px 0 0;text-align:center}
+
+/* Student device */
+.student{background:var(--surface);border-radius:22px;padding:22px;box-shadow:var(--shadow);align-self:stretch;display:flex;flex-direction:column}
+.panel-title{font-family:var(--font-display);font-size:1.3rem;font-weight:600;margin:0 0 10px;color:var(--brand-text);line-height:1.3}
+.who{display:flex;flex-wrap:wrap;gap:7px;align-items:center;font-size:.9rem;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:inherit;font-size:.86rem;border:1.5px solid var(--line);background:var(--surface);color:var(--text);padding:3px 12px;border-radius:999px;display:inline-flex;align-items:center;gap:7px;cursor:pointer;line-height:1.6}
+.chip[aria-pressed="true"]{border-color:var(--brand);background:var(--brand);color:#fff}
+.lamp{width:8px;height:8px;border-radius:50%;background:var(--line);flex:none;transition:background .2s}
+.chip[aria-pressed="true"] .lamp{background:rgba(255,255,255,.35)}
+.lamp[data-state="sent"],.chip[aria-pressed="true"] .lamp[data-state="sent"]{background:var(--amber)}
+.lamp[data-state="confirmed"],.chip[aria-pressed="true"] .lamp[data-state="confirmed"]{background:var(--glow);box-shadow:0 0 6px var(--glow)}
+.chip.flash{animation:chipflash .5s 3}
+@keyframes chipflash{50%{box-shadow:0 0 0 4px rgba(59,209,122,.45)}}
+
+.misbaha{position:relative;display:flex;align-items:center;gap:6px;padding:30px 2px 70px;margin-top:6px}
+.misbaha::before{content:"";position:absolute;inset-inline:8px 20px;top:calc(50% - 20px);height:3px;border-radius:3px;background:var(--brand);transform:translateY(-50%)}
+.bead{position:relative;z-index:1;flex:1 1 0;min-width:0;max-width:56px;aspect-ratio:1;border-radius:50%;border:0;padding:0;margin:0;color:#fff;display:grid;place-items:center;
+  background:radial-gradient(circle at 33% 27%,rgba(255,255,255,.8) 0 7%,rgba(255,255,255,.2) 28%,transparent 55%),var(--c);
+  box-shadow:inset 0 -5px 9px rgba(0,0,0,.2),0 3px 7px rgba(43,26,33,.28)}
+.bead svg{width:60%;height:60%}
+.bead.ink{color:#2B1A21}
+button.bead{cursor:pointer;transition:transform .12s}
+button.bead:hover{transform:translateY(-3px) scale(1.05)}
+button.bead:active,button.bead.pressed{transform:scale(.88)}
+.bead.static{flex:none}
+.spacer{position:relative;z-index:1;flex:none;width:7px;height:12px;border-radius:4px;background:linear-gradient(#ECE4E7,#A99AA1)}
+.end-bead{position:relative;z-index:1;flex:.72 1 0;min-width:0;max-width:40px;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 33% 27%,#fff 0 9%,transparent 50%),#F1EAEC;
+  box-shadow:inset 0 -5px 8px rgba(94,15,39,.2),0 3px 6px rgba(43,26,33,.22);transition:background .3s,box-shadow .3s}
+.end-bead.light[data-state="sent"]{animation:blink 1.4s ease-in-out infinite}
+@keyframes blink{50%{box-shadow:inset 0 -5px 8px rgba(94,15,39,.2),0 0 0 5px rgba(240,169,43,.45)}}
+.end-bead.light[data-state="confirmed"]{background:radial-gradient(circle at 33% 27%,#fff 0 10%,transparent 50%),var(--glow);box-shadow:0 0 0 6px rgba(59,209,122,.25),0 0 30px 8px rgba(59,209,122,.55)}
+.tassel{position:absolute;z-index:0;inset-inline-end:10px;top:calc(50% - 20px);width:24px;height:76px;color:var(--brand)}
+.misbaha.buzz{animation:buzz .55s}
+@keyframes buzz{0%,100%{transform:translateX(0)}15%{transform:translateX(-4px)}30%{transform:translateX(4px)}45%{transform:translateX(-3px)}60%{transform:translateX(3px)}75%{transform:translateX(-1px)}}
+.device-status{display:flex;align-items:center;gap:8px;font-weight:500;margin:0;min-height:1.8em;font-size:.97rem}
+.device-status .lamp{width:10px;height:10px}
+.hint{font-size:.86rem;color:var(--muted);margin:2px 0 0;min-height:1.6em}
+.legend{margin-top:auto;padding-top:14px;font-size:.88rem}
+.legend summary{cursor:pointer;color:var(--brand-text);font-weight:500}
+.legend ul{list-style:none;padding:0;margin:10px 0 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px 12px}
+.legend li{display:flex;align-items:center;gap:8px;line-height:1.35}
+.legend .bead{width:24px}
+
+/* Link unit */
+.link{position:relative;align-self:stretch;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.signal-track{position:absolute;inset-inline:-4px;top:50%;height:2px;transform:translateY(-50%);background:repeating-linear-gradient(90deg,var(--line) 0 6px,transparent 6px 12px)}
+.dot{position:absolute;top:50%;width:12px;height:12px;margin-top:-6px;border-radius:50%;background:var(--dc);box-shadow:0 0 0 4px color-mix(in srgb,var(--dc) 30%,transparent),0 0 14px var(--dc);z-index:3}
+.dot.go{animation:go var(--sig) linear forwards}
+.dot.back{animation:back var(--sig) linear forwards}
+@keyframes go{from{inset-inline-start:0}to{inset-inline-start:calc(100% - 12px)}}
+@keyframes back{from{inset-inline-start:calc(100% - 12px)}to{inset-inline-start:0}}
+.wifi{width:34px;height:24px;color:var(--gold);opacity:.45;position:relative;z-index:2;transition:opacity .2s}
+.link.active .wifi{opacity:1}
+.dongle{position:relative;z-index:2;width:96px;filter:drop-shadow(0 4px 8px rgba(43,26,33,.2))}
+.dongle .led{fill:#C9BFC4;transition:fill .15s}
+.link.active .dongle .led{fill:#5AA9FF}
+.link-label{position:relative;z-index:2;font-weight:600;font-size:.76rem;white-space:nowrap;background:var(--surface-2);padding:0 6px;direction:ltr;margin-top:4px}
+.link-state{position:relative;z-index:2;font-size:.75rem;color:var(--muted);background:var(--surface-2);padding:0 6px;display:flex;align-items:center;gap:5px}
+.link-state::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--glow)}
+
+/* Tablet dashboard */
+.tablet{container-type:inline-size;background:var(--bezel);border-radius:26px;padding:12px;box-shadow:var(--shadow),0 30px 60px -30px rgba(94,15,39,.45)}
+.screen{background:var(--surface);border-radius:16px;overflow:hidden}
+.app-bar{background:var(--brand);color:#fff;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 16px;font-size:.84rem}
+.app-title{font-weight:600}
+.app-user{display:flex;align-items:center;gap:6px;opacity:.9}
+.app-user svg{width:16px;height:16px}
+.app-body{padding:14px;display:grid;gap:12px}
+.app-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:12px}
+.box{border:1px solid var(--line);border-radius:14px;padding:12px;min-height:250px;display:flex;flex-direction:column}
+.box h3{margin:0 0 10px;font-size:.82rem;color:var(--muted);font-weight:500;line-height:1.4}
+.current-top{display:flex;align-items:center;gap:14px}
+.current-top .bead{width:62px;flex:none}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:0 10px;margin:0;font-size:.95rem;line-height:1.55}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0;font-weight:600}
+.current-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:14px;font-size:.8rem;color:var(--muted)}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:.76rem;font-weight:500;padding:2px 10px;border-radius:999px;color:var(--text)}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%}
+.pill[data-status="waiting"]{background:var(--tint-amber)}.pill[data-status="waiting"]::before{background:var(--amber)}
+.pill[data-status="received"]{background:var(--tint-blue)}.pill[data-status="received"]::before{background:var(--b-blue)}
+.pill[data-status="handled"]{background:var(--tint-green)}.pill[data-status="handled"]::before{background:var(--b-green)}
+.current-actions{margin-top:auto;padding-top:14px}
+.current-actions .btn{width:100%}
+.btn-confirm{background:var(--brand);color:#fff}
+.btn-confirm:hover{background:var(--brand-deep)}
+.btn-handle{background:var(--surface);color:var(--text);border-color:var(--line)}
+.btn-handle:hover{border-color:var(--b-green)}
+.received-note,.done-note{font-size:.82rem;color:var(--muted);margin:0 0 8px}
+.done-note{margin:0}
+.empty{flex:1;display:grid;place-items:center;text-align:center;color:var(--muted);font-size:.9rem;padding:10px}
+.empty p{margin:0;max-width:26ch}
+.empty .ring{width:46px;height:46px;border-radius:50%;border:2px dashed var(--line);margin:0 auto 10px}
+.queue ul{list-style:none;margin:0;padding:0;display:grid;gap:6px;max-height:300px;overflow-y:auto;align-content:start}
+.q-item{width:100%;font:inherit;color:var(--text);text-align:start;display:grid;grid-template-columns:26px minmax(0,1fr) auto;align-items:center;gap:9px;padding:6px 9px;border-radius:10px;border:1.5px solid transparent;background:var(--surface-2);cursor:pointer}
+.q-item:hover{border-color:var(--line)}
+.q-item[aria-current="true"]{border-color:var(--brand)}
+.q-item.handled{opacity:.55}
+.q-item.new{animation:newitem 1.3s ease-out}
+@keyframes newitem{0%{background:color-mix(in srgb,var(--b-yellow) 45%,var(--surface-2))}100%{background:var(--surface-2)}}
+.q-item .bead{width:26px}
+.q-text{min-width:0;display:flex;flex-direction:column}
+.q-name{font-weight:600;font-size:.88rem;line-height:1.35}
+.q-msg{font-size:.76rem;color:var(--muted);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.q-side{display:flex;flex-direction:column;align-items:flex-end;gap:2px;font-size:.7rem;color:var(--muted);line-height:1.3;white-space:nowrap}
+.q-st{display:flex;align-items:center;gap:4px}
+.q-st::before{content:"";width:6px;height:6px;border-radius:50%}
+.q-st[data-status="waiting"]::before{background:var(--amber)}
+.q-st[data-status="received"]::before{background:var(--b-blue)}
+.q-st[data-status="handled"]::before{background:var(--b-green)}
+.q-empty{font-size:.85rem;color:var(--muted);padding:8px 2px}
+@container (max-width:460px){
+  .app-grid{grid-template-columns:1fr}
+  .box{min-height:0}
+}
+
+[hidden]{display:none!important}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin-top:2px}
+.tab{font:inherit;font-size:.86rem;font-weight:500;background:none;border:0;border-bottom:2.5px solid transparent;margin-bottom:-1px;color:var(--muted);padding:6px 12px 8px;cursor:pointer;display:inline-flex;gap:7px;align-items:center}
+.tab:hover{color:var(--text)}
+.tab[aria-selected="true"]{color:var(--brand-text);border-bottom-color:var(--brand);font-weight:600}
+.tab .badge{min-width:19px;height:19px;border-radius:10px;background:var(--brand);color:#fff;font-size:.7rem;font-weight:600;display:inline-grid;place-items:center;padding:0 5px;line-height:1}
+.panel{display:grid;gap:12px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.kpi{background:var(--surface-2);border-radius:12px;padding:8px 10px;display:grid;grid-template-columns:30px minmax(0,1fr);gap:0 9px;align-items:center}
+.kpi .ic{grid-row:span 2;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:#fff;background:var(--c)}
+.kpi .ic svg{width:17px;height:17px}
+.kpi b{font-size:1.2rem;line-height:1.2;font-weight:600}
+.kpi span{font-size:.7rem;color:var(--muted);line-height:1.25}
+.kpi.hot b{color:var(--b-red)}
+.q-item.priority{border-inline-start:3px solid var(--b-red)}
+.ptag{font-size:.66rem;font-weight:600;color:#fff;background:var(--b-red);border-radius:6px;padding:0 6px;line-height:1.6}
+.chip:disabled{opacity:.6;cursor:not-allowed}
+.chip .batt{width:15px;height:15px;color:var(--muted)}
+.an-head{display:flex;flex-wrap:wrap;gap:6px}
+.an-head span{font-size:.76rem;color:var(--muted);background:var(--surface-2);border-radius:8px;padding:3px 9px}
+.an-head b{color:var(--text);font-weight:600}
+.an-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.an-grid .box{min-height:0}
+.donut-wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px 14px}
+.donut{width:112px;height:112px;flex:none}
+.donut .seg{transition:stroke-dasharray .4s,stroke-dashoffset .4s}
+.donut-c b{font-size:20px;font-weight:700;fill:var(--text)}
+.legend-list{list-style:none;margin:0;padding:0;display:grid;gap:4px;font-size:.76rem;flex:1;min-width:160px;line-height:1.35}
+.legend-list li{display:grid;grid-template-columns:10px minmax(0,1fr) auto;gap:7px;align-items:center}
+.legend-list .lab{line-height:1.3}
+.legend-list .val{color:var(--muted)}
+.sw{width:10px;height:10px;border-radius:50%;background:var(--c)}
+.hbars{display:grid;gap:8px;font-size:.77rem;line-height:1.35}
+.hbar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:3px 8px}
+.hbar .lab{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hbar .val{color:var(--muted);white-space:nowrap}
+.hbar .bar{grid-column:1/-1;height:7px;border-radius:4px;background:var(--surface-2);overflow:hidden}
+.hbar .bar i{display:block;height:100%;border-radius:4px;background:var(--c);width:var(--w);transition:width .4s}
+.rt-nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-bottom:12px}
+.rt-nums div{background:var(--surface-2);border-radius:8px;padding:5px 8px}
+.rt-nums b{display:block;font-size:1.05rem;line-height:1.3;font-weight:600}
+.rt-nums span{font-size:.68rem;color:var(--muted);line-height:1.2;display:block}
+.vbars{display:flex;align-items:flex-end;gap:6px;height:118px}
+.vbar{flex:1;min-width:0;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px;font-size:.66rem;color:var(--muted);line-height:1.2}
+.vbar i{display:block;width:100%;max-width:30px;border-radius:5px 5px 2px 2px;background:var(--brand);opacity:.35;height:var(--h);min-height:2px;transition:height .4s}
+.vbar.peak i{opacity:1}
+.vbar .n{color:var(--text);font-weight:600;font-size:.72rem}
+.vbar .t{white-space:nowrap;direction:ltr}
+.chart-note{font-size:.7rem;color:var(--muted);margin:8px 0 0;line-height:1.4}
+.insights{margin:0;padding:0;list-style:none;display:grid;gap:9px;font-size:.8rem;line-height:1.55}
+.insights li{padding-inline-start:10px;border-inline-start:3px solid var(--gold)}
+.an-empty{font-size:.8rem;color:var(--muted);margin:0}
+.an-foot{font-size:.72rem;color:var(--muted);margin:0}
+@container (max-width:520px){.an-grid{grid-template-columns:1fr}}
+@container (max-width:460px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+@media (max-width:960px){
+  .stage{grid-template-columns:minmax(0,1fr);padding:16px;border-radius:22px}
+  .link{min-height:150px}
+  .signal-track{inset-inline:auto;left:50%;top:-16px;bottom:-16px;width:2px;height:auto;transform:translateX(-50%);background:repeating-linear-gradient(180deg,var(--line) 0 6px,transparent 6px 12px)}
+  .dot{left:50%;top:0;margin-top:0;margin-left:-6px}
+  .dot.go{animation-name:go-v}
+  .dot.back{animation-name:back-v}
+}
+@keyframes go-v{from{top:0}to{top:calc(100% - 12px)}}
+@keyframes back-v{from{top:calc(100% - 12px)}to{top:0}}
+
+/* Sections */
+.section{padding:84px 0;border-top:1px solid var(--line)}
+.section h2{font-family:var(--font-display);font-size:clamp(1.7rem,3.3vw,2.5rem);color:var(--brand-text);margin:0 0 10px;line-height:1.3}
+.section-lead{color:var(--muted);max-width:60ch;margin:0 0 40px}
+
+.steps{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px}
+.steps li{position:relative;padding-top:58px}
+.steps .num{position:absolute;top:0;inset-inline-start:0;width:42px;height:42px;border-radius:50%;background:var(--brand);color:#fff;font-weight:700;font-size:1.1rem;display:grid;place-items:center;z-index:1}
+.steps li::after{content:"";position:absolute;top:20px;inset-inline-start:54px;inset-inline-end:-10px;height:2px;background:var(--line)}
+.steps li:last-child::after{display:none}
+.steps p{margin:0;font-weight:500;line-height:1.6}
+@media (max-width:860px){
+  .steps{grid-template-columns:1fr;gap:22px}
+  .steps li{padding-top:0;padding-inline-start:60px;min-height:42px;display:flex;align-items:center}
+  .steps li::after{top:46px;bottom:-20px;inset-inline-start:20px;inset-inline-end:auto;width:2px;height:auto}
+}
+
+.parts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}
+.art{background:var(--surface-2);border-radius:20px;height:180px;display:grid;place-items:center;margin-bottom:18px;padding:20px}
+.mini-string{position:relative;display:flex;align-items:center;gap:4px}
+.mini-string::before{content:"";position:absolute;inset-inline:0;top:50%;height:3px;background:var(--brand);transform:translateY(-50%)}
+.mini-string .bead{width:38px}
+.art .dongle{width:150px}
+.art .tab-art{width:170px}
+.parts h3{font-family:var(--font-display);font-size:1.35rem;font-weight:600;color:var(--brand-text);margin:0 0 6px;line-height:1.35}
+.parts p{margin:0;color:var(--muted)}
+@media (max-width:860px){.parts{grid-template-columns:1fr}}
+
+.why-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:56px;align-items:start}
+.why-grid .section-lead{margin-bottom:0;font-size:1.1rem}
+.features{margin:0}
+.features div{display:grid;grid-template-columns:16px 1fr;gap:2px 14px;padding:16px 0;border-bottom:1px solid var(--line)}
+.features div:first-child{padding-top:0}
+.features .mk{grid-row:span 2;width:14px;height:14px;border-radius:50%;margin-top:.45em;background:var(--c);box-shadow:inset 0 -2px 3px rgba(0,0,0,.2)}
+.features dt{font-weight:600}
+.features dd{margin:0;color:var(--muted)}
+@media (max-width:860px){.why-grid{grid-template-columns:1fr;gap:28px}}
+
+.cta{position:relative;background:var(--brand);color:#fff;text-align:center;padding:104px 0 88px}
+.serration{position:absolute;top:-1px;left:0;width:100%;height:30px;display:block}
+.serration polygon{fill:var(--bg)}
+.cta h2{font-family:var(--font-display);font-size:clamp(1.7rem,3.4vw,2.6rem);margin:0 auto 10px;line-height:1.3;max-width:22ch}
+.cta p{color:rgba(255,255,255,.85);max-width:50ch;margin:0 auto 28px}
+.btn-light{background:#fff;color:#8A1538}
+.btn-light:hover{background:#F5E6EB}
+
+.site-footer{padding:28px 0 36px;font-size:.9rem;color:var(--muted)}
+.footer-inner{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px}
+.footer-inner strong{font-family:var(--font-display);color:var(--brand-text);font-size:1.15rem;font-weight:700;margin-inline-end:8px}
+
+@media (max-width:560px){
+  body{font-size:16px}
+  .student{padding:16px}
+  .end-bead{display:none}
+  .misbaha{gap:5px}
+  .wrap,.header-inner{padding-inline:16px}
+  .hero{padding-top:44px}
+  .section{padding:64px 0}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<a class="sr-only" href="#demo" data-i18n="skip">انتقل إلى التجربة الحية</a>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="#top">
+      <svg viewBox="0 0 40 52" aria-hidden="true">
+        <g fill="currentColor">
+          <circle cx="20" cy="4" r="3.3"/><circle cx="27.05" cy="6.67" r="3.3"/><circle cx="31.41" cy="13.67" r="3.3"/><circle cx="31.41" cy="22.33" r="3.3"/><circle cx="27.05" cy="29.33" r="3.3"/>
+          <circle cx="20" cy="32" r="3.3"/><circle cx="12.95" cy="29.33" r="3.3"/><circle cx="8.59" cy="22.33" r="3.3"/><circle cx="8.59" cy="13.67" r="3.3"/><circle cx="12.95" cy="6.67" r="3.3"/>
+          <circle cx="20" cy="38" r="2.6"/><path d="M17.5 40.5L14.5 51H25.5L22.5 40.5Z"/>
+        </g>
+      </svg>
+      <span><span class="brand-name" data-i18n="brand">مِسباح</span><span class="brand-latin">MISBAH</span></span>
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="#demo" data-i18n="navDemo">التجربة الحية</a></li>
+        <li><a href="#how" data-i18n="navHow">كيف يعمل</a></li>
+        <li><a href="#parts" data-i18n="navParts">المكونات</a></li>
+        <li><a href="#why" data-i18n="navWhy">لماذا مِسباح</a></li>
+        <li><a href="#contact" data-i18n="navContact">تواصل معنا</a></li>
+      </ul>
+    </nav>
+    <button class="lang-btn" id="langBtn" type="button">English</button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <h1 data-i18n="heroTitle">من الطالب إلى المعلمة خلال ثوانٍ</h1>
+      <svg class="swoosh" viewBox="0 0 600 30" preserveAspectRatio="none" aria-hidden="true"><path d="M8 24Q300 -6 592 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+      <p class="lead" data-i18n="heroLead"></p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#demo" data-i18n="ctaDemo">جرّب التجربة الحية</a>
+        <a class="btn btn-ghost" href="#contact" data-i18n="ctaPilot">اطلب تجربة في مدرستك</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="demo" id="demo" aria-labelledby="demoTitle">
+    <div class="wrap">
+      <div class="demo-head">
+        <div>
+          <h2 id="demoTitle" data-i18n="demoTitle">جرّبها بنفسك</h2>
+          <p data-i18n="demoLead"></p>
+        </div>
+        <div class="demo-controls">
+          <button class="switch" id="simBtn" type="button" role="switch" aria-checked="false"><span class="track-ui" aria-hidden="true"></span><span data-i18n="simLabel">محاكاة حصة دراسية</span></button>
+          <button class="btn btn-ghost btn-small" id="resetBtn" type="button" data-i18n="reset">إعادة ضبط</button>
+        </div>
+      </div>
+
+      <div class="stage">
+        <!-- Student device -->
+        <div class="student">
+          <h3 class="panel-title" data-i18n="studentTitle">مِسباح الطالب</h3>
+          <div class="who"><span data-i18n="studentLabel">الطالبة:</span><div class="chips" id="chips" role="group" data-i18n-aria="chipsAria"></div></div>
+          <div class="misbaha" id="misbaha" role="group" data-i18n-aria="beadsAria">
+            <!-- beads injected -->
+            <svg class="tassel" viewBox="0 0 24 76" aria-hidden="true"><g fill="currentColor"><rect x="11" y="0" width="2" height="22"/><circle cx="12" cy="24" r="4"/><path d="M8 27h8l5 49H3z"/></g><g stroke="rgba(255,255,255,.25)" stroke-width="1"><path d="M9 32L6 74M12 32v42M15 32l3 42"/></g></svg>
+          </div>
+          <p class="device-status" aria-live="polite"><span class="lamp" id="statusLamp"></span><span id="deviceStatus"></span></p>
+          <p class="hint" id="hint"></p>
+          <details class="legend" open>
+            <summary data-i18n="legendTitle">ماذا تعني كل حبّة؟</summary>
+            <ul id="legend"></ul>
+          </details>
+        </div>
+
+        <!-- Link unit -->
+        <div class="link" id="link" aria-hidden="true">
+          <div class="signal-track" id="signalTrack"></div>
+          <svg class="wifi" viewBox="0 0 34 24"><g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M3 9a20 20 0 0 1 28 0"/><path d="M8 14a13 13 0 0 1 18 0"/></g><circle cx="17" cy="19.5" r="2.6" fill="currentColor"/></svg>
+          <svg class="dongle" viewBox="0 0 140 56" direction="ltr">
+            <rect x="2" y="17" width="34" height="22" rx="3" fill="#CFC7CB"/>
+            <rect x="10" y="22.5" width="7" height="5" rx="1" fill="#8F858A"/><rect x="21" y="22.5" width="7" height="5" rx="1" fill="#8F858A"/>
+            <rect x="28" y="3" width="108" height="50" rx="25" fill="#FFFFFF" stroke="#E2D4DA"/>
+            <path d="M103 3H111A25 25 0 0 1 111 53H103L96 47.5L103 42L96 36.5L103 31L96 25.5L103 20L96 14.5L103 9Z" fill="#8A1538"/>
+            <text x="63" y="27" text-anchor="middle" font-family="Readex Pro, Segoe UI, sans-serif" font-size="11" font-weight="700" fill="#8A1538">MISBAH</text>
+            <text x="63" y="39" text-anchor="middle" font-family="Readex Pro, Segoe UI, sans-serif" font-size="8.5" font-weight="500" fill="#6B5761">LINK</text>
+            <circle class="led" cx="63" cy="46" r="2.2"/>
+          </svg>
+          <div class="link-label">MISBAH LINK</div>
+          <div class="link-state" data-i18n="linkConnected">متصل</div>
+        </div>
+
+        <!-- Teacher dashboard -->
+        <div class="tablet">
+          <div class="screen">
+            <div class="app-bar">
+              <span class="app-title" data-i18n="appTitle">مِسباح | لوحة المعلمة</span>
+              <span class="app-user"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,.25)"/><circle cx="12" cy="9.5" r="3.5" fill="#fff"/><path d="M5.5 19c1.4-3 3.8-4.4 6.5-4.4s5.1 1.4 6.5 4.4" fill="#fff"/></svg><span data-i18n="appUser">أهلاً معلمتنا</span></span>
+            </div>
+            <div class="app-body">
+              <div class="kpis" id="kpis"></div>
+              <div class="tabs" role="tablist" data-i18n-aria="tabsAria">
+                <button class="tab" role="tab" id="tabLive" type="button" aria-selected="true" aria-controls="panelLive"><span data-i18n="tabLive">مباشر</span><span class="badge" id="liveBadge" hidden></span></button>
+                <button class="tab" role="tab" id="tabStats" type="button" aria-selected="false" aria-controls="panelStats" tabindex="-1"><span data-i18n="tabStats">تحليل الحصة</span></button>
+              </div>
+              <div class="panel" id="panelLive" role="tabpanel" aria-labelledby="tabLive">
+                <div class="app-grid">
+                  <section class="box current" aria-labelledby="currentTitle">
+                    <h3 id="currentTitle" data-i18n="currentTitle">الطلب الحالي</h3>
+                    <div id="active" style="display:flex;flex-direction:column;flex:1"></div>
+                  </section>
+                  <section class="box queue" aria-labelledby="queueTitle">
+                    <h3 id="queueTitle" data-i18n="queueTitle">الطلبات المباشرة</h3>
+                    <ul id="queue"></ul>
+                  </section>
+                </div>
+              </div>
+              <div class="panel" id="panelStats" role="tabpanel" aria-labelledby="tabStats" hidden>
+                <div class="an-head" id="anHead"></div>
+                <div class="an-grid">
+                  <section class="box"><h3 data-i18n="pulseTitle">نبض الصف الآن</h3><div id="anPulse"></div></section>
+                  <section class="box"><h3 data-i18n="typesTitle">الطلبات حسب النوع</h3><div id="anTypes"></div></section>
+                  <section class="box"><h3 data-i18n="rtTitle">سرعة الاستجابة</h3><div id="anRt"></div></section>
+                  <section class="box"><h3 data-i18n="timelineTitle">النشاط خلال الحصة</h3><div id="anTimeline"></div></section>
+                  <section class="box"><h3 data-i18n="followTitle">طالبات يحتجن متابعة</h3><div id="anFollow"></div></section>
+                  <section class="box"><h3 data-i18n="insightsTitle">ملاحظات سريعة</h3><ul class="insights" id="anInsights"></ul></section>
+                </div>
+                <p class="an-foot" data-i18n="anFoot"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="demo-note" data-i18n="demoNote"></p>
+      <div class="sr-only" aria-live="polite" id="announcer"></div>
+    </div>
+  </section>
+
+  <section class="section" id="how" aria-labelledby="howTitle">
+    <div class="wrap">
+      <h2 id="howTitle" data-i18n="howTitle">كيف يعمل</h2>
+      <p class="section-lead" data-i18n="howLead"></p>
+      <ol class="steps">
+        <li><span class="num">1</span><p data-i18n="s1"></p></li>
+        <li><span class="num">2</span><p data-i18n="s2"></p></li>
+        <li><span class="num">3</span><p data-i18n="s3"></p></li>
+        <li><span class="num">4</span><p data-i18n="s4"></p></li>
+        <li><span class="num">5</span><p data-i18n="s5"></p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" id="parts" aria-labelledby="partsTitle">
+    <div class="wrap">
+      <h2 id="partsTitle" data-i18n="partsTitle">ثلاث قطع تعمل معاً</h2>
+      <p class="section-lead" data-i18n="partsLead"></p>
+      <div class="parts">
+        <article>
+          <div class="art" aria-hidden="true">
+            <div class="mini-string">
+              <span class="bead static" style="--c:var(--b-green)" data-icon="check"></span>
+              <span class="bead static ink" style="--c:var(--b-yellow)" data-icon="question"></span>
+              <span class="bead static" style="--c:var(--b-blue)" data-icon="hand"></span>
+              <span class="bead static" style="--c:var(--b-orange)" data-icon="clock"></span>
+              <span class="bead static" style="--c:var(--b-red)" data-icon="sad"></span>
+            </div>
+          </div>
+          <h3 data-i18n="p1t"></h3>
+          <p data-i18n="p1d"></p>
+        </article>
+        <article>
+          <div class="art" aria-hidden="true">
+            <svg class="dongle" viewBox="0 0 140 56" direction="ltr">
+              <rect x="2" y="17" width="34" height="22" rx="3" fill="#CFC7CB"/>
+              <rect x="10" y="22.5" width="7" height="5" rx="1" fill="#8F858A"/><rect x="21" y="22.5" width="7" height="5" rx="1" fill="#8F858A"/>
+              <rect x="28" y="3" width="108" height="50" rx="25" fill="#FFFFFF" stroke="#E2D4DA"/>
+              <path d="M103 3H111A25 25 0 0 1 111 53H103L96 47.5L103 42L96 36.5L103 31L96 25.5L103 20L96 14.5L103 9Z" fill="#8A1538"/>
+              <text x="63" y="27" text-anchor="middle" font-family="Readex Pro, Segoe UI, sans-serif" font-size="11" font-weight="700" fill="#8A1538">MISBAH</text>
+              <text x="63" y="39" text-anchor="middle" font-family="Readex Pro, Segoe UI, sans-serif" font-size="8.5" font-weight="500" fill="#6B5761">LINK</text>
+              <circle cx="63" cy="46" r="2.2" fill="#5AA9FF"/>
+            </svg>
+          </div>
+          <h3 data-i18n="p2t"></h3>
+          <p data-i18n="p2d"></p>
+        </article>
+        <article>
+          <div class="art" aria-hidden="true">
+            <svg class="tab-art" viewBox="0 0 160 110" direction="ltr">
+              <rect x="4" y="4" width="152" height="102" rx="14" style="fill:var(--bezel)"/>
+              <rect x="12" y="12" width="136" height="86" rx="7" style="fill:var(--surface)"/>
+              <path d="M19 12h122a7 7 0 0 1 7 7v7H12v-7a7 7 0 0 1 7-7z" style="fill:var(--brand)"/>
+              <circle cx="38" cy="52" r="12" fill="#F4C21B"/>
+              <text x="38" y="57.5" text-anchor="middle" font-family="Readex Pro, Segoe UI, sans-serif" font-size="15" font-weight="700" fill="#2B1A21">?</text>
+              <rect x="58" y="42" width="72" height="6" rx="3" style="fill:var(--line)"/>
+              <rect x="58" y="54" width="48" height="6" rx="3" style="fill:var(--line)"/>
+              <rect x="24" y="74" width="112" height="15" rx="6" style="fill:var(--brand)"/>
+              <path d="M74 81.5l3 3 6-6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 data-i18n="p3t"></h3>
+          <p data-i18n="p3d"></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="why" aria-labelledby="whyTitle">
+    <div class="wrap why-grid">
+      <div>
+        <h2 id="whyTitle" data-i18n="whyTitle">صُمّم لصفوف الدمج والدعم</h2>
+        <p class="section-lead" data-i18n="whyLead"></p>
+      </div>
+      <dl class="features">
+        <div><span class="mk" style="--c:var(--b-blue)" aria-hidden="true"></span><dt data-i18n="f1t"></dt><dd data-i18n="f1d"></dd></div>
+        <div><span class="mk" style="--c:var(--b-yellow)" aria-hidden="true"></span><dt data-i18n="f2t"></dt><dd data-i18n="f2d"></dd></div>
+        <div><span class="mk" style="--c:var(--b-orange)" aria-hidden="true"></span><dt data-i18n="f3t"></dt><dd data-i18n="f3d"></dd></div>
+        <div><span class="mk" style="--c:var(--b-green)" aria-hidden="true"></span><dt data-i18n="f4t"></dt><dd data-i18n="f4d"></dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="cta" id="contact" aria-labelledby="contactTitle">
+    <svg class="serration" viewBox="0 0 900 30" preserveAspectRatio="none" aria-hidden="true"><polygon points="0,0 900,0 900,4 850,30 800,4 750,30 700,4 650,30 600,4 550,30 500,4 450,30 400,4 350,30 300,4 250,30 200,4 150,30 100,4 50,30 0,4"/></svg>
+    <div class="wrap">
+      <h2 id="contactTitle" data-i18n="contactTitle"></h2>
+      <p data-i18n="contactLead"></p>
+      <a class="btn btn-light" id="contactBtn" href="#" data-i18n="contactBtn">تواصل معنا</a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <span><strong data-i18n="brand">مِسباح</strong><span data-i18n="footTag"></span></span>
+    <span data-i18n="footQatar"></span>
+  </div>
+</footer>
+
+<script>
+(() => {
+  // Change this to the real contact address before sharing the site.
+  const CONTACT_EMAIL = "info@example.com";
+  const SIGNAL_MS = 650;
+  const LESSON_MIN = 30;          // the sample lesson starts 30 minutes in
+  const PRIORITY_AFTER_S = 120;   // waiting longer than this becomes a priority alert
+  const BLOCK_MIN = 5;            // timeline bucket size in minutes
+
+  const I18N = {
+    ar: {
+      docTitle: "مِسباح | من الطالب إلى المعلمة خلال ثوانٍ",
+      skip: "انتقل إلى التجربة الحية",
+      brand: "مِسباح",
+      navDemo: "التجربة الحية", navHow: "كيف يعمل", navParts: "المكونات", navWhy: "لماذا مِسباح", navContact: "تواصل معنا",
+      heroTitle: "من الطالب إلى المعلمة خلال ثوانٍ",
+      heroLead: "تواصل هادئ، واستجابة واضحة، وتأكيد فوري. يضغط الطالب حبّة على مِسباحه، فتصل رسالته إلى لوحة المعلمة، ويعرف فوراً أنها وصلت.",
+      ctaDemo: "جرّب التجربة الحية", ctaPilot: "اطلب تجربة في مدرستك",
+      demoTitle: "جرّبها بنفسك",
+      demoLead: "اختر طالبة، ثم اضغط حبّة على المِسباح. أكّد الاستلام من لوحة المعلمة، وراقب الحبّة وهي تضيء. افتح «تحليل الحصة» لترى الإحصاءات تتغير مباشرة.",
+      simLabel: "محاكاة حصة دراسية", reset: "إعادة ضبط",
+      demoNote: "هذه محاكاة توضيحية بأسماء وبيانات افتراضية، تبدأ من منتصف حصة دراسية.",
+      studentTitle: "مِسباح الطالب", studentLabel: "الطالبة:",
+      chipsAria: "اختر الطالبة", beadsAria: "حبّات المِسباح",
+      hint: "اضغط حبّة لإرسال رسالتها إلى المعلمة.",
+      legendTitle: "ماذا تعني كل حبّة؟",
+      dev_idle: "جاهز", dev_sent: "أُرسلت الرسالة، بانتظار المعلمة", dev_confirmed: "وصلت رسالتك إلى المعلمة",
+      linkConnected: "متصل",
+      appTitle: "مِسباح | لوحة المعلمة", appUser: "أهلاً معلمتنا",
+      kpiOpen: "طلبات مفتوحة", kpiUnderstand: "فهم الصف", kpiPriority: "تنبيهات أولوية", kpiDevices: "الأجهزة النشطة",
+      tabsAria: "أقسام اللوحة", tabLive: "مباشر", tabStats: "تحليل الحصة",
+      currentTitle: "الطلب الحالي", queueTitle: "الطلبات المباشرة",
+      lblStudent: "الطالبة", lblMessage: "الرسالة",
+      st_waiting: "بانتظار الرد", st_received: "تم الاستلام", st_handled: "تمت المتابعة",
+      priorityTag: "أولوية",
+      confirm: "تأكيد الاستلام", handle: "تمت المتابعة",
+      receivedIn: "تم تأكيد الاستلام خلال {n} ث. حين تنتهي من مساعدة الطالبة:",
+      doneNote: "تمت متابعة هذا الطلب.",
+      emptyNone: "لا توجد طلبات بعد. اضغط حبّة على مِسباح الطالب لإرسال أول طلب.",
+      emptyDone: "لا توجد طلبات بانتظار الرد.",
+      queueEmpty: "ستظهر الطلبات هنا فور وصولها.",
+      now: "الآن", secAgo: "منذ {n} ث", minAgo: "منذ {n} د", sec: " ث", min: " د",
+      announceNew: "طلب جديد من {name}: {msg}",
+      charging: "الجهاز #07 قيد الشحن",
+      m_ok: "فهمت، انتهيت", m_question: "لم أفهم", m_hand: "أريد المشاركة", m_time: "أحتاج وقتاً إضافياً",
+      m_out: "أحتاج الخروج", m_sad: "لست بخير", m_other: "أحتاج شيئاً آخر",
+      anLesson: "مدة الحصة", anTotal: "إجمالي الطلبات", anReached: "طالبات تواصلن",
+      pulseTitle: "نبض الصف الآن", pulseTrack: "تتابع دون طلب", pulseCenter: "يتابعن",
+      pulseNote: "حالة كل طالبة لديها جهاز نشط، حسب آخر طلب مفتوح لها.",
+      typesTitle: "الطلبات حسب النوع",
+      rtTitle: "سرعة الاستجابة", rtAvg: "المتوسط", rtMedian: "الوسيط", rtMax: "الأبطأ",
+      rt_b1: "خلال 10 ث", rt_b2: "من 11 إلى 20 ث", rt_b3: "من 21 إلى 30 ث", rt_b4: "أكثر من 30 ث",
+      rtNone: "لا توجد طلبات مؤكدة بعد.",
+      timelineTitle: "النشاط خلال الحصة", timelineNote: "عدد الطلبات في كل 5 دقائق منذ بداية الحصة. العمود الأغمق هو الذروة.",
+      followTitle: "طالبات يحتجن متابعة", followNote: "حسب عدد طلبات «لم أفهم» و«لست بخير» في هذه الحصة.",
+      followNone: "لا توجد طالبات بحاجة إلى متابعة حالياً.",
+      insightsTitle: "ملاحظات سريعة",
+      ins_common: "أكثر الطلبات تكراراً: «{msg}» ({p}% من الطلبات).",
+      ins_reexplain: "نسبة «لم أفهم» مرتفعة، وقد تفيد إعادة شرح سريعة للجزء الأخير من الدرس.",
+      ins_peak: "بلغت الطلبات ذروتها بين الدقيقة {a} و{b} من الحصة.",
+      ins_speed: "{p}% من الطلبات أُكّد استلامها خلال 10 ثوانٍ.",
+      ins_waiting: "توجد طلبات بانتظار الرد منذ أكثر من دقيقتين.",
+      ins_follow: "{name} أرسلت أكثر طلبات «لم أفهم» و«لست بخير»، وقد تحتاج متابعة فردية.",
+      anFoot: "تُحسب جميع الأرقام مباشرة من طلبات هذه الحصة التجريبية، وتتحدث مع كل طلب جديد.",
+      contactTitle: "هل ترغب في تجربة مِسباح في مدرستك؟",
+      contactLead: "تواصل معنا لترتيب عرض توضيحي أو تجربة في أحد صفوفك.",
+      contactBtn: "تواصل معنا", mailSubject: "طلب تجربة مِسباح",
+      footTag: "معاً.. لفرص أفضل", footQatar: "قطر.. تُلهم وتدمج الجميع",
+      langSwitch: "English", langAria: "Switch to English",
+      howTitle: "كيف يعمل",
+      howLead: "خمس خطوات، وثوانٍ معدودة بين ضغطة الحبّة وطمأنينة الطالب.",
+      s1: "يختار الطالب الرسالة المناسبة ويضغط على الحبّة.",
+      s2: "تنتقل الإشارة لاسلكياً إلى وحدة MISBAH LINK.",
+      s3: "تظهر الرسالة على لوحة المعلمة مع اسم الطالب.",
+      s4: "تضغط المعلمة «تأكيد الاستلام».",
+      s5: "يصل تأكيد فوري للطالب عبر ضوء أو اهتزاز.",
+      partsTitle: "ثلاث قطع تعمل معاً",
+      partsLead: "جهاز في يد الطالب، ووحدة ربط صغيرة، ولوحة تجمع كل الطلبات أمام المعلمة.",
+      p1t: "مِسباح، جهاز الطالب",
+      p1d: "حبّات ملوّنة لكلٍّ منها رمز ومعنى، تتيح للطالب التعبير عن احتياجاته بسهولة ودون كلام.",
+      p2t: "MISBAH LINK",
+      p2d: "وحدة الربط الخاصة بالمعلمة. تستقبل الإشارات من أجهزة الطلاب وتنقلها مباشرة إلى لوحة المعلمة.",
+      p3t: "لوحة المعلمة",
+      p3d: "تعرض الطلبات الواردة في الوقت الفعلي، مع إمكانية تأكيد الاستلام ومتابعة حالة كل طلب، وتحليل ما حدث خلال الحصة.",
+      whyTitle: "صُمّم لصفوف الدمج والدعم",
+      whyLead: "بعض الطلاب لا يرفعون أيديهم، بسبب صعوبات في النطق أو السمع، أو التوحّد، أو القلق، أو الخجل. يمنحهم مِسباح طريقة هادئة ليقولوا ما يحتاجونه، ويطمئنهم أن المعلمة سمعتهم.",
+      f1t: "دون مقاطعة الحصة", f1d: "يصل الطلب إلى المعلمة وحدها، فيبقى الصف هادئاً ويحتفظ الطالب بخصوصيته.",
+      f2t: "لغة بصرية واحدة", f2d: "لكل حاجة لون ورمز، هما نفسهما على الحبّة وعلى لوحة المعلمة.",
+      f3t: "لا يضيع أي طلب", f3d: "تتابع المعلمة كل طلب من لحظة وصوله حتى استلامه ومتابعته.",
+      f4t: "صورة واضحة عن الحصة", f4d: "تُظهر الإحصاءات متى احتاج الصف إلى مساعدة، وما الذي احتاجه، ومن تحتاج متابعة."
+    },
+    en: {
+      docTitle: "MISBAH | From student to teacher in seconds",
+      skip: "Skip to the live demo",
+      brand: "MISBAH",
+      navDemo: "Live demo", navHow: "How it works", navParts: "Components", navWhy: "Why MISBAH", navContact: "Contact",
+      heroTitle: "From student to teacher in seconds",
+      heroLead: "Calm communication, a clear response, and instant confirmation. A student presses a bead on their misbaha, the message reaches the teacher's dashboard, and the student knows right away it arrived.",
+      ctaDemo: "Try the live demo", ctaPilot: "Request a pilot for your school",
+      demoTitle: "Try it yourself",
+      demoLead: "Pick a student, then press a bead on the misbaha. Confirm it from the teacher's dashboard and watch the bead light up. Open \u201cLesson analytics\u201d to see the statistics update live.",
+      simLabel: "Simulate a class", reset: "Reset",
+      demoNote: "This is a demonstration with sample names and data, starting midway through a lesson.",
+      studentTitle: "Student's misbaha", studentLabel: "Student:",
+      chipsAria: "Choose a student", beadsAria: "Misbaha beads",
+      hint: "Press a bead to send its message to the teacher.",
+      legendTitle: "What each bead means",
+      dev_idle: "Ready", dev_sent: "Message sent, waiting for the teacher", dev_confirmed: "Your teacher got your message",
+      linkConnected: "Connected",
+      appTitle: "MISBAH | Teacher dashboard", appUser: "Welcome, teacher",
+      kpiOpen: "Open requests", kpiUnderstand: "Class understanding", kpiPriority: "Priority alerts", kpiDevices: "Active devices",
+      tabsAria: "Dashboard sections", tabLive: "Live", tabStats: "Lesson analytics",
+      currentTitle: "Current request", queueTitle: "Live requests",
+      lblStudent: "Student", lblMessage: "Message",
+      st_waiting: "Waiting", st_received: "Received", st_handled: "Handled",
+      priorityTag: "Priority",
+      confirm: "Confirm receipt", handle: "Mark as handled",
+      receivedIn: "Receipt confirmed in {n}s. When you've helped the student:",
+      doneNote: "This request has been handled.",
+      emptyNone: "No requests yet. Press a bead on the student's misbaha to send the first one.",
+      emptyDone: "No requests waiting.",
+      queueEmpty: "Requests appear here the moment they arrive.",
+      now: "now", secAgo: "{n}s ago", minAgo: "{n}m ago", sec: "s", min: " min",
+      announceNew: "New request from {name}: {msg}",
+      charging: "Device #07 is charging",
+      m_ok: "I understand, I'm done", m_question: "I don't understand", m_hand: "I'd like to speak", m_time: "I need more time",
+      m_out: "I need to step out", m_sad: "I'm not feeling okay", m_other: "I need something else",
+      anLesson: "Lesson time", anTotal: "Total requests", anReached: "Students who reached out",
+      pulseTitle: "Class pulse right now", pulseTrack: "Following along", pulseCenter: "on track",
+      pulseNote: "Each student with an active device, by her latest open request.",
+      typesTitle: "Requests by type",
+      rtTitle: "Response speed", rtAvg: "Average", rtMedian: "Median", rtMax: "Slowest",
+      rt_b1: "Within 10s", rt_b2: "11 to 20s", rt_b3: "21 to 30s", rt_b4: "Over 30s",
+      rtNone: "No confirmed requests yet.",
+      timelineTitle: "Activity during the lesson", timelineNote: "Requests in each 5-minute block since the lesson began. The darkest bar is the peak.",
+      followTitle: "Students to follow up", followNote: "By number of \u201cI don't understand\u201d and \u201cI'm not feeling okay\u201d requests this lesson.",
+      followNone: "No students need follow-up right now.",
+      insightsTitle: "Quick insights",
+      ins_common: "Most common request: \u201c{msg}\u201d ({p}% of requests).",
+      ins_reexplain: "Many students said \u201cI don't understand.\u201d A quick re-explanation of the last part may help.",
+      ins_peak: "Requests peaked between minutes {a} and {b} of the lesson.",
+      ins_speed: "{p}% of requests were confirmed within 10 seconds.",
+      ins_waiting: "Some requests have been waiting for more than two minutes.",
+      ins_follow: "{name} sent the most \u201cI don't understand\u201d and \u201cI'm not feeling okay\u201d requests and may need one-to-one support.",
+      anFoot: "All figures are calculated live from this sample lesson's requests and update with every new one.",
+      contactTitle: "Would you like to try MISBAH in your school?",
+      contactLead: "Get in touch to arrange a demonstration or a pilot in one of your classes.",
+      contactBtn: "Contact us", mailSubject: "MISBAH pilot request",
+      footTag: "Together, for better opportunities", footQatar: "Qatar inspires and includes everyone",
+      langSwitch: "العربية", langAria: "التبديل إلى العربية",
+      howTitle: "How it works",
+      howLead: "Five steps, and only seconds between a bead press and a reassured student.",
+      s1: "The student picks the right message and presses its bead.",
+      s2: "The signal travels wirelessly to MISBAH LINK.",
+      s3: "The message appears on the teacher's dashboard with the student's name.",
+      s4: "The teacher taps \u201cConfirm receipt.\u201d",
+      s5: "The student gets instant confirmation by light or vibration.",
+      partsTitle: "Three pieces that work together",
+      partsLead: "A device in the student's hand, a small link unit, and a dashboard that brings every request to the teacher.",
+      p1t: "MISBAH student device",
+      p1d: "Colored beads, each with its own symbol and meaning, let students say what they need easily and without speaking.",
+      p2t: "MISBAH LINK",
+      p2d: "The teacher's link unit. It receives signals from the students' devices and passes them straight to the dashboard.",
+      p3t: "Teacher dashboard",
+      p3d: "Shows incoming requests in real time, lets the teacher confirm receipt and follow up on each one, and analyzes what happened during the lesson.",
+      whyTitle: "Designed for inclusion and support classrooms",
+      whyLead: "Some students don't raise their hands, whether because of speech or hearing difficulties, autism, anxiety, or shyness. MISBAH gives them a quiet way to say what they need, and lets them know their teacher heard them.",
+      f1t: "No interruptions", f1d: "The request reaches only the teacher, so the class stays calm and the student keeps their privacy.",
+      f2t: "One visual language", f2d: "Every need has its own color and symbol, the same on the bead and on the dashboard.",
+      f3t: "No request gets lost", f3d: "The teacher follows each request from the moment it arrives until it's received and handled.",
+      f4t: "A clear picture of the lesson", f4d: "Statistics show when the class needed help, what it needed, and who may need follow-up."
+    }
+  };
+
+  const STUDENTS = [
+    { id: "maryam", ar: "مريم", en: "Maryam" },
+    { id: "noura", ar: "نورة", en: "Noura" },
+    { id: "lulwa", ar: "لولوة", en: "Lulwa" },
+    { id: "alia", ar: "علياء", en: "Alia" },
+    { id: "hessa", ar: "حصة", en: "Hessa" },
+    { id: "fatima", ar: "فاطمة", en: "Fatima" },
+    { id: "dana", ar: "دانة", en: "Dana", charging: true },
+    { id: "moza", ar: "موزة", en: "Moza" },
+    { id: "shaikha", ar: "شيخة", en: "Shaikha" },
+    { id: "anoud", ar: "العنود", en: "Al-Anoud" }
+  ];
+  const ACTIVE = STUDENTS.filter(s => !s.charging);
+
+  const TYPES = [
+    { id: "ok", c: "--b-green", icon: "check" },
+    { id: "question", c: "--b-yellow", icon: "question", ink: true },
+    { id: "hand", c: "--b-blue", icon: "hand" },
+    { id: "time", c: "--b-orange", icon: "clock" },
+    { id: "out", c: "--b-purple", icon: "person" },
+    { id: "sad", c: "--b-red", icon: "sad" },
+    { id: "other", c: "--b-white", icon: "dots", ink: true }
+  ];
+  const TYPE = Object.fromEntries(TYPES.map(t => [t.id, t]));
+  const chartColor = id => id === "track" ? "var(--b-green)" : id === "other" ? "var(--muted)" : `var(${TYPE[id].c})`;
+
+  // Sample lesson history: [minutes ago, student, type, seconds to confirm]
+  const SEED = [
+    [29, "hessa", "ok", 6], [27, "maryam", "question", 9], [25, "fatima", "hand", 14], [23, "moza", "time", 21],
+    [22, "noura", "question", 7], [19, "shaikha", "question", 11], [18, "alia", "out", 18], [17, "maryam", "question", 8],
+    [16, "anoud", "hand", 25], [15, "lulwa", "question", 12], [14, "noura", "sad", 5], [13, "fatima", "question", 16],
+    [12.4, "maryam", "question", 10], [12, "moza", "other", 34], [11, "hessa", "hand", 9], [10, "shaikha", "time", 13],
+    [9, "alia", "question", 19], [8, "noura", "question", 7], [6, "anoud", "ok", 4], [5.4, "fatima", "time", 22]
+  ];
+  // Requests still open when the demo starts: [minutes ago, student, type, seconds to confirm or null, status]
+  const SEED_OPEN = [
+    [5, "lulwa", "time", 15, "received"], [3, "noura", "hand", null, "waiting"],
+    [1, "alia", "sad", null, "waiting"], [0.67, "maryam", "question", null, "waiting"]
+  ];
+
+  const ICONS = {
+    check: '<path d="M5.5 12.5l4.2 4.2L18.5 7.8" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>',
+    question: '<path d="M9 9.2a3 3 0 1 1 4.6 2.5c-1 .6-1.6 1.2-1.6 2.4v.6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><circle cx="12" cy="18.2" r="1.5" fill="currentColor"/>',
+    hand: '<g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M8.5 12.5V7"/><path d="M11.5 12V5"/><path d="M14.5 12V5.8"/><path d="M17.3 13V8.5"/><path d="M7.6 14.6L5.4 12.2"/></g><path d="M7.2 12.2h11.3v2.6a5.2 5.2 0 0 1-5.2 5.2h-.9a5.2 5.2 0 0 1-5.2-5.2z" fill="currentColor"/>',
+    clock: '<circle cx="12" cy="12" r="7.6" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M12 7.8V12l3 2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>',
+    person: '<circle cx="12" cy="7.4" r="2.9" fill="currentColor"/><path d="M6.6 19.5c0-3.4 2.4-6.1 5.4-6.1s5.4 2.7 5.4 6.1z" fill="currentColor"/>',
+    sad: '<circle cx="12" cy="12" r="7.8" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="9.3" cy="10.3" r="1.25" fill="currentColor"/><circle cx="14.7" cy="10.3" r="1.25" fill="currentColor"/><path d="M8.8 16.2c1.8-1.8 4.6-1.8 6.4 0" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>',
+    dots: '<circle cx="12" cy="6.5" r="1.9" fill="currentColor"/><circle cx="12" cy="12" r="1.9" fill="currentColor"/><circle cx="12" cy="17.5" r="1.9" fill="currentColor"/>',
+    bell: '<path d="M12 4a5 5 0 0 0-5 5v3.5L5.5 15.5h13L17 12.5V9a5 5 0 0 0-5-5z" fill="currentColor"/><path d="M10 18a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
+    alert: '<path d="M12 4.5L20.5 19h-17z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 10v4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="16.6" r="1.2" fill="currentColor"/>',
+    wifi: '<g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 10a12 12 0 0 1 16 0"/><path d="M7.5 13.5a7 7 0 0 1 9 0"/></g><circle cx="12" cy="17" r="1.6" fill="currentColor"/>',
+    battery: '<rect x="2.5" y="7.5" width="16" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><rect x="19.5" y="10.5" width="2" height="3" rx="1" fill="currentColor"/><path d="M11.5 9l-2.6 3.5h3.2L9.8 15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>'
+  };
+  const svg = name => `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">${ICONS[name]}</svg>`;
+  const beadHTML = (typeId, extra = "") => {
+    const t = TYPE[typeId];
+    return `<span class="bead static ${t.ink ? "ink" : ""} ${extra}" style="--c:var(${t.c})">${svg(t.icon)}</span>`;
+  };
+
+  const $ = id => document.getElementById(id);
+  const els = {
+    langBtn: $("langBtn"), chips: $("chips"), misbaha: $("misbaha"), hint: $("hint"),
+    deviceStatus: $("deviceStatus"), statusLamp: $("statusLamp"), legend: $("legend"),
+    link: $("link"), track: $("signalTrack"), kpis: $("kpis"), active: $("active"), queue: $("queue"),
+    announcer: $("announcer"), simBtn: $("simBtn"), resetBtn: $("resetBtn"), contactBtn: $("contactBtn"),
+    tabLive: $("tabLive"), tabStats: $("tabStats"), panelLive: $("panelLive"), panelStats: $("panelStats"), liveBadge: $("liveBadge"),
+    anHead: $("anHead"), anPulse: $("anPulse"), anTypes: $("anTypes"), anRt: $("anRt"), anTimeline: $("anTimeline"),
+    anFollow: $("anFollow"), anInsights: $("anInsights")
+  };
+
+  const state = {
+    lang: "ar", selected: "maryam", requests: [], activeId: null, flashId: null, tab: "live",
+    device: {}, deviceTimers: {}, sim: false, simTimer: null, nextId: 1, lessonStart: Date.now()
+  };
+
+  const t = k => (I18N[state.lang][k] ?? I18N.en[k] ?? k);
+  const fill = (s, map) => Object.entries(map).reduce((a, [k, v]) => a.split("{" + k + "}").join(v), s);
+  const nm = sid => { const s = STUDENTS.find(x => x.id === sid); return s ? s[state.lang] : sid; };
+  const msg = type => t("m_" + type);
+  const ago = ts => {
+    const s = Math.max(0, Math.floor((Date.now() - ts) / 1000));
+    if (s < 5) return t("now");
+    if (s < 60) return fill(t("secAgo"), { n: s });
+    return fill(t("minAgo"), { n: Math.floor(s / 60) });
+  };
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
+  const countReq = n => {
+    if (state.lang === "en") return n === 1 ? "1 request" : `${n} requests`;
+    if (n === 1) return "طلب واحد";
+    if (n === 2) return "طلبان";
+    if (n <= 10) return `${n} طلبات`;
+    return `${n} طلباً`;
+  };
+  const isOpen = r => r.status !== "handled";
+  const isPriority = r => r.status === "waiting" && (r.type === "sad" || Date.now() - r.created > PRIORITY_AFTER_S * 1000);
+  const oldestWaiting = () => [...state.requests].reverse().find(x => x.status === "waiting");
+
+  /* ---------- Sample lesson ---------- */
+  function seed() {
+    const now = Date.now();
+    state.lessonStart = now - LESSON_MIN * 60000;
+    state.requests = [];
+    state.nextId = 1;
+    SEED.forEach(([m, sid, type, s]) => {
+      const c = now - m * 60000;
+      state.requests.push({ id: state.nextId++, sid, type, created: c, receivedAt: c + s * 1000, status: "handled" });
+    });
+    SEED_OPEN.forEach(([m, sid, type, s, st]) => {
+      const c = now - m * 60000;
+      const r = { id: state.nextId++, sid, type, created: c, status: st };
+      if (s) r.receivedAt = c + s * 1000;
+      state.requests.push(r);
+    });
+    state.requests.sort((a, b) => b.created - a.created);
+    Object.values(state.deviceTimers).forEach(clearTimeout);
+    state.device = {}; state.deviceTimers = {};
+    state.requests.filter(r => r.status === "waiting").forEach(r => { state.device[r.sid] = "sent"; });
+    const first = oldestWaiting();
+    state.activeId = first ? first.id : null;
+  }
+
+  /* ---------- Build static pieces ---------- */
+  function buildBeads() {
+    const tassel = els.misbaha.querySelector(".tassel");
+    const frag = document.createDocumentFragment();
+    const endA = document.createElement("span");
+    endA.className = "end-bead light"; endA.id = "deviceLight"; endA.setAttribute("aria-hidden", "true");
+    frag.append(endA);
+    TYPES.forEach(tp => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "bead" + (tp.ink ? " ink" : "");
+      b.style.setProperty("--c", `var(${tp.c})`);
+      b.dataset.type = tp.id;
+      b.innerHTML = svg(tp.icon);
+      b.addEventListener("click", () => {
+        b.classList.add("pressed");
+        setTimeout(() => b.classList.remove("pressed"), 140);
+        send(state.selected, tp.id);
+      });
+      const show = () => { els.hint.textContent = msg(tp.id); };
+      const hide = () => { els.hint.textContent = t("hint"); };
+      b.addEventListener("mouseenter", show); b.addEventListener("focus", show);
+      b.addEventListener("mouseleave", hide); b.addEventListener("blur", hide);
+      frag.append(b);
+    });
+    const endB = document.createElement("span"); endB.className = "end-bead"; endB.setAttribute("aria-hidden", "true");
+    frag.append(endB);
+    els.misbaha.insertBefore(frag, tassel);
+    els.light = endA;
+    document.querySelectorAll("[data-icon]").forEach(el => { el.innerHTML = svg(el.dataset.icon); });
+  }
+
+  /* ---------- Student side ---------- */
+  function renderBeadLabels() {
+    els.misbaha.querySelectorAll("button.bead").forEach(b => {
+      b.setAttribute("aria-label", msg(b.dataset.type));
+      b.title = msg(b.dataset.type);
+    });
+    els.legend.innerHTML = TYPES.map(tp => `<li>${beadHTML(tp.id)}<span>${esc(msg(tp.id))}</span></li>`).join("");
+  }
+
+  function renderChips() {
+    els.chips.innerHTML = STUDENTS.map(s => s.charging
+      ? `<button type="button" class="chip" data-sid="${s.id}" aria-pressed="false" disabled title="${esc(t("charging"))}"><span class="batt">${svg("battery")}</span>${esc(s[state.lang])}<span class="sr-only">${esc(t("charging"))}</span></button>`
+      : `<button type="button" class="chip" data-sid="${s.id}" aria-pressed="${s.id === state.selected}"><span class="lamp" data-state="${state.device[s.id] || "idle"}" aria-hidden="true"></span>${esc(s[state.lang])}</button>`
+    ).join("");
+  }
+
+  function renderDevice() {
+    const st = state.device[state.selected] || "idle";
+    els.light.dataset.state = st;
+    els.statusLamp.dataset.state = st;
+    els.deviceStatus.textContent = t("dev_" + st);
+    els.chips.querySelectorAll(".chip:not(:disabled)").forEach(c => {
+      c.querySelector(".lamp").dataset.state = state.device[c.dataset.sid] || "idle";
+      c.setAttribute("aria-pressed", c.dataset.sid === state.selected);
+    });
+  }
+
+  /* ---------- Statistics ---------- */
+  function computeStats() {
+    const now = Date.now();
+    const all = state.requests;
+    const open = all.filter(isOpen);
+    // Class pulse: each active student's latest open request (ignoring "I understand")
+    const pulse = { track: 0 };
+    ACTIVE.forEach(s => {
+      const r = all.find(x => x.sid === s.id && isOpen(x) && x.type !== "ok");
+      const key = r ? r.type : "track";
+      pulse[key] = (pulse[key] || 0) + 1;
+    });
+    // By type
+    const byType = {};
+    all.forEach(r => { byType[r.type] = (byType[r.type] || 0) + 1; });
+    // Response times
+    const times = all.filter(r => r.receivedAt).map(r => (r.receivedAt - r.created) / 1000).sort((a, b) => a - b);
+    const avg = times.length ? times.reduce((a, b) => a + b, 0) / times.length : null;
+    const median = times.length ? (times.length % 2 ? times[(times.length - 1) / 2] : (times[times.length / 2 - 1] + times[times.length / 2]) / 2) : null;
+    const buckets = [0, 0, 0, 0];
+    times.forEach(s => { buckets[s <= 10 ? 0 : s <= 20 ? 1 : s <= 30 ? 2 : 3]++; });
+    // Timeline in 5-minute blocks
+    const blockMs = BLOCK_MIN * 60000;
+    const nBlocks = Math.max(1, Math.ceil((now - state.lessonStart) / blockMs));
+    const blocks = new Array(nBlocks).fill(0);
+    all.forEach(r => {
+      const i = Math.floor((r.created - state.lessonStart) / blockMs);
+      if (i >= 0 && i < nBlocks) blocks[i]++;
+    });
+    // Students to follow: "I don't understand" + "I'm not feeling okay"
+    const follow = {};
+    all.forEach(r => { if (r.type === "question" || r.type === "sad") follow[r.sid] = (follow[r.sid] || 0) + 1; });
+    const followList = Object.entries(follow).sort((a, b) => b[1] - a[1]).slice(0, 4);
+    return {
+      total: all.length, open: open.length,
+      waiting: all.filter(r => r.status === "waiting").length,
+      priority: all.filter(isPriority).length,
+      understanding: pct(pulse.track, ACTIVE.length),
+      pulse, byType, times, avg, median, max: times.length ? times[times.length - 1] : null, buckets,
+      blocks, followList,
+      reached: new Set(all.map(r => r.sid)).size,
+      lessonMin: Math.floor((now - state.lessonStart) / 60000),
+      longWait: all.some(r => r.status === "waiting" && now - r.created > PRIORITY_AFTER_S * 1000)
+    };
+  }
+
+  function renderKPIs(S) {
+    const k = [
+      ["bell", "--brand", S.open, t("kpiOpen"), false],
+      ["check", "--b-green", S.understanding + "%", t("kpiUnderstand"), false],
+      ["alert", "--b-red", S.priority, t("kpiPriority"), S.priority > 0],
+      ["wifi", "--b-blue", `${ACTIVE.length}/${STUDENTS.length}`, t("kpiDevices"), false]
+    ];
+    els.kpis.innerHTML = k.map(([ic, c, v, l, hot]) =>
+      `<div class="kpi ${hot ? "hot" : ""}"><span class="ic" style="--c:var(${c})">${svg(ic)}</span><b dir="ltr">${esc(v)}</b><span>${esc(l)}</span></div>`
+    ).join("");
+    els.liveBadge.textContent = S.waiting;
+    els.liveBadge.hidden = S.waiting === 0;
+  }
+
+  function donutSVG(entries, total, center, sub) {
+    const r = 42, C = 2 * Math.PI * r;
+    let off = 0;
+    const segs = entries.filter(e => e.n > 0).map(e => {
+      const len = e.n / total * C;
+      const gap = entries.filter(x => x.n > 0).length > 1 ? 1.5 : 0;
+      const s = `<circle class="seg" cx="56" cy="56" r="${r}" fill="none" stroke="${e.color}" stroke-width="14" stroke-dasharray="${Math.max(0, len - gap)} ${C}" stroke-dashoffset="${-off}" transform="rotate(-90 56 56)"/>`;
+      off += len;
+      return s;
+    }).join("");
+    return `<svg class="donut" viewBox="0 0 112 112" role="img" aria-label="${esc(center + " " + sub)}">
+      <circle cx="56" cy="56" r="${r}" fill="none" stroke="var(--surface-2)" stroke-width="14"/>${segs}
+      <text x="56" y="56" text-anchor="middle" font-size="20" font-weight="700" style="fill:var(--text)" direction="ltr">${esc(center)}</text>
+      <text x="56" y="73" text-anchor="middle" font-size="10" style="fill:var(--muted)">${esc(sub)}</text></svg>`;
+  }
+
+  function hbars(rows) {
+    return `<div class="hbars">${rows.map(r =>
+      `<div class="hbar"><span class="lab">${esc(r.label)}</span><span class="val">${esc(r.val)}</span><span class="bar"><i style="--c:${r.color};--w:${r.w}%"></i></span></div>`
+    ).join("")}</div>`;
+  }
+
+  function renderAnalytics(S) {
+    els.anHead.innerHTML = [
+      [t("anLesson"), S.lessonMin + t("min")], [t("anTotal"), S.total], [t("anReached"), `${S.reached}/${STUDENTS.length}`]
+    ].map(([l, v]) => `<span>${esc(l)}: <b>${esc(v)}</b></span>`).join("");
+
+    // Pulse
+    const pulseEntries = [{ id: "track", n: S.pulse.track }]
+      .concat(TYPES.filter(x => x.id !== "ok").map(x => ({ id: x.id, n: S.pulse[x.id] || 0 })))
+      .map(e => ({ ...e, color: chartColor(e.id), label: e.id === "track" ? t("pulseTrack") : msg(e.id) }));
+    els.anPulse.innerHTML = `<div class="donut-wrap">${donutSVG(pulseEntries, ACTIVE.length, S.understanding + "%", t("pulseCenter"))}
+      <ul class="legend-list">${pulseEntries.filter(e => e.n > 0).map(e =>
+        `<li><span class="sw" style="--c:${e.color}"></span><span class="lab">${esc(e.label)}</span><span class="val" dir="ltr">${pct(e.n, ACTIVE.length)}%</span></li>`).join("")}</ul></div>
+      <p class="chart-note">${esc(t("pulseNote"))}</p>`;
+
+    // By type
+    const types = TYPES.map(x => ({ id: x.id, n: S.byType[x.id] || 0 })).filter(x => x.n > 0).sort((a, b) => b.n - a.n);
+    const maxType = types.length ? types[0].n : 1;
+    els.anTypes.innerHTML = types.length ? hbars(types.map(x => ({
+      label: msg(x.id), val: `${x.n} (${pct(x.n, S.total)}%)`, color: chartColor(x.id), w: x.n / maxType * 100
+    }))) : `<p class="an-empty">${esc(t("queueEmpty"))}</p>`;
+
+    // Response speed
+    if (!S.times.length) {
+      els.anRt.innerHTML = `<p class="an-empty">${esc(t("rtNone"))}</p>`;
+    } else {
+      const f = v => Math.round(v) + t("sec");
+      const maxB = Math.max(...S.buckets, 1);
+      const bColors = ["var(--b-green)", "var(--b-yellow)", "var(--b-orange)", "var(--b-red)"];
+      els.anRt.innerHTML = `<div class="rt-nums">
+          <div><b>${esc(f(S.avg))}</b><span>${esc(t("rtAvg"))}</span></div>
+          <div><b>${esc(f(S.median))}</b><span>${esc(t("rtMedian"))}</span></div>
+          <div><b>${esc(f(S.max))}</b><span>${esc(t("rtMax"))}</span></div></div>` +
+        hbars(S.buckets.map((n, i) => ({ label: t("rt_b" + (i + 1)), val: `${n} (${pct(n, S.times.length)}%)`, color: bColors[i], w: n / maxB * 100 })));
+    }
+
+    // Timeline (last 8 blocks)
+    const startIdx = Math.max(0, S.blocks.length - 8);
+    const shown = S.blocks.slice(startIdx);
+    const maxBlock = Math.max(...shown, 1);
+    const peakIdx = shown.indexOf(Math.max(...shown));
+    els.anTimeline.innerHTML = `<div class="vbars" role="img" aria-label="${esc(t("timelineTitle"))}">${shown.map((n, i) => {
+      const a = (startIdx + i) * BLOCK_MIN;
+      return `<div class="vbar ${i === peakIdx && n > 0 ? "peak" : ""}"><span class="n">${n}</span><i style="--h:${n / maxBlock * 100}%"></i><span class="t">${a}–${a + BLOCK_MIN}</span></div>`;
+    }).join("")}</div><p class="chart-note">${esc(t("timelineNote"))}</p>`;
+    S.peak = shown[peakIdx] > 0 ? { a: (startIdx + peakIdx) * BLOCK_MIN, b: (startIdx + peakIdx + 1) * BLOCK_MIN } : null;
+
+    // Students to follow
+    if (!S.followList.length) {
+      els.anFollow.innerHTML = `<p class="an-empty">${esc(t("followNone"))}</p>`;
+    } else {
+      const maxF = S.followList[0][1];
+      els.anFollow.innerHTML = hbars(S.followList.map(([sid, n]) => ({
+        label: nm(sid), val: countReq(n), color: "var(--brand)", w: n / maxF * 100
+      }))) + `<p class="chart-note">${esc(t("followNote"))}</p>`;
+    }
+
+    // Insights
+    const ins = [];
+    if (types.length) ins.push(fill(t("ins_common"), { msg: msg(types[0].id), p: pct(types[0].n, S.total) }));
+    if ((S.byType.question || 0) / Math.max(S.total, 1) >= 0.3) ins.push(t("ins_reexplain"));
+    if (S.peak) ins.push(fill(t("ins_peak"), S.peak));
+    if (S.times.length) ins.push(fill(t("ins_speed"), { p: pct(S.buckets[0], S.times.length) }));
+    if (S.followList.length && S.followList[0][1] >= 3) ins.push(fill(t("ins_follow"), { name: nm(S.followList[0][0]) }));
+    if (S.longWait) ins.push(t("ins_waiting"));
+    els.anInsights.innerHTML = ins.slice(0, 5).map(x => `<li>${esc(x)}</li>`).join("");
+  }
+
+  function renderStats() {
+    const S = computeStats();
+    renderKPIs(S);
+    renderAnalytics(S);
+  }
+
+  /* ---------- Live view ---------- */
+  function renderActive() {
+    const r = state.requests.find(x => x.id === state.activeId);
+    if (!r) {
+      els.active.innerHTML = `<div class="empty"><div><div class="ring"></div><p>${esc(state.requests.length ? t("emptyDone") : t("emptyNone"))}</p></div></div>`;
+      return;
+    }
+    let actions = "";
+    if (r.status === "waiting") {
+      actions = `<button id="primaryAction" class="btn btn-confirm" type="button" data-act="confirm" data-id="${r.id}">${svg("check")}${esc(t("confirm"))}</button>`;
+    } else if (r.status === "received") {
+      const secs = Math.max(1, Math.round((r.receivedAt - r.created) / 1000));
+      actions = `<p class="received-note">${esc(fill(t("receivedIn"), { n: secs }))}</p><button id="primaryAction" class="btn btn-handle" type="button" data-act="handle" data-id="${r.id}">${esc(t("handle"))}</button>`;
+    } else {
+      actions = `<p class="done-note">${esc(t("doneNote"))}</p>`;
+    }
+    els.active.innerHTML = `
+      <div class="current-top">
+        ${beadHTML(r.type)}
+        <dl class="kv"><dt>${esc(t("lblStudent"))}</dt><dd>${esc(nm(r.sid))}</dd><dt>${esc(t("lblMessage"))}</dt><dd>${esc(msg(r.type))}</dd></dl>
+      </div>
+      <div class="current-meta"><span class="pill" data-status="${r.status}">${esc(t("st_" + r.status))}</span>${isPriority(r) ? `<span class="ptag">${esc(t("priorityTag"))}</span>` : ""}<span data-ts="${r.created}">${esc(ago(r.created))}</span></div>
+      <div class="current-actions">${actions}</div>`;
+  }
+
+  function renderQueue() {
+    const open = state.requests.filter(isOpen);
+    const done = state.requests.filter(r => !isOpen(r)).slice(0, 3);
+    const list = open.concat(done);
+    if (!list.length) {
+      els.queue.innerHTML = `<li class="q-empty">${esc(t("queueEmpty"))}</li>`;
+      return;
+    }
+    els.queue.innerHTML = list.map(r => {
+      const pr = isPriority(r);
+      return `
+      <li><button type="button" class="q-item ${r.status === "handled" ? "handled" : ""} ${pr ? "priority" : ""} ${r.id === state.flashId ? "new" : ""}" data-id="${r.id}" aria-current="${r.id === state.activeId}">
+        ${beadHTML(r.type)}
+        <span class="q-text"><span class="q-name">${esc(nm(r.sid))}</span><span class="q-msg">${esc(msg(r.type))}</span></span>
+        <span class="q-side"><span data-ts="${r.created}">${esc(ago(r.created))}</span>${pr ? `<span class="ptag">${esc(t("priorityTag"))}</span>` : `<span class="q-st" data-status="${r.status}">${esc(t("st_" + r.status))}</span>`}</span>
+      </button></li>`;
+    }).join("");
+    state.flashId = null;
+  }
+
+  function renderDashboard() { renderStats(); renderActive(); renderQueue(); }
+
+  function renderAll() {
+    renderBeadLabels(); renderChips(); renderDevice(); renderDashboard();
+    els.hint.textContent = t("hint");
+  }
+
+  function updateTimes() {
+    document.querySelectorAll("[data-ts]").forEach(el => { el.textContent = ago(+el.dataset.ts); });
+  }
+
+  /* ---------- Signal animation ---------- */
+  function fireSignal(dir, color) {
+    const d = document.createElement("span");
+    d.className = "dot " + dir;
+    d.style.setProperty("--dc", color);
+    els.track.append(d);
+    els.link.classList.add("active");
+    setTimeout(() => {
+      d.remove();
+      if (!els.track.querySelector(".dot")) els.link.classList.remove("active");
+    }, SIGNAL_MS + 60);
+  }
+
+  /* ---------- Actions ---------- */
+  function setDevice(sid, st) {
+    clearTimeout(state.deviceTimers[sid]);
+    state.device[sid] = st;
+    if (st === "confirmed") {
+      state.deviceTimers[sid] = setTimeout(() => {
+        if (state.device[sid] === "confirmed") { state.device[sid] = "idle"; renderDevice(); }
+      }, 6000);
+    }
+    renderDevice();
+  }
+
+  function send(sid, type) {
+    setDevice(sid, "sent");
+    fireSignal("go", `var(${TYPE[type].c})`);
+    setTimeout(() => {
+      const now = Date.now();
+      let r = state.requests.find(x => x.sid === sid && x.type === type && x.status === "waiting");
+      if (r) {
+        r.created = now;
+        state.requests = [r, ...state.requests.filter(x => x !== r)];
+      } else {
+        r = { id: state.nextId++, sid, type, created: now, status: "waiting" };
+        state.requests.unshift(r);
+      }
+      if (state.requests.length > 400) state.requests.length = 400;
+      const cur = state.requests.find(x => x.id === state.activeId);
+      if (!cur || cur.status !== "waiting") state.activeId = r.id;
+      state.flashId = r.id;
+      els.announcer.textContent = fill(t("announceNew"), { name: nm(sid), msg: msg(type) });
+      renderDashboard();
+    }, SIGNAL_MS);
+  }
+
+  function confirmReq(id) {
+    const r = state.requests.find(x => x.id === id);
+    if (!r || r.status !== "waiting") return;
+    r.status = "received";
+    r.receivedAt = Date.now();
+    renderDashboard();
+    const btn = $("primaryAction"); if (btn) btn.focus();
+    fireSignal("back", "var(--glow)");
+    setTimeout(() => {
+      setDevice(r.sid, "confirmed");
+      if (r.sid === state.selected) {
+        els.misbaha.classList.remove("buzz"); void els.misbaha.offsetWidth; els.misbaha.classList.add("buzz");
+      } else {
+        const chip = els.chips.querySelector(`[data-sid="${r.sid}"]`);
+        if (chip) { chip.classList.remove("flash"); void chip.offsetWidth; chip.classList.add("flash"); }
+      }
+    }, SIGNAL_MS);
+  }
+
+  function handleReq(id) {
+    const r = state.requests.find(x => x.id === id);
+    if (!r || r.status !== "received") return;
+    r.status = "handled";
+    const next = oldestWaiting();
+    state.activeId = next ? next.id : null;
+    renderDashboard();
+    const btn = $("primaryAction");
+    if (btn) btn.focus();
+  }
+
+  function reset() {
+    seed();
+    renderDevice(); renderDashboard();
+  }
+
+  /* ---------- Tabs ---------- */
+  function setTab(tab, focus) {
+    state.tab = tab;
+    const live = tab === "live";
+    els.tabLive.setAttribute("aria-selected", live);
+    els.tabStats.setAttribute("aria-selected", !live);
+    els.tabLive.tabIndex = live ? 0 : -1;
+    els.tabStats.tabIndex = live ? -1 : 0;
+    els.panelLive.hidden = !live;
+    els.panelStats.hidden = live;
+    if (focus) (live ? els.tabLive : els.tabStats).focus();
+  }
+
+  /* ---------- Classroom simulation ---------- */
+  const SIM_WEIGHTS = [["question", 4], ["hand", 3], ["time", 2], ["out", 1], ["sad", 1], ["ok", 2], ["other", 1]];
+  function pickType() {
+    const total = SIM_WEIGHTS.reduce((a, [, w]) => a + w, 0);
+    let n = Math.random() * total;
+    for (const [id, w] of SIM_WEIGHTS) { if ((n -= w) < 0) return id; }
+    return "question";
+  }
+  function scheduleSim(delay) {
+    clearTimeout(state.simTimer);
+    state.simTimer = setTimeout(() => {
+      if (!state.sim) return;
+      const waiting = state.requests.filter(x => x.status === "waiting").length;
+      if (waiting < 6) {
+        const others = ACTIVE.filter(s => s.id !== state.selected);
+        const s = others[Math.floor(Math.random() * others.length)];
+        send(s.id, pickType());
+      }
+      scheduleSim(2600 + Math.random() * 3000);
+    }, delay);
+  }
+  function setSim(on) {
+    state.sim = on;
+    els.simBtn.setAttribute("aria-checked", on);
+    if (on) scheduleSim(500); else clearTimeout(state.simTimer);
+  }
+
+  /* ---------- Language ---------- */
+  function applyLang() {
+    const L = state.lang;
+    const root = document.documentElement;
+    root.lang = L;
+    root.dir = L === "ar" ? "rtl" : "ltr";
+    document.title = t("docTitle");
+    document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
+    document.querySelectorAll("[data-i18n-aria]").forEach(el => { el.setAttribute("aria-label", t(el.dataset.i18nAria)); });
+    els.langBtn.textContent = t("langSwitch");
+    els.langBtn.setAttribute("lang", L === "ar" ? "en" : "ar");
+    els.langBtn.setAttribute("aria-label", t("langAria"));
+    els.contactBtn.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(t("mailSubject"))}`;
+    renderAll();
+  }
+  function initialLang() {
+    const p = new URLSearchParams(location.search).get("lang");
+    if (p === "ar" || p === "en") return p;
+    try { const s = localStorage.getItem("misbah-lang"); if (s === "ar" || s === "en") return s; } catch (e) {}
+    return "ar";
+  }
+
+  /* ---------- Events ---------- */
+  els.langBtn.addEventListener("click", () => {
+    state.lang = state.lang === "ar" ? "en" : "ar";
+    try { localStorage.setItem("misbah-lang", state.lang); } catch (e) {}
+    applyLang();
+    els.langBtn.focus();
+  });
+  els.chips.addEventListener("click", e => {
+    const c = e.target.closest(".chip"); if (!c || c.disabled) return;
+    state.selected = c.dataset.sid;
+    renderDevice();
+  });
+  els.active.addEventListener("click", e => {
+    const b = e.target.closest("[data-act]"); if (!b) return;
+    const id = +b.dataset.id;
+    if (b.dataset.act === "confirm") confirmReq(id); else handleReq(id);
+  });
+  els.queue.addEventListener("click", e => {
+    const b = e.target.closest(".q-item"); if (!b) return;
+    state.activeId = +b.dataset.id;
+    renderActive(); renderQueue();
+    const again = els.queue.querySelector(`[data-id="${state.activeId}"]`); if (again) again.focus();
+  });
+  els.tabLive.addEventListener("click", () => setTab("live"));
+  els.tabStats.addEventListener("click", () => setTab("stats"));
+  [els.tabLive, els.tabStats].forEach(tb => tb.addEventListener("keydown", e => {
+    if (["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) {
+      e.preventDefault();
+      setTab(state.tab === "live" ? "stats" : "live", true);
+    }
+  }));
+  els.simBtn.addEventListener("click", () => setSim(!state.sim));
+  els.resetBtn.addEventListener("click", reset);
+  setInterval(updateTimes, 1000);
+  setInterval(() => {
+    renderStats();
+    if (!els.queue.contains(document.activeElement)) renderQueue();
+  }, 5000);
+
+  /* ---------- Start ---------- */
+  buildBeads();
+  seed();
+  state.lang = initialLang();
+  applyLang();
+})();
+</script>
+</body>
+</html>
