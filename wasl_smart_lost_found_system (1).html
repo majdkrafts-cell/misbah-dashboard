@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="html-root">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>نظام وصل الذكي للمفقودات المدرسية | مدارس الريان الخاصة</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Cairo & Tajawal -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            maroon: {
+              DEFAULT: '#8A1538',
+              dark: '#6D0F2B',
+              light: '#A91D47',
+              50: '#FDF2F5',
+              100: '#FCE4EB',
+            },
+            gold: {
+              DEFAULT: '#F5B800',
+              light: '#FFC72C',
+              dark: '#D9A000',
+              50: '#FFFBEB',
+              100: '#FEF3C7',
+            },
+            cream: '#FDFBF7',
+            charcoal: '#1E293B'
+          },
+          fontFamily: {
+            sans: ['Cairo', 'Tajawal', 'sans-serif'],
+            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #FDFBF7;
+      color: #1E293B;
+      font-family: 'Cairo', 'Tajawal', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* خط الليزر المتحرك للماسح الضوئي */
+    @keyframes scanLaser {
+      0% { top: 8%; opacity: 0.9; }
+      50% { top: 88%; opacity: 1; }
+      100% { top: 8%; opacity: 0.9; }
+    }
+    .laser-line {
+      position: absolute;
+      left: 6%;
+      right: 6%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #F5B800, #FF3B30, #F5B800, transparent);
+      box-shadow: 0 0 12px 2px rgba(245, 184, 0, 0.85);
+      animation: scanLaser 2s infinite ease-in-out;
+    }
+
+    /* شريط التمرير المخصص */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F4EFE6;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #8A1538;
+      border-radius: 4px;
+    }
+
+    /* تأثير خزائن المحطة */
+    .locker-box {
+      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .locker-box:hover {
+      transform: translateY(-3px);
+    }
+
+    /* خلفية زخرفية خفيفة */
+    .qatar-pattern {
+      background-image: radial-gradient(rgba(245, 184, 0, 0.14) 1px, transparent 1px);
+      background-size: 18px 18px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+  <!-- الهيدر الرسمي وهوية المدرسة والمشروع -->
+  <header class="bg-gradient-to-r from-maroon-dark via-maroon to-maroon-light text-white shadow-lg border-b-4 border-gold sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
+      <div class="flex flex-col lg:flex-row items-center justify-between gap-4">
+        
+        <!-- شعار وصل والعنوان الرئيسي -->
+        <div class="flex items-center gap-4">
+          <!-- أيقونة دبوس موقع ذهبي بداخله حقيبة مدرسية -->
+          <div class="relative flex-shrink-0 w-16 h-16 rounded-2xl bg-gold flex items-center justify-center shadow-md border-2 border-white">
+            <svg viewBox="0 0 64 64" class="w-11 h-11">
+              <path d="M32 4C19.8 4 10 13.8 10 26c0 15.2 22 34 22 34s22-18.8 22-34C54 13.8 44.2 4 32 4z" fill="#1E293B"/>
+              <path d="M26 17h12v3H26zM22 22c0-2.2 1.8-4 4-4h12c2.2 0 4 1.8 4 4v14c0 1.1-.9 2-2 2H24c-1.1 0-2-.9-2-2V22z" fill="#F5B800"/>
+              <rect x="26" y="25" width="12" height="7" rx="1.5" fill="#1E293B"/>
+            </svg>
+            <span class="absolute -bottom-1 -right-1 bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow border border-white">متصل</span>
+          </div>
+
+          <div>
+            <div class="flex items-center gap-2.5 flex-wrap">
+              <h1 class="text-xl sm:text-2xl font-black tracking-tight text-white">
+                نظام <span class="text-gold">وصل</span> الذكي للمفقودات المدرسية
+              </h1>
+              <span class="bg-white/15 text-gold-100 text-xs font-bold px-3 py-1 rounded-full border border-gold/40">
+                أخلاق • انضباط • تميز | الأمانة مسؤولية وقيمة نعيشها
+              </span>
+            </div>
+            <p class="text-xs sm:text-sm text-gold-100 font-semibold mt-1">
+              كل غرض يجد طريقه لصاحبه — مدرسة أكثر أماناً • مجتمع أكثر ترابطاً • إدارة أذكى
+            </p>
+          </div>
+        </div>
+
+        <!-- بيانات المدرسة ووزارة التربية وزر المحاكاة التلقائية -->
+        <div class="flex items-center gap-4 flex-wrap justify-center">
+          <div class="text-right border-l border-white/20 pl-4">
+            <div class="text-sm font-extrabold text-white">مدارس الريان الخاصة - بنات</div>
+            <div class="text-xs text-gold-100">وزارة التربية والتعليم والتعليم العالي - دولة قطر</div>
+          </div>
+
+          <!-- زر تشغيل محاكاة تلقائية للنظام -->
+          <button onclick="runGuidedDemo()" class="bg-gold hover:bg-gold-light text-charcoal font-extrabold text-xs sm:text-sm px-4 py-2.5 rounded-xl shadow-md flex items-center gap-2 transition transform active:scale-95">
+            <i class="fa-solid fa-play-circle text-maroon text-lg"></i>
+            <span>تشغيل محاكاة تلقائية للنظام</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- شريط خطوات عمل النظام التفاعلي (6 خطوات) -->
+  <section class="bg-white border-b border-stone-200 shadow-sm qatar-pattern">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      <div class="flex items-center justify-between mb-2.5">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-maroon animate-ping"></span>
+          <h2 class="text-xs sm:text-sm font-extrabold text-maroon">
+            كيف يعمل نظام وصل؟ (اضغطي على أي خطوة للانتقال المباشر وتجربتها عملياً)
+          </h2>
+        </div>
+        <span class="text-xs text-stone-500 hidden md:inline font-semibold">مسار ذكي متكامل من لحظة العثور على الغرض حتى عودته لطالبته</span>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2" id="workflow-ribbon">
+        <!-- الخطوة 1 -->
+        <button onclick="triggerWorkflowStep(1)" id="step-btn-1" class="step-card group text-right p-2.5 rounded-xl border border-stone-200 bg-stone-50 hover:border-maroon hover:bg-maroon-50 transition flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-maroon text-white font-bold text-xs flex items-center justify-center flex-shrink-0 group-hover:bg-gold group-hover:text-charcoal transition">1</div>
+          <div class="overflow-hidden">
+            <div class="text-xs font-extrabold text-charcoal truncate">العثور على الغرض</div>
+            <div class="text-[11px] text-stone-500 truncate">وتقديمه لنقطة وصل</div>
+          </div>
+        </button>
+
+        <!-- الخطوة 2 -->
+        <button onclick="triggerWorkflowStep(2)" id="step-btn-2" class="step-card group text-right p-2.5 rounded-xl border border-stone-200 bg-stone-50 hover:border-maroon hover:bg-maroon-50 transition flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-maroon text-white font-bold text-xs flex items-center justify-center flex-shrink-0 group-hover:bg-gold group-hover:text-charcoal transition">2</div>
+          <div class="overflow-hidden">
+            <div class="text-xs font-extrabold text-charcoal truncate">مسح الرمز أو الإدخال</div>
+            <div class="text-[11px] text-stone-500 truncate">قراءة QR أو الرقم</div>
+          </div>
+        </button>
+
+        <!-- الخطوة 3 -->
+        <button onclick="triggerWorkflowStep(3)" id="step-btn-3" class="step-card group text-right p-2.5 rounded-xl border border-stone-200 bg-stone-50 hover:border-maroon hover:bg-maroon-50 transition flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-maroon text-white font-bold text-xs flex items-center justify-center flex-shrink-0 group-hover:bg-gold group-hover:text-charcoal transition">3</div>
+          <div class="overflow-hidden">
+            <div class="text-xs font-extrabold text-charcoal truncate">التعرف على صاحبة الغرض</div>
+            <div class="text-[11px] text-stone-500 truncate">إظهار اسم وصف الطالبة</div>
+          </div>
+        </button>
+
+        <!-- الخطوة 4 -->
+        <button onclick="triggerWorkflowStep(4)" id="step-btn-4" class="step-card group text-right p-2.5 rounded-xl border border-stone-200 bg-stone-50 hover:border-maroon hover:bg-maroon-50 transition flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-maroon text-white font-bold text-xs flex items-center justify-center flex-shrink-0 group-hover:bg-gold group-hover:text-charcoal transition">4</div>
+          <div class="overflow-hidden">
+            <div class="text-xs font-extrabold text-charcoal truncate">الحفظ في محطة وصل</div>
+            <div class="text-[11px] text-stone-500 truncate">تخزين آمن ومرقم</div>
+          </div>
+        </button>
+
+        <!-- الخطوة 5 -->
+        <button onclick="triggerWorkflowStep(5)" id="step-btn-5" class="step-card group text-right p-2.5 rounded-xl border border-stone-200 bg-stone-50 hover:border-maroon hover:bg-maroon-50 transition flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-maroon text-white font-bold text-xs flex items-center justify-center flex-shrink-0 group-hover:bg-gold group-hover:text-charcoal transition">5</div>
+          <div class="overflow-hidden">
+            <div class="text-xs font-extrabold text-charcoal truncate">إشعار الطالبة والتحقق</div>
+            <div class="text-[11px] text-stone-500 truncate">تنبيه وتأكيد الملكية</div>
+          </div>
+        </button>
+
+        <!-- الخطوة 6 -->
+        <button onclick="triggerWorkflowStep(6)" id="step-btn-6" class="step-card group text-right p-2.5 rounded-xl border border-stone-200 bg-stone-50 hover:border-maroon hover:bg-maroon-50 transition flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center flex-shrink-0 group-hover:bg-gold group-hover:text-charcoal transition">6</div>
+          <div class="overflow-hidden">
+            <div class="text-xs font-extrabold text-charcoal truncate">تسليم الغرض واستعادته</div>
+            <div class="text-[11px] text-stone-500 truncate">إعادة الغرض لصاحبته</div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- شريط التبويبات الرئيسية الأربعة -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 w-full flex-grow">
+    <div class="bg-white p-1.5 rounded-2xl shadow-sm border border-stone-200 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-1.5 mb-6">
+      
+      <button onclick="switchTab('dashboard')" id="tab-btn-dashboard" class="tab-btn flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl font-bold text-sm transition bg-maroon text-white shadow">
+        <i class="fa-solid fa-chart-pie text-gold text-lg"></i>
+        <div class="text-right">
+          <div>1. لوحة الإحصاءات والبيانات</div>
+          <div class="text-[11px] font-normal opacity-85">المؤشرات الحية ونتائج الاستبيان</div>
+        </div>
+      </button>
+
+      <button onclick="switchTab('scanner')" id="tab-btn-scanner" class="tab-btn flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl font-bold text-sm transition text-charcoal hover:bg-stone-100">
+        <i class="fa-solid fa-qrcode text-maroon text-lg"></i>
+        <div class="text-right">
+          <div>2. ماسح ملصق "وصل" الذكي</div>
+          <div class="text-[11px] font-normal text-stone-500">مسح الرمز والتعرف على الطالبة</div>
+        </div>
+      </button>
+
+      <button onclick="switchTab('station')" id="tab-btn-station" class="tab-btn flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl font-bold text-sm transition text-charcoal hover:bg-stone-100">
+        <i class="fa-solid fa-boxes-stacked text-maroon text-lg"></i>
+        <div class="text-right">
+          <div class="flex items-center gap-1.5">
+            <span>3. محطة "وصل" الرقمية</span>
+            <span id="station-badge-count" class="bg-gold text-charcoal text-[10px] font-extrabold px-2 py-0.5 rounded-full">7</span>
+          </div>
+          <div class="text-[11px] font-normal text-stone-500">خزائن المحطة المرقمة (01 - 16)</div>
+        </div>
+      </button>
+
+      <button onclick="switchTab('untagged')" id="tab-btn-untagged" class="tab-btn flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl font-bold text-sm transition text-charcoal hover:bg-stone-100">
+        <i class="fa-solid fa-camera-retro text-maroon text-lg"></i>
+        <div class="text-right">
+          <div>4. الأغراض بدون ملصق</div>
+          <div class="text-[11px] font-normal text-stone-500">التصوير والمطابقة الذكية للطالبات</div>
+        </div>
+      </button>
+
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- التبويب الأول: لوحة الإحصاءات والبيانات                              -->
+    <!-- =================================================================== -->
+    <div id="tab-dashboard" class="tab-panel space-y-6 pb-10">
+      
+      <!-- البطاقات الأربع للمؤشرات الحية -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- إجمالي الأغراض المسجلة -->
+        <div class="bg-white rounded-2xl p-5 border border-stone-200 shadow-sm flex items-center justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-1.5 h-full bg-maroon"></div>
+          <div>
+            <p class="text-xs font-bold text-stone-500">إجمالي الأغراض المسجلة</p>
+            <div class="flex items-baseline gap-1.5 mt-1">
+              <h3 class="text-3xl font-black text-charcoal" id="kpi-total">128</h3>
+              <span class="text-xs font-bold text-stone-500">غرضاً</span>
+            </div>
+            <p class="text-xs text-maroon font-semibold mt-1 flex items-center gap-1">
+              <i class="fa-solid fa-tag"></i> منذ بداية تطبيق النظام بالمدرسة
+            </p>
+          </div>
+          <div class="w-12 h-12 rounded-2xl bg-maroon-50 text-maroon flex items-center justify-center text-xl">
+            <i class="fa-solid fa-layer-group"></i>
+          </div>
+        </div>
+
+        <!-- الأغراض المستردة -->
+        <div class="bg-white rounded-2xl p-5 border border-stone-200 shadow-sm flex items-center justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-1.5 h-full bg-emerald-500"></div>
+          <div>
+            <p class="text-xs font-bold text-stone-500">الأغراض المستردة للطالبات</p>
+            <div class="flex items-baseline gap-2 mt-1">
+              <h3 class="text-3xl font-black text-emerald-600" id="kpi-returned">96</h3>
+              <span class="text-xs font-extrabold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full" id="kpi-rate">نسبة الاستعادة 75%</span>
+            </div>
+            <p class="text-xs text-emerald-700 font-semibold mt-1">عادت لأصحابها بعد التحقق بنجاح</p>
+          </div>
+          <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl">
+            <i class="fa-solid fa-circle-check"></i>
+          </div>
+        </div>
+
+        <!-- الأغراض المحفوظة حالياً في المحطة -->
+        <div class="bg-white rounded-2xl p-5 border border-stone-200 shadow-sm flex items-center justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-1.5 h-full bg-gold"></div>
+          <div>
+            <p class="text-xs font-bold text-stone-500">الأغراض المحفوظة حالياً في المحطة</p>
+            <div class="flex items-baseline gap-1.5 mt-1">
+              <h3 class="text-3xl font-black text-amber-600" id="kpi-instation">32</h3>
+              <span class="text-xs font-bold text-stone-500">غرضاً</span>
+            </div>
+            <p class="text-xs text-stone-500 font-semibold mt-1">محفوظة بأمان بانتظار استلام الطالبات</p>
+          </div>
+          <div class="w-12 h-12 rounded-2xl bg-gold-50 text-amber-600 flex items-center justify-center text-xl">
+            <i class="fa-solid fa-box-archive"></i>
+          </div>
+        </div>
+
+        <!-- أغراض تم العثور عليها هذا الأسبوع -->
+        <div class="bg-white rounded-2xl p-5 border border-stone-200 shadow-sm flex items-center justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-1.5 h-full bg-sky-500"></div>
+          <div>
+            <p class="text-xs font-bold text-stone-500">أغراض تم العثور عليها هذا الأسبوع</p>
+            <div class="flex items-baseline gap-1.5 mt-1">
+              <h3 class="text-3xl font-black text-sky-600" id="kpi-week">8</h3>
+              <span class="text-xs font-bold text-stone-500">أغراض</span>
+            </div>
+            <p class="text-xs text-sky-700 font-semibold mt-1">تم تسجيلها وإرسال إشعارات لصاحباتها</p>
+          </div>
+          <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center text-xl">
+            <i class="fa-solid fa-calendar-week"></i>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- إثبات المشكلة ونتائج استبيان 120 طالبة + آراء الطالبات -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- الرسم البياني للأغراض الأكثر فقداناً وإحصاءات الاستبيان (7 أعمدة) -->
+        <div class="lg:col-span-7 bg-white rounded-2xl p-6 border border-stone-200 shadow-sm">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-stone-100">
+            <div>
+              <span class="bg-maroon-50 text-maroon text-xs font-extrabold px-2.5 py-1 rounded-full">إثبات المشكلة • استمعنا لطالباتنا</span>
+              <h3 class="text-base font-extrabold text-charcoal mt-2 flex items-center gap-2">
+                <i class="fa-solid fa-chart-bar text-maroon"></i>
+                <span>نتائج الاستبيان المدرسي (بمشاركة 120 طالبة في مدارس الريان الخاصة)</span>
+              </h3>
+            </div>
+            <button onclick="filterInventoryByCategory('ALL')" class="text-xs font-bold text-maroon hover:underline self-start sm:self-center">
+              عرض جميع الفئات بالسجل
+            </button>
+          </div>
+
+          <!-- نسب الاستبيان الرئيسية (85% و 92%) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 my-4">
+            <div class="p-3.5 rounded-xl bg-maroon-50 border border-maroon/20 flex items-center justify-between">
+              <div>
+                <div class="text-xs font-bold text-charcoal">هل فقدتِ من قبل أي غرض في المدرسة؟</div>
+                <div class="text-[11px] text-stone-600 mt-0.5">نعم: <strong>85%</strong> | لا: <strong>15%</strong></div>
+              </div>
+              <div class="text-2xl font-black text-maroon">85%</div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-between">
+              <div>
+                <div class="text-xs font-bold text-charcoal">هل ستستخدمين نظام وصل (WASL)؟</div>
+                <div class="text-[11px] text-stone-600 mt-0.5">نعم: <strong>92%</strong> | لا: <strong>8%</strong></div>
+              </div>
+              <div class="text-2xl font-black text-emerald-600">92%</div>
+            </div>
+          </div>
+
+          <h4 class="text-xs font-extrabold text-stone-600 mb-3">ما أكثر الأغراض التي يتم فقدانها؟ (اضغطي على أي فئة لتصفية الجدول أدناه):</h4>
+
+          <div class="space-y-3">
+            <!-- الآلة الحاسبة 38% -->
+            <div onclick="filterInventoryByCategory('آلة حاسبة')" class="cursor-pointer group">
+              <div class="flex justify-between text-xs font-bold mb-1">
+                <span class="group-hover:text-maroon transition"><i class="fa-solid fa-calculator text-maroon ml-1.5"></i> الآلة الحاسبة</span>
+                <span class="text-maroon font-extrabold">38%</span>
+              </div>
+              <div class="w-full h-3 bg-stone-100 rounded-full overflow-hidden">
+                <div class="h-full bg-maroon rounded-full" style="width: 38%"></div>
+              </div>
+            </div>
+
+            <!-- قارورة الماء 27% -->
+            <div onclick="filterInventoryByCategory('قارورة ماء')" class="cursor-pointer group">
+              <div class="flex justify-between text-xs font-bold mb-1">
+                <span class="group-hover:text-maroon transition"><i class="fa-solid fa-bottle-water text-sky-600 ml-1.5"></i> قارورة الماء</span>
+                <span class="text-sky-700 font-extrabold">27%</span>
+              </div>
+              <div class="w-full h-3 bg-stone-100 rounded-full overflow-hidden">
+                <div class="h-full bg-sky-500 rounded-full" style="width: 27%"></div>
+              </div>
+            </div>
+
+            <!-- المقلمة 18% -->
+            <div onclick="filterInventoryByCategory('مقلمة')" class="cursor-pointer group">
+              <div class="flex justify-between text-xs font-bold mb-1">
+                <span class="group-hover:text-maroon transition"><i class="fa-solid fa-pen-ruler text-amber-600 ml-1.5"></i> المقلمة المدرسية</span>
+                <span class="text-amber-600 font-extrabold">18%</span>
+              </div>
+              <div class="w-full h-3 bg-stone-100 rounded-full overflow-hidden">
+                <div class="h-full bg-gold rounded-full" style="width: 18%"></div>
+              </div>
+            </div>
+
+            <!-- الكتاب 11% -->
+            <div onclick="filterInventoryByCategory('كتاب')" class="cursor-pointer group">
+              <div class="flex justify-between text-xs font-bold mb-1">
+                <span class="group-hover:text-maroon transition"><i class="fa-solid fa-book-open text-emerald-600 ml-1.5"></i> الكتاب المدرسي</span>
+                <span class="text-emerald-700 font-extrabold">11%</span>
+              </div>
+              <div class="w-full h-3 bg-stone-100 rounded-full overflow-hidden">
+                <div class="h-full bg-emerald-500 rounded-full" style="width: 11%"></div>
+              </div>
+            </div>
+
+            <!-- سماعات الأذن 6% -->
+            <div onclick="filterInventoryByCategory('سماعات')" class="cursor-pointer group">
+              <div class="flex justify-between text-xs font-bold mb-1">
+                <span class="group-hover:text-maroon transition"><i class="fa-solid fa-headphones text-purple-600 ml-1.5"></i> سماعات الأذن</span>
+                <span class="text-purple-700 font-extrabold">6%</span>
+              </div>
+              <div class="w-full h-3 bg-stone-100 rounded-full overflow-hidden">
+                <div class="h-full bg-purple-500 rounded-full" style="width: 6%"></div>
+              </div>
+            </div>
+
+            <!-- أخرى أقل من 5% -->
+            <div onclick="filterInventoryByCategory('أخرى')" class="cursor-pointer group">
+              <div class="flex justify-between text-xs font-bold mb-1">
+                <span class="group-hover:text-maroon transition"><i class="fa-solid fa-box text-rose-600 ml-1.5"></i> أغراض أخرى (حقائب، صناديق طعام، ملابس)</span>
+                <span class="text-rose-700 font-extrabold">أقل من 5%</span>
+              </div>
+              <div class="w-full h-3 bg-stone-100 rounded-full overflow-hidden">
+                <div class="h-full bg-rose-500 rounded-full" style="width: 5%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ماذا قالت طالباتنا؟ ولماذا نحتاج حل وصل الذكي؟ (5 أعمدة) -->
+        <div class="lg:col-span-5 bg-gradient-to-br from-maroon to-maroon-dark text-white rounded-2xl p-6 shadow-md flex flex-col justify-between">
+          <div>
+            <div class="inline-flex items-center gap-1.5 bg-gold/20 text-gold border border-gold/40 text-xs font-bold px-3 py-1 rounded-full mb-3">
+              <i class="fa-solid fa-comments"></i> ماذا قالت طالباتنا في الاستبيان؟
+            </div>
+            <h3 class="text-lg font-extrabold leading-snug">صوت الطالبات وأسباب المشكلة</h3>
+            
+            <!-- اقتباسات الطالبات الثلاثة -->
+            <div class="space-y-2.5 mt-3 text-xs">
+              <div class="bg-white/10 p-3 rounded-xl border-r-4 border-gold">
+                <i class="fa-solid fa-quote-right text-gold ml-1"></i>
+                <span class="font-bold">"أفقد أغراضي كثيراً خصوصاً في المختبر أو الساحة."</span>
+              </div>
+              <div class="bg-white/10 p-3 rounded-xl border-r-4 border-gold">
+                <i class="fa-solid fa-quote-right text-gold ml-1"></i>
+                <span class="font-bold">"أحياناً لا يتم العثور على أغراضي مرة أخرى."</span>
+              </div>
+              <div class="bg-white/10 p-3 rounded-xl border-r-4 border-emerald-400">
+                <i class="fa-solid fa-quote-right text-emerald-300 ml-1"></i>
+                <span class="font-bold">"فكرة وصل ممتازة وستساعدنا كثيراً في استعادة ممتلكاتنا."</span>
+              </div>
+            </div>
+
+            <!-- لماذا نحتاج حل وصل الذكي؟ -->
+            <h4 class="text-xs font-extrabold text-gold uppercase mt-5 mb-2.5">لماذا نحتاج حل "وصل" الذكي؟</h4>
+            <div class="grid grid-cols-2 gap-2 text-[11px]">
+              <div class="bg-white/10 p-2.5 rounded-xl flex items-center gap-2">
+                <i class="fa-solid fa-user-question text-gold"></i>
+                <span>صعوبة تحديد صاحبة الغرض</span>
+              </div>
+              <div class="bg-white/10 p-2.5 rounded-xl flex items-center gap-2">
+                <i class="fa-solid fa-boxes-packing text-gold"></i>
+                <span>تراكم المفقودات غير المستلمة</span>
+              </div>
+              <div class="bg-white/10 p-2.5 rounded-xl flex items-center gap-2">
+                <i class="fa-solid fa-coins text-gold"></i>
+                <span>تكاليف إضافية لشراء بديل</span>
+              </div>
+              <div class="bg-white/10 p-2.5 rounded-xl flex items-center gap-2">
+                <i class="fa-solid fa-clock text-gold"></i>
+                <span>إهدار الوقت والموارد</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-white/15 text-xs text-gold-100 font-semibold">
+            الاستنتاج: هناك حاجة حقيقية لنظام ذكي يساعد في استعادة الأغراض المفقودة، والطالبات متحمسات لاستخدام "وصل".
+          </div>
+        </div>
+
+      </div>
+
+      <!-- جدول سجل المفقودات الحي القابل للبحث والتصفية -->
+      <div class="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden">
+        <div class="p-5 border-b border-stone-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h3 class="text-base font-extrabold text-charcoal flex items-center gap-2">
+              <i class="fa-solid fa-list-check text-maroon"></i>
+              <span>سجل المفقودات الحي في محطة "وصل"</span>
+            </h3>
+            <p class="text-xs text-stone-500">ابحثي باسم الطالبة، أو نوع الغرض، أو الرقم التسلسلي (مثل: سارة، حاسبة، W250318، W-1027)</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <!-- مربع البحث -->
+            <div class="relative">
+              <i class="fa-solid fa-magnifying-glass absolute right-3 top-2.5 text-stone-400 text-xs"></i>
+              <input type="text" id="inventory-search" oninput="renderInventoryTable()" placeholder="ابحثي هنا: سارة، W-1027..." class="pr-8 pl-3 py-1.5 text-xs rounded-xl border border-stone-300 focus:outline-none focus:border-maroon bg-stone-50 w-56" />
+            </div>
+
+            <!-- تصفية الحالة -->
+            <select id="inventory-status-filter" onchange="renderInventoryTable()" class="text-xs py-1.5 px-3 rounded-xl border border-stone-300 bg-stone-50 font-bold text-charcoal focus:outline-none focus:border-maroon">
+              <option value="ALL">جميع الحالات (الكل)</option>
+              <option value="في المحطة">محفوظ في المحطة</option>
+              <option value="تم التسليم">تم التسليم للطالبة</option>
+              <option value="بانتظار المطابقة">بدون ملصق (بانتظار المطابقة)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-right text-xs">
+            <thead class="bg-stone-100 text-stone-700 border-b border-stone-200">
+              <tr>
+                <th class="py-3 px-4 font-extrabold">الرقم التسلسلي</th>
+                <th class="py-3 px-4 font-extrabold">الغرض</th>
+                <th class="py-3 px-4 font-extrabold">اسم الطالبة والصف</th>
+                <th class="py-3 px-4 font-extrabold">مكان وتاريخ العثور</th>
+                <th class="py-3 px-4 font-extrabold">خزانة المحطة</th>
+                <th class="py-3 px-4 font-extrabold">الحالة</th>
+                <th class="py-3 px-4 text-center font-extrabold">الإجراء</th>
+              </tr>
+            </thead>
+            <tbody id="inventory-tbody" class="divide-y divide-stone-200">
+              <!-- يتم ملؤه ديناميكياً عبر الجافاسكريبت -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- التبويب الثاني: ماسح ملصق "وصل" الذكي                                -->
+    <!-- =================================================================== -->
+    <div id="tab-scanner" class="tab-panel hidden space-y-6 pb-10">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- العمود الأيمن: اختيار غرض موسوم للمسح الضوئي (5 أعمدة) -->
+        <div class="lg:col-span-5 space-y-4">
+          <div class="bg-white rounded-2xl p-5 border border-stone-200 shadow-sm">
+            <span class="bg-maroon-50 text-maroon text-xs font-extrabold px-2.5 py-1 rounded-full">الخطوة 1 و 2 و 3 من مسار النظام</span>
+            <h3 class="text-base font-extrabold text-charcoal mt-2">اختاري غرضاً يحمل ملصق "وصل" لمحاكاة مسحه ضوئياً</h3>
+            <p class="text-xs text-stone-500 mt-0.5">اضغطي على أي غرض من الأمثلة المدرسية التالية لقراءة رمز QR الخاص به وإظهار بيانات صاحبته فوراً:</p>
+
+            <!-- قائمة الأغراض الستة المعتمدة في المشروع -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+              
+              <button onclick="simulateScan('W250318')" class="p-3 rounded-xl border-2 border-stone-200 hover:border-maroon bg-stone-50 hover:bg-maroon-50/40 text-right transition flex items-start gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-maroon text-white flex items-center justify-center text-lg flex-shrink-0 group-hover:bg-gold group-hover:text-charcoal transition">
+                  <i class="fa-solid fa-calculator"></i>
+                </div>
+                <div>
+                  <div class="text-xs font-extrabold text-charcoal">آلة حاسبة علمية</div>
+                  <div class="text-[11px] font-mono font-bold text-maroon">W250318</div>
+                  <div class="text-[10px] text-stone-600 font-semibold">سارة محمد • الصف التاسع / أ</div>
+                </div>
+              </button>
+
+              <button onclick="simulateScan('W-1027')" class="p-3 rounded-xl border-2 border-stone-200 hover:border-maroon bg-stone-50 hover:bg-maroon-50/40 text-right transition flex items-start gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-sky-600 text-white flex items-center justify-center text-lg flex-shrink-0 group-hover:bg-gold group-hover:text-charcoal transition">
+                  <i class="fa-solid fa-bottle-water"></i>
+                </div>
+                <div>
+                  <div class="text-xs font-extrabold text-charcoal">قارورة ماء</div>
+                  <div class="text-[11px] font-mono font-bold text-maroon">W-1027</div>
+                  <div class="text-[10px] text-stone-600 font-semibold">مريم علي • الصف العاشر / 2</div>
+                </div>
+              </button>
+
+              <button onclick="simulateScan('W-1032')" class="p-3 rounded-xl border-2 border-stone-200 hover:border-maroon bg-stone-50 hover:bg-maroon-50/40 text-right transition flex items-start gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-lg flex-shrink-0 group-hover:bg-gold group-hover:text-charcoal transition">
+                  <i class="fa-solid fa-book"></i>
+                </div>
+                <div>
+                  <div class="text-xs font-extrabold text-charcoal">كتاب الرياضيات</div>
+                  <div class="text-[11px] font-mono font-bold text-maroon">W-1032</div>
+                  <div class="text-[10px] text-stone-600 font-semibold">عائشة خالد • الصف العاشر / 1</div>
+                </div>
+              </button>
+
+              <button onclick="simulateScan('W-1068')" class="p-3 rounded-xl border-2 border-stone-200 hover:border-maroon bg-stone-50 hover:bg-maroon-50/40 text-right transition flex items-start gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-rose-600 text-white flex items-center justify-center text-lg flex-shrink-0 group-hover:bg-gold group-hover:text-charcoal transition">
+                  <i class="fa-solid fa-flask"></i>
+                </div>
+                <div>
+                  <div class="text-xs font-extrabold text-charcoal">كتاب العلوم</div>
+                  <div class="text-[11px] font-mono font-bold text-maroon">W-1068</div>
+                  <div class="text-[10px] text-stone-600 font-semibold">نورة الكواري • الصف الثامن / ب</div>
+                </div>
+              </button>
+
+              <button onclick="simulateScan('W-1051')" class="p-3 rounded-xl border-2 border-stone-200 hover:border-maroon bg-stone-50 hover:bg-maroon-50/40 text-right transition flex items-start gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-amber-600 text-white flex items-center justify-center text-lg flex-shrink-0 group-hover:bg-gold group-hover:text-charcoal transition">
+                  <i class="fa-solid fa-pen-ruler"></i>
+                </div>
+                <div>
+                  <div class="text-xs font-extrabold text-charcoal">مقلمة مدرسية</div>
+                  <div class="text-[11px] font-mono font-bold text-maroon">W-1051</div>
+                  <div class="text-[10px] text-stone-600 font-semibold">فاطمة المري • الصف التاسع / أ</div>
+                </div>
+              </button>
+
+              <button onclick="simulateScan('W-1080')" class="p-3 rounded-xl border-2 border-stone-200 hover:border-maroon bg-stone-50 hover:bg-maroon-50/40 text-right transition flex items-start gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center text-lg flex-shrink-0 group-hover:bg-gold group-hover:text-charcoal transition">
+                  <i class="fa-solid fa-briefcase"></i>
+                </div>
+                <div>
+                  <div class="text-xs font-extrabold text-charcoal">حقيبة مدرسية</div>
+                  <div class="text-[11px] font-mono font-bold text-maroon">W-1080</div>
+                  <div class="text-[10px] text-stone-600 font-semibold">دانة المهندي • الحادي عشر / 1</div>
+                </div>
+              </button>
+
+            </div>
+
+            <!-- الإدخال اليدوي للرقم التسلسلي -->
+            <div class="mt-5 pt-4 border-t border-stone-200">
+              <label class="block text-xs font-bold text-charcoal mb-1.5">أو أدخلي الرقم التسلسلي للملصق يدوياً:</label>
+              <div class="flex gap-2">
+                <input type="text" id="manual-serial-input" placeholder="مثال: W250318 أو W-1027" class="flex-1 px-3 py-2 text-xs font-mono uppercase rounded-xl border border-stone-300 bg-stone-50 focus:outline-none focus:border-maroon" />
+                <button onclick="handleManualSerialScan()" class="bg-maroon hover:bg-maroon-dark text-white text-xs font-bold px-4 py-2 rounded-xl transition">
+                  فحص الرمز
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- بطاقة مواصفات ملصق وصل الذكي -->
+          <div class="bg-white rounded-2xl p-5 border border-stone-200 shadow-sm">
+            <h4 class="text-xs font-extrabold text-maroon mb-3">
+              مواصفات ملصق "وصل" الذكي (تظهر بيانات الطالبة بعد المسح فقط)
+            </h4>
+            <div class="grid grid-cols-2 gap-2.5 text-xs font-semibold">
+              <div class="p-2.5 rounded-xl bg-stone-50 border border-stone-200 flex items-center gap-2">
+                <i class="fa-solid fa-droplet-slash text-sky-600"></i>
+                <span>مقاوم للماء</span>
+              </div>
+              <div class="p-2.5 rounded-xl bg-stone-50 border border-stone-200 flex items-center gap-2">
+                <i class="fa-solid fa-shield-halved text-maroon"></i>
+                <span>ملصق متين وعملي</span>
+              </div>
+              <div class="p-2.5 rounded-xl bg-stone-50 border border-stone-200 flex items-center gap-2">
+                <i class="fa-solid fa-bolt text-amber-500"></i>
+                <span>سهل المسح (رمز QR)</span>
+              </div>
+              <div class="p-2.5 rounded-xl bg-stone-50 border border-stone-200 flex items-center gap-2">
+                <i class="fa-solid fa-compress text-emerald-600"></i>
+                <span>صغير الحجم ومناسب لكل الأدوات</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- العمود الأيسر: شاشة التابلت التفاعلي وبطاقة بيانات الطالبة (7 أعمدة) -->
+        <div class="lg:col-span-7">
+          <div class="bg-charcoal text-white rounded-3xl p-6 shadow-xl border-4 border-stone-700 relative">
+            
+            <!-- شريط حالة التابلت -->
+            <div class="flex items-center justify-between pb-4 mb-4 border-b border-stone-700 text-xs text-stone-300">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                <span class="font-bold text-white">الشاشة التفاعلية لمحطة "وصل" المدرسية</span>
+              </div>
+              <div class="font-bold text-gold">قارئ الرموز الذكي جاهز</div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+              
+              <!-- نافذة الكاميرا والليزر والملصق الذكي -->
+              <div class="flex flex-col items-center">
+                <div id="scanner-viewport" class="relative w-56 h-64 rounded-2xl bg-stone-900 border-2 border-gold/60 flex flex-col items-center justify-center p-4 overflow-hidden shadow-inner">
+                  <!-- خط الليزر المتحرك -->
+                  <div id="scanner-laser" class="laser-line"></div>
+
+                  <!-- مجسم ملصق وصل الذكي -->
+                  <div class="bg-white text-charcoal rounded-2xl p-3.5 w-44 shadow-lg border-2 border-stone-200 text-center">
+                    <div class="flex items-center justify-center gap-1 font-black text-maroon text-sm">
+                      <i class="fa-solid fa-location-dot text-gold"></i>
+                      <span>وصل</span>
+                    </div>
+                    <div class="my-2 p-2 bg-stone-100 rounded-xl flex items-center justify-center">
+                      <i class="fa-solid fa-qrcode text-6xl text-charcoal" id="tag-qr-icon"></i>
+                    </div>
+                    <div id="tag-preview-id" class="font-mono font-black text-xs bg-gold/30 text-charcoal py-1 px-2 rounded-lg tracking-widest">
+                      W250318
+                    </div>
+                  </div>
+
+                  <p id="scan-status-text" class="text-[11px] text-gold mt-3 font-bold text-center">
+                    تم التعرف على الملصق الذكي بنجاح ✓
+                  </p>
+                </div>
+              </div>
+
+              <!-- بطاقة ظهور بيانات الطالبة بعد المسح -->
+              <div id="student-result-card" class="bg-white text-charcoal rounded-2xl p-5 shadow-lg border-t-4 border-emerald-500">
+                <div class="flex items-center justify-between mb-3">
+                  <span class="bg-emerald-100 text-emerald-800 text-xs font-extrabold px-2.5 py-1 rounded-full flex items-center gap-1">
+                    <i class="fa-solid fa-circle-check"></i> تم العثور على البيانات
+                  </span>
+                  <span id="card-serial-badge" class="font-mono text-xs font-bold text-maroon bg-maroon-50 px-2.5 py-0.5 rounded">W250318</span>
+                </div>
+
+                <div class="space-y-2.5 text-xs border-y border-stone-200 py-3 my-2">
+                  <div class="flex justify-between">
+                    <span class="text-stone-500 font-bold">اسم الطالبة:</span>
+                    <span id="card-student-name" class="font-extrabold text-charcoal text-sm">سارة محمد</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-stone-500 font-bold">الصف والشعبة:</span>
+                    <span id="card-student-grade" class="font-bold text-maroon">الصف التاسع — الشعبة أ</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-stone-500 font-bold">الغرض:</span>
+                    <span id="card-item-name" class="font-bold text-charcoal">آلة حاسبة علمية</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-stone-500 font-bold">الحالة:</span>
+                    <span class="font-extrabold text-emerald-600">تم العثور عليه</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-stone-500 font-bold">مكان العثور:</span>
+                    <select id="scan-location-select" class="text-xs font-bold bg-stone-100 border border-stone-300 rounded-lg px-2 py-1 text-charcoal">
+                      <option value="المختبر">المختبر</option>
+                      <option value="المكتبة">المكتبة</option>
+                      <option value="الفصل الدراسي">الفصل الدراسي</option>
+                      <option value="الساحة المدرسية">الساحة المدرسية</option>
+                      <option value="الصالة الرياضية">الصالة الرياضية</option>
+                    </select>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-stone-500 font-bold">تخصيص خزانة بالمحطة:</span>
+                    <select id="scan-box-select" class="text-xs font-bold bg-gold-50 border border-gold rounded-lg px-2 py-1 text-charcoal">
+                      <!-- يتم ملؤه بالخزائن المتاحة -->
+                    </select>
+                  </div>
+                </div>
+
+                <!-- أزرار الحفظ أو التسليم الفوري -->
+                <div class="space-y-2 mt-4">
+                  <button onclick="storeScannedItemInStation()" class="w-full bg-maroon hover:bg-maroon-dark text-white font-bold text-xs py-2.5 px-4 rounded-xl shadow flex items-center justify-center gap-2 transition">
+                    <i class="fa-solid fa-box-open text-gold"></i>
+                    <span>حفظ في خزانة المحطة وإرسال إشعار للطالبة</span>
+                  </button>
+                  <button onclick="directReturnScannedItem()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-2 px-4 rounded-xl flex items-center justify-center gap-2 transition">
+                    <i class="fa-solid fa-handshake"></i>
+                    <span>تسليم فوري للطالبة</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- التبويب الثالث: محطة "وصل" الرقمية (16 خزانة ذكية مرقمة 01 إلى 16)   -->
+    <!-- =================================================================== -->
+    <div id="tab-station" class="tab-panel hidden space-y-6 pb-10">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- شبكة الخزائن المرقمة من 01 إلى 16 (8 أعمدة) -->
+        <div class="lg:col-span-8 bg-white rounded-3xl p-6 border-2 border-stone-200 shadow-sm">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-5 border-b border-stone-200">
+            <div>
+              <span class="bg-gold/25 text-charcoal text-xs font-extrabold px-2.5 py-0.5 rounded-full">تصميم مخصص للمدرسة • وحدات تخزين آمنة ومرقمة</span>
+              <h3 class="text-lg font-black text-maroon mt-1">محطة "وصل" للمفقودات (الخزائن الذكية 01 إلى 16)</h3>
+              <p class="text-xs text-stone-500">اضغطي على أي خزانة لعرض بيانات الغرض المحفوظ بداخلها أو التحقق من الطالبة وتسليمه لها</p>
+            </div>
+
+            <!-- مفتاح الألوان -->
+            <div class="flex items-center gap-3 text-xs font-bold">
+              <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-maroon inline-block"></span> مشغولة</span>
+              <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-emerald-100 border border-emerald-500 inline-block"></span> متاحة</span>
+            </div>
+          </div>
+
+          <!-- شبكة الخزائن 4×4 -->
+          <div id="locker-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <!-- يتم بناؤها عبر الجافاسكريبت -->
+          </div>
+        </div>
+
+        <!-- لوحة معاينة الخزانة والتحقق من الطالبة (4 أعمدة) -->
+        <div class="lg:col-span-4">
+          <div id="locker-inspector" class="bg-white rounded-3xl p-6 border-2 border-maroon/20 shadow-md sticky top-24">
+            <!-- يتم ملؤها عند اختيار أي خزانة -->
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- التبويب الرابع: الأغراض بدون ملصق (بروتوكول الأغراض غير الموسومة)    -->
+    <!-- =================================================================== -->
+    <div id="tab-untagged" class="tab-panel hidden space-y-6 pb-10">
+      
+      <!-- لافتة توضيحية للخطوات الست للأغراض بدون ملصق -->
+      <div class="bg-gradient-to-r from-maroon to-maroon-light text-white rounded-2xl p-5 shadow flex flex-col md:flex-row items-center justify-between gap-4">
+        <div>
+          <span class="bg-gold text-charcoal text-xs font-black px-2.5 py-0.5 rounded-full">بروتوكول الأغراض غير الموسومة</span>
+          <h3 class="text-lg font-extrabold mt-1">ماذا عن الأغراض التي لا تحمل ملصق "وصل"؟</h3>
+          <p class="text-xs text-gold-100 mt-0.5">
+            في حال العثور على غرض بدون ملصق، يتم اتباع 6 خطوات منظمة لتسجيله وتصويره وربطه بصاحبته المحتملة.
+          </p>
+        </div>
+        <div class="grid grid-cols-3 sm:grid-cols-6 gap-1.5 text-[11px] font-bold text-center w-full md:w-auto">
+          <div class="bg-white/15 px-2.5 py-1.5 rounded-lg">1. استلام الغرض</div>
+          <div class="bg-white/15 px-2.5 py-1.5 rounded-lg">2. تصوير الغرض</div>
+          <div class="bg-white/15 px-2.5 py-1.5 rounded-lg">3. تسجيل البيانات</div>
+          <div class="bg-white/15 px-2.5 py-1.5 rounded-lg">4. تحديد الصاحبة</div>
+          <div class="bg-white/15 px-2.5 py-1.5 rounded-lg">5. إشعار الطالبات</div>
+          <div class="bg-white/15 px-2.5 py-1.5 rounded-lg">6. التحقق والتسليم</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- الخطوات 1 و 2 و 3: استلام وتصوير وتسجيل بيانات الغرض (5 أعمدة) -->
+        <div class="lg:col-span-5 bg-white rounded-2xl p-6 border border-stone-200 shadow-sm space-y-4">
+          <h4 class="text-sm font-extrabold text-charcoal flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-maroon text-white text-xs flex items-center justify-center">1</span>
+            <span>تصوير الغرض وتسجيل بياناته في نقطة "وصل"</span>
+          </h4>
+
+          <!-- أمثلة لأغراض بدون ملصق -->
+          <div>
+            <label class="block text-xs text-stone-500 font-bold mb-2">اختاري مثالاً لغرض تم العثور عليه بدون ملصق:</label>
+            <div class="grid grid-cols-3 gap-2">
+              <button onclick="loadUntaggedPreset('lunchbox')" class="p-2.5 rounded-xl border border-stone-200 hover:border-maroon bg-stone-50 text-center transition">
+                <i class="fa-solid fa-box-tissue text-pink-500 text-xl"></i>
+                <div class="text-[11px] font-extrabold mt-1">صندوق طعام</div>
+                <div class="text-[10px] text-stone-500">اللون: وردي</div>
+              </button>
+              <button onclick="loadUntaggedPreset('pencilcase')" class="p-2.5 rounded-xl border border-stone-200 hover:border-maroon bg-stone-50 text-center transition">
+                <i class="fa-solid fa-pen-clip text-charcoal text-xl"></i>
+                <div class="text-[11px] font-extrabold mt-1">مقلمة مدرسية</div>
+                <div class="text-[10px] text-stone-500">اللون: أسود بقلوب</div>
+              </button>
+              <button onclick="loadUntaggedPreset('bottle')" class="p-2.5 rounded-xl border border-stone-200 hover:border-maroon bg-stone-50 text-center transition">
+                <i class="fa-solid fa-bottle-water text-sky-600 text-xl"></i>
+                <div class="text-[11px] font-extrabold mt-1">قارورة ماء</div>
+                <div class="text-[10px] text-stone-500">اللون: وردي معدني</div>
+              </button>
+            </div>
+          </div>
+
+          <!-- نموذج إدخال البيانات -->
+          <div class="space-y-3 pt-2">
+            <div>
+              <label class="block text-xs font-bold text-charcoal mb-1">نوع الغرض:</label>
+              <input type="text" id="untagged-type" value="صندوق طعام" class="w-full px-3 py-2 text-xs rounded-xl border border-stone-300 bg-stone-50 font-bold" />
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-bold text-charcoal mb-1">اللون:</label>
+                <input type="text" id="untagged-color" value="وردي" class="w-full px-3 py-2 text-xs rounded-xl border border-stone-300 bg-stone-50 font-bold" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-charcoal mb-1">مكان العثور عليه:</label>
+                <select id="untagged-location" class="w-full px-3 py-2 text-xs rounded-xl border border-stone-300 bg-stone-50 font-bold">
+                  <option value="الفصل الدراسي">الفصل الدراسي</option>
+                  <option value="الساحة المدرسية">الساحة المدرسية</option>
+                  <option value="المختبر">المختبر</option>
+                  <option value="المكتبة">المكتبة</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-charcoal mb-1">تاريخ العثور:</label>
+              <input type="text" id="untagged-date" value="14/10/2026" class="w-full px-3 py-2 text-xs rounded-xl border border-stone-300 bg-stone-50 font-mono font-bold" />
+            </div>
+
+            <button onclick="runUntaggedMatcher()" class="w-full bg-maroon hover:bg-maroon-dark text-white font-bold text-xs py-3 rounded-xl shadow flex items-center justify-center gap-2 transition">
+              <i class="fa-solid fa-magnifying-glass-plus text-gold"></i>
+              <span>حفظ البيانات والبحث عن الطالبات المحتملات</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- الخطوات 4 و 5 و 6: قائمة التطابق المحتمل وسياسة الـ 30 يوماً (7 أعمدة) -->
+        <div class="lg:col-span-7 space-y-4">
+          
+          <div class="bg-white rounded-2xl p-6 border border-stone-200 shadow-sm">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 mb-4 border-b border-stone-200">
+              <div>
+                <h4 class="text-sm font-extrabold text-charcoal flex items-center gap-2">
+                  <i class="fa-solid fa-users-viewfinder text-maroon"></i>
+                  <span>إشعار الطالبات المحتملات (نتائج المطابقة بالوصف والصورة المشابهة)</span>
+                </h4>
+                <p class="text-xs text-stone-500">يتم إرسال إشعار للطالبات المعنيات عبر النظام للتواصل مع نقطة "وصل" واستلام الغرض بعد التحقق</p>
+              </div>
+              <button onclick="notifyAllMatches()" class="bg-gold hover:bg-gold-light text-charcoal text-xs font-extrabold px-3.5 py-2 rounded-xl transition flex-shrink-0">
+                إرسال إشعار للجميع
+              </button>
+            </div>
+
+            <div id="untagged-matches-list" class="space-y-3">
+              <!-- يتم ملؤها عبر الجافاسكريبت -->
+            </div>
+          </div>
+
+          <!-- سياسة عدم الاستلام (ما الحل إذا لم يتم تحديد صاحبة الغرض؟) -->
+          <div class="bg-white rounded-2xl p-5 border border-stone-200 shadow-sm">
+            <h4 class="text-xs font-extrabold text-maroon mb-3">
+              ما الحل إذا لم يتم تحديد صاحبة الغرض؟ (سياسة المدرسة للأغراض غير المستلمة)
+            </h4>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              <div class="p-3.5 rounded-xl bg-stone-50 border border-stone-200">
+                <div class="font-extrabold text-charcoal flex items-center gap-1.5">
+                  <i class="fa-solid fa-clock text-amber-600"></i> 1. الحفظ لمدة 30 يوماً
+                </div>
+                <p class="text-[11px] text-stone-600 mt-1 leading-relaxed">يحفظ الغرض بأمان في نقطة "وصل" لمدة محددة (30 يوماً) لإتاحة الفرصة للطالبة لمراجعته.</p>
+              </div>
+              <div class="p-3.5 rounded-xl bg-stone-50 border border-stone-200">
+                <div class="font-extrabold text-charcoal flex items-center gap-1.5">
+                  <i class="fa-solid fa-bullhorn text-sky-600"></i> 2. الإعلان الداخلي
+                </div>
+                <p class="text-[11px] text-stone-600 mt-1 leading-relaxed">يتم الإعلان عن الغرض عبر وسائل التواصل الداخلية (الإذاعة المدرسية / الشاشات / تطبيق تيمز).</p>
+              </div>
+              <div class="p-3.5 rounded-xl bg-stone-50 border border-stone-200">
+                <div class="font-extrabold text-charcoal flex items-center gap-1.5">
+                  <i class="fa-solid fa-hand-holding-heart text-emerald-600"></i> 3. التبرع وفق سياسة المدرسة
+                </div>
+                <p class="text-[11px] text-stone-600 mt-1 leading-relaxed">إذا لم يتم استلامه بعد انتهاء المدة، يتم التبرع به وفق سياسة المدرسة تحقيقاً للاستدامة وتقليل الهدر.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- قسم الأثر المتوقع، والباقة الكاملة والتسعير، وخطة التوسع والاستدامة   -->
+    <!-- =================================================================== -->
+    <section class="space-y-6 pb-12 border-t border-stone-200 pt-8">
+      
+      <!-- أولاً: مؤشرات الأثر القابلة للقياس -->
+      <div class="bg-white rounded-2xl p-6 border border-stone-200 shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+          <div>
+            <span class="bg-gold/30 text-charcoal text-xs font-extrabold px-3 py-1 rounded-full">الأثر المتوقع ومؤشرات القياس</span>
+            <h3 class="text-base font-extrabold text-charcoal mt-2">مؤشرات أثر قابلة للقياس (قبل "وصل" مقابل بعد "وصل")</h3>
+          </div>
+          <span class="text-xs font-bold text-maroon">تنظيم أفضل • تقليل الهدر • تعزيز المسؤولية</span>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 text-center text-xs">
+          <div class="p-3.5 rounded-xl bg-stone-50 border border-stone-200">
+            <i class="fa-solid fa-rotate-left text-maroon text-xl mb-1.5"></i>
+            <div class="font-extrabold text-charcoal">نسبة استعادة المفقودات</div>
+            <div class="text-[11px] text-stone-500 mt-0.5">ارتفاع ملموس في عودة الأغراض</div>
+          </div>
+          <div class="p-3.5 rounded-xl bg-stone-50 border border-stone-200">
+            <i class="fa-solid fa-stopwatch text-emerald-600 text-xl mb-1.5"></i>
+            <div class="font-extrabold text-charcoal">متوسط زمن إعادة الغرض</div>
+            <div class="text-[11px] text-stone-500 mt-0.5">استرجاع سريع بدلاً من البحث اليدوي</div>
+          </div>
+          <div class="p-3.5 rounded-xl bg-stone-50 border border-stone-200">
+            <i class="fa-solid fa-box-open text-amber-600 text-xl mb-1.5"></i>
+            <div class="font-extrabold text-charcoal">عدد المفقودات غير المستلمة</div>
+            <div class="text-[11px] text-stone-500 mt-0.5">القضاء على تكدس الأغراض بالمدرسة</div>
+          </div>
+          <div class="p-3.5 rounded-xl bg-stone-50 border border-stone-200">
+            <i class="fa-solid fa-wallet text-sky-600 text-xl mb-1.5"></i>
+            <div class="font-extrabold text-charcoal">مرات استبدال الأغراض</div>
+            <div class="text-[11px] text-stone-500 mt-0.5">توفير الأعباء المالية على أولياء الأمور</div>
+          </div>
+          <div class="p-3.5 rounded-xl bg-stone-50 border border-stone-200 col-span-2 sm:col-span-1">
+            <i class="fa-solid fa-face-smile-beam text-purple-600 text-xl mb-1.5"></i>
+            <div class="font-extrabold text-charcoal">رضا الطالبات والمعلمات</div>
+            <div class="text-[11px] text-stone-500 mt-0.5">بيئة مدرسية أكثر سعادة وأماناً</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ثانياً: الباقة الكاملة والتسعير + خطة التوسع والعائد المالي -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- الباقة الكاملة والتسعير (5 أعمدة) -->
+        <div class="lg:col-span-5 bg-white rounded-2xl p-6 border border-stone-200 shadow-sm flex flex-col justify-between">
+          <div>
+            <span class="bg-maroon-50 text-maroon text-xs font-extrabold px-3 py-1 rounded-full">مكونات الباقة الكاملة والتسعير</span>
+            <h3 class="text-base font-extrabold text-charcoal mt-2">حل متكامل وجاهز للتطبيق في المدارس</h3>
+
+            <div class="space-y-3 mt-4">
+              <!-- باقة التأسيس -->
+              <div class="p-4 rounded-2xl bg-maroon text-white">
+                <div class="flex items-center justify-between">
+                  <span class="font-extrabold text-sm text-gold">باقة التأسيس (السنة الأولى)</span>
+                  <span class="text-xl font-black">20,000 ريال قطري</span>
+                </div>
+                <ul class="mt-2.5 space-y-1 text-xs text-gold-100">
+                  <li>• محطة "وصل" بتصميم مخصص للمدرسة ووحدات تخزين مرقمة</li>
+                  <li>• جهاز لوحي تفاعلي (تابلت) وماسح ضوئي للرموز</li>
+                  <li>• إعداد النظام الرقمي المتكامل ولوحة التقارير</li>
+                  <li>• الحزمة الأولى من ملصقات "وصل" الذكية المقاومة للماء</li>
+                  <li>• تدريب عملي للموظفات + صيانة ودعم فني لمدة سنة كاملة</li>
+                </ul>
+              </div>
+
+              <!-- الاشتراك السنوي -->
+              <div class="p-4 rounded-2xl bg-stone-50 border-2 border-gold">
+                <div class="flex items-center justify-between">
+                  <span class="font-extrabold text-sm text-charcoal">الاشتراك السنوي (من السنة الثانية)</span>
+                  <span class="text-lg font-black text-maroon">4,000 ريال قطري</span>
+                </div>
+                <p class="mt-1.5 text-xs text-stone-600">
+                  يشمل ترخيص النظام الرقمي، لوحة التحكم والتقارير الإحصائية، الدعم الفني المستمر، التحديثات الدورية، مع توفر حزم ملصقات إضافية.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- خطة التوسع والاستدامة المالية (7 أعمدة) -->
+        <div class="lg:col-span-7 bg-white rounded-2xl p-6 border border-stone-200 shadow-sm flex flex-col justify-between">
+          <div>
+            <span class="bg-emerald-50 text-emerald-800 text-xs font-extrabold px-3 py-1 rounded-full">من مبادرة مدرسية إلى أثر أوسع</span>
+            <h3 class="text-base font-extrabold text-charcoal mt-2">خطة التوسع التدريجي والاستدامة المالية (حل قطري بإمكانيات عالمية)</h3>
+
+            <!-- المراحل الثلاث -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4 text-xs">
+              <div class="p-3.5 rounded-xl bg-stone-50 border-r-4 border-maroon">
+                <div class="font-black text-maroon">المرحلة الأولى: داخل مدارسنا</div>
+                <p class="text-stone-600 mt-1 text-[11px]">تطبيق النظام في جميع المراحل داخل مدارس الريان الخاصة وتوعية الطالبات والمعلمات.</p>
+              </div>
+              <div class="p-3.5 rounded-xl bg-stone-50 border-r-4 border-gold">
+                <div class="font-black text-amber-700">المرحلة الثانية: التوسع المحلي</div>
+                <p class="text-stone-600 mt-1 text-[11px]">التوسع في دولة قطر ليشمل المدارس الحكومية والخاصة والمراكز التعليمية والجامعات.</p>
+              </div>
+              <div class="p-3.5 rounded-xl bg-stone-50 border-r-4 border-emerald-600">
+                <div class="font-black text-emerald-700">المرحلة الثالثة: إقليمياً ودولياً</div>
+                <p class="text-stone-600 mt-1 text-[11px]">التوسع إلى دول مجلس التعاون الخليجي ومنطقة الشرق الأوسط والأسواق العالمية.</p>
+              </div>
+            </div>
+
+            <!-- العائد المالي المتوقع في 3 سنوات -->
+            <h4 class="text-xs font-extrabold text-charcoal mt-5 mb-2.5">العائد المالي المتوقع ونموذج تحقيق الأرباح (بيع الملصقات • اشتراكات المنصة • حلول مخصصة • رعايات):</h4>
+            <div class="grid grid-cols-3 gap-3 text-center">
+              <div class="p-3 rounded-xl bg-maroon-50 border border-maroon/20">
+                <div class="text-xs font-bold text-stone-600">السنة الأولى</div>
+                <div class="text-lg font-black text-maroon mt-0.5">50,000 ر.ق</div>
+              </div>
+              <div class="p-3 rounded-xl bg-gold-50 border border-gold">
+                <div class="text-xs font-bold text-stone-600">السنة الثانية</div>
+                <div class="text-lg font-black text-amber-700 mt-0.5">150,000 ر.ق</div>
+              </div>
+              <div class="p-3 rounded-xl bg-emerald-50 border border-emerald-300">
+                <div class="text-xs font-bold text-stone-600">السنة الثالثة</div>
+                <div class="text-lg font-black text-emerald-700 mt-0.5">+300,000 ر.ق</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+  <!-- حاوية الإشعارات الفورية (توست بالعربية) -->
+  <div id="toast-container" class="fixed bottom-5 left-5 z-50 space-y-2 max-w-sm w-full pointer-events-none"></div>
+
+  <!-- الفوتر الختامي -->
+  <footer class="bg-charcoal text-stone-300 border-t-4 border-maroon mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+      <div class="flex items-center gap-2 font-bold text-white">
+        <span class="w-2.5 h-2.5 rounded-full bg-gold"></span>
+        <span>مشروع "وصل" المدرسي — مدارس الريان الخاصة (بنات) | وزارة التربية والتعليم والتعليم العالي - دولة قطر</span>
+      </div>
+      <div class="text-gold font-bold">
+        معاً لبيئة مدرسية أفضل... استثمار اليوم لمجتمع أكثر تنظيماً واستدامة غداً
+      </div>
+    </div>
+  </footer>
+
+  <!-- المنطق البرمجي التفاعلي (باللغة العربية الكاملة) -->
+  <script>
+    // =========================================================================
+    // 1. حالة البيانات الأساسية للمشروع
+    // =========================================================================
+    const state = {
+      kpi: {
+        total: 128,
+        returned: 96,
+        inStation: 32,
+        thisWeek: 8
+      },
+      selectedScanId: 'W250318',
+      selectedLockerNumber: 3,
+      activeCategoryFilter: 'ALL',
+
+      // قاعدة بيانات الملصقات الذكية الستة
+      tagCatalog: {
+        'W250318': {
+          id: 'W250318',
+          item: 'آلة حاسبة علمية',
+          category: 'آلة حاسبة',
+          student: 'سارة محمد',
+          grade: 'التاسع',
+          section: 'أ',
+          location: 'المختبر',
+          icon: 'fa-calculator'
+        },
+        'W-1027': {
+          id: 'W-1027',
+          item: 'قارورة ماء',
+          category: 'قارورة ماء',
+          student: 'مريم علي',
+          grade: 'العاشر',
+          section: '2',
+          location: 'المكتبة',
+          icon: 'fa-bottle-water'
+        },
+        'W-1032': {
+          id: 'W-1032',
+          item: 'كتاب الرياضيات',
+          category: 'كتاب',
+          student: 'عائشة خالد',
+          grade: 'العاشر',
+          section: '1',
+          location: 'الفصل الدراسي',
+          icon: 'fa-book'
+        },
+        'W-1068': {
+          id: 'W-1068',
+          item: 'كتاب العلوم',
+          category: 'كتاب',
+          student: 'نورة الكواري',
+          grade: 'الثامن',
+          section: 'ب',
+          location: 'المختبر',
+          icon: 'fa-flask'
+        },
+        'W-1051': {
+          id: 'W-1051',
+          item: 'مقلمة مدرسية',
+          category: 'مقلمة',
+          student: 'فاطمة المري',
+          grade: 'التاسع',
+          section: 'أ',
+          location: 'الساحة المدرسية',
+          icon: 'fa-pen-ruler'
+        },
+        'W-1080': {
+          id: 'W-1080',
+          item: 'حقيبة مدرسية',
+          category: 'أخرى',
+          student: 'دانة المهندي',
+          grade: 'الحادي عشر',
+          section: '1',
+          location: 'الصالة الرياضية',
+          icon: 'fa-briefcase'
+        }
+      },
+
+      // سجل المفقودات الحي في المحطة
+      inventory: [
+        {
+          id: 'W250318',
+          item: 'آلة حاسبة علمية',
+          category: 'آلة حاسبة',
+          student: 'سارة محمد (الصف التاسع - أ)',
+          location: 'المختبر',
+          date: '15/09/2026',
+          box: 3,
+          status: 'في المحطة',
+          icon: 'fa-calculator'
+        },
+        {
+          id: 'W-1027',
+          item: 'قارورة ماء',
+          category: 'قارورة ماء',
+          student: 'مريم علي (الصف العاشر - 2)',
+          location: 'المكتبة',
+          date: '14/10/2026',
+          box: 1,
+          status: 'في المحطة',
+          icon: 'fa-bottle-water'
+        },
+        {
+          id: 'W-1032',
+          item: 'كتاب الرياضيات',
+          category: 'كتاب',
+          student: 'عائشة خالد (الصف العاشر - 1)',
+          location: 'الفصل الدراسي',
+          date: '14/10/2026',
+          box: 5,
+          status: 'في المحطة',
+          icon: 'fa-book'
+        },
+        {
+          id: 'W-1068',
+          item: 'كتاب العلوم',
+          category: 'كتاب',
+          student: 'نورة الكواري (الصف الثامن - ب)',
+          location: 'المختبر',
+          date: '13/10/2026',
+          box: 8,
+          status: 'في المحطة',
+          icon: 'fa-flask'
+        },
+        {
+          id: 'W-1051',
+          item: 'مقلمة مدرسية',
+          category: 'مقلمة',
+          student: 'فاطمة المري (الصف التاسع - أ)',
+          location: 'الساحة المدرسية',
+          date: '12/10/2026',
+          box: 11,
+          status: 'في المحطة',
+          icon: 'fa-pen-ruler'
+        },
+        {
+          id: 'W-1080',
+          item: 'حقيبة مدرسية',
+          category: 'أخرى',
+          student: 'دانة المهندي (الصف الحادي عشر - 1)',
+          location: 'الصالة الرياضية',
+          date: '12/10/2026',
+          box: 12,
+          status: 'في المحطة',
+          icon: 'fa-briefcase'
+        },
+        {
+          id: 'بدون-ملصق-1',
+          item: 'صندوق طعام وردي',
+          category: 'أخرى',
+          student: 'بانتظار المطابقة (3 طالبات محتملات)',
+          location: 'الفصل الدراسي',
+          date: '14/10/2026',
+          box: 14,
+          status: 'بانتظار المطابقة',
+          icon: 'fa-box-tissue'
+        },
+        {
+          id: 'W-1047',
+          item: 'سماعات أذن لاسلكية',
+          category: 'سماعات',
+          student: 'موضي آل ثاني (الصف العاشر - أ)',
+          location: 'المكتبة',
+          date: '10/10/2026',
+          box: null,
+          status: 'تم التسليم',
+          icon: 'fa-headphones'
+        }
+      ],
+
+      // قائمة التطابق المحتمل للأغراض بدون ملصق
+      untaggedMatches: [
+        { id: 1, name: 'سارة محمد', grade: 'الصف التاسع - الشعبة أ', item: 'صندوق طعام وردي', confidence: 'تطابق 96%', notified: false, delivered: false },
+        { id: 2, name: 'مريم علي', grade: 'الصف التاسع - الشعبة ب', item: 'صندوق طعام وردي', confidence: 'تطابق 89%', notified: false, delivered: false },
+        { id: 3, name: 'عائشة خالد', grade: 'الصف العاشر - الشعبة 1', item: 'صندوق طعام وردي', confidence: 'تطابق 78%', notified: false, delivered: false }
+      ]
+    };
+
+    // =========================================================================
+    // 2. التنقل بين التبويبات وشريط الخطوات الست
+    // =========================================================================
+    function switchTab(tabId) {
+      const tabs = ['dashboard', 'scanner', 'station', 'untagged'];
+      tabs.forEach(t => {
+        const panel = document.getElementById(`tab-${t}`);
+        const btn = document.getElementById(`tab-btn-${t}`);
+        if (t === tabId) {
+          panel.classList.remove('hidden');
+          btn.className = 'tab-btn flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl font-bold text-sm transition bg-maroon text-white shadow';
+        } else {
+          panel.classList.add('hidden');
+          btn.className = 'tab-btn flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl font-bold text-sm transition text-charcoal hover:bg-stone-100';
+        }
+      });
+
+      if (tabId === 'scanner') populateAvailableBoxDropdown();
+      if (tabId === 'station') {
+        renderLockerGrid();
+        renderLockerInspector(state.selectedLockerNumber);
+      }
+      if (tabId === 'untagged') renderUntaggedMatches();
+    }
+
+    function triggerWorkflowStep(stepNum) {
+      for (let i = 1; i <= 6; i++) {
+        const el = document.getElementById(`step-btn-${i}`);
+        if (i === stepNum) {
+          el.classList.add('ring-2', 'ring-maroon', 'bg-gold-50');
+        } else {
+          el.classList.remove('ring-2', 'ring-maroon', 'bg-gold-50');
+        }
+      }
+
+      if (stepNum === 1 || stepNum === 2 || stepNum === 3) {
+        switchTab('scanner');
+        simulateScan('W250318');
+        showToast(`الخطوة ${stepNum}: مسح ملصق "وصل" الذكي وإظهار بيانات صاحبة الغرض فوراً`, 'info');
+      } else if (stepNum === 4) {
+        switchTab('station');
+        showToast('الخطوة 4: حفظ الغرض في خزانة مرقمة وآمنة داخل محطة "وصل"', 'info');
+      } else if (stepNum === 5) {
+        switchTab('untagged');
+        showToast('الخطوة 5: إرسال إشعار للطالبة والتحقق من ملكية الغرض', 'info');
+      } else if (stepNum === 6) {
+        switchTab('station');
+        renderLockerInspector(3);
+        showToast('الخطوة 6: اضغطي على "التحقق من الطالبة وتسليم الغرض" لإتمام الاسترجاع', 'success');
+      }
+    }
+
+    // =========================================================================
+    // 3. تحديث المؤشرات الحية وجدول سجل المفقودات
+    // =========================================================================
+    function updateKPIUI() {
+      document.getElementById('kpi-total').textContent = state.kpi.total;
+      document.getElementById('kpi-returned').textContent = state.kpi.returned;
+      document.getElementById('kpi-instation').textContent = state.kpi.inStation;
+      document.getElementById('kpi-week').textContent = state.kpi.thisWeek;
+
+      const rate = Math.round((state.kpi.returned / state.kpi.total) * 100);
+      document.getElementById('kpi-rate').textContent = `نسبة الاستعادة ${rate}%`;
+
+      const activeBoxes = state.inventory.filter(i => i.box !== null && i.status !== 'تم التسليم').length;
+      document.getElementById('station-badge-count').textContent = activeBoxes;
+    }
+
+    function filterInventoryByCategory(category) {
+      state.activeCategoryFilter = category;
+      renderInventoryTable();
+      showToast(category === 'ALL' ? 'تم عرض جميع الفئات في السجل' : `تمت تصفية السجل حسب فئة: ${category}`, 'info');
+    }
+
+    function renderInventoryTable() {
+      const searchVal = (document.getElementById('inventory-search')?.value || '').trim().toLowerCase();
+      const statusFilter = document.getElementById('inventory-status-filter')?.value || 'ALL';
+      const tbody = document.getElementById('inventory-tbody');
+      if (!tbody) return;
+
+      const filtered = state.inventory.filter(item => {
+        const matchesSearch =
+          item.id.toLowerCase().includes(searchVal) ||
+          item.item.toLowerCase().includes(searchVal) ||
+          item.student.toLowerCase().includes(searchVal) ||
+          item.location.toLowerCase().includes(searchVal);
+
+        const matchesStatus = statusFilter === 'ALL' || item.status === statusFilter;
+        const matchesCategory = state.activeCategoryFilter === 'ALL' || item.category === state.activeCategoryFilter;
+        return matchesSearch && matchesStatus && matchesCategory;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="py-8 text-center text-stone-400 font-bold">
+              لا توجد أغراض مطابقة لعملية البحث الحالية
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(item => {
+        let badgeHtml = '';
+        if (item.status === 'في المحطة') {
+          badgeHtml = `<span class="bg-amber-100 text-amber-800 font-bold px-2.5 py-1 rounded-full text-[11px]">محفوظ في المحطة</span>`;
+        } else if (item.status === 'تم التسليم') {
+          badgeHtml = `<span class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-1 rounded-full text-[11px]">تم التسليم للطالبة</span>`;
+        } else {
+          badgeHtml = `<span class="bg-rose-100 text-rose-800 font-bold px-2.5 py-1 rounded-full text-[11px]">بانتظار المطابقة</span>`;
+        }
+
+        const boxBadge = item.box
+          ? `<button onclick="openBoxFromTable(${item.box})" class="font-bold bg-maroon-50 text-maroon hover:bg-maroon hover:text-white px-2.5 py-1 rounded-lg transition">خزانة رقم ${String(item.box).padStart(2, '0')}</button>`
+          : `<span class="text-stone-400">—</span>`;
+
+        const actionBtn = item.status !== 'تم التسليم'
+          ? `<button onclick="returnItemById('${item.id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-xl text-[11px] transition shadow-sm">
+               <i class="fa-solid fa-check ml-1"></i> تسليم للطالبة
+             </button>`
+          : `<span class="text-emerald-600 font-bold text-[11px]"><i class="fa-solid fa-circle-check"></i> تم الاستلام</span>`;
+
+        return `
+          <tr class="hover:bg-stone-50 transition">
+            <td class="py-3 px-4 font-mono font-bold text-maroon">${item.id}</td>
+            <td class="py-3 px-4 font-bold text-charcoal">
+              <i class="fa-solid ${item.icon} text-stone-400 ml-1.5"></i> ${item.item}
+            </td>
+            <td class="py-3 px-4 font-semibold text-stone-700">${item.student}</td>
+            <td class="py-3 px-4 text-stone-600">${item.location} • <span class="font-mono text-[11px]">${item.date}</span></td>
+            <td class="py-3 px-4">${boxBadge}</td>
+            <td class="py-3 px-4">${badgeHtml}</td>
+            <td class="py-3 px-4 text-center">${actionBtn}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function openBoxFromTable(boxNum) {
+      state.selectedLockerNumber = boxNum;
+      switchTab('station');
+    }
+
+    function returnItemById(itemId) {
+      const item = state.inventory.find(i => i.id === itemId);
+      if (!item || item.status === 'تم التسليم') return;
+
+      item.status = 'تم التسليم';
+      const freedBox = item.box;
+      item.box = null;
+
+      state.kpi.returned += 1;
+      state.kpi.inStation = Math.max(0, state.kpi.inStation - 1);
+
+      updateKPIUI();
+      renderInventoryTable();
+      renderLockerGrid();
+      if (freedBox) renderLockerInspector(freedBox);
+
+      showToast(`تم التحقق من الملكية وتسليم (${item.item}) إلى الطالبة ${item.student} بنجاح!`, 'success');
+    }
+
+    // =========================================================================
+    // 4. محاكاة ماسح ملصق "وصل" الذكي
+    // =========================================================================
+    function populateAvailableBoxDropdown() {
+      const select = document.getElementById('scan-box-select');
+      if (!select) return;
+      const occupiedBoxes = new Set(
+        state.inventory.filter(i => i.box !== null && i.status !== 'تم التسليم').map(i => i.box)
+      );
+
+      let optionsHtml = '';
+      for (let b = 1; b <= 16; b++) {
+        if (!occupiedBoxes.has(b)) {
+          optionsHtml += `<option value="${b}">خزانة رقم ${String(b).padStart(2, '0')} (متاحة)</option>`;
+        }
+      }
+      select.innerHTML = optionsHtml || `<option value="2">خزانة رقم 02</option>`;
+    }
+
+    function simulateScan(tagId) {
+      const cleanId = tagId.trim().toUpperCase();
+      const record = state.tagCatalog[cleanId] || {
+        id: cleanId,
+        item: 'غرض مدرسي موسوم بملصق وصل',
+        category: 'أخرى',
+        student: 'طالبة مسجلة بالنظام',
+        grade: 'التاسع',
+        section: 'أ',
+        location: 'الساحة المدرسية',
+        icon: 'fa-tag'
+      };
+
+      state.selectedScanId = record.id;
+
+      document.getElementById('tag-preview-id').textContent = record.id;
+      document.getElementById('scan-status-text').textContent = 'جاري مسح الرمز الضوئي للملصق...';
+
+      setTimeout(() => {
+        document.getElementById('scan-status-text').textContent = `تمت قراءة الملصق الذكي (${record.id}) بنجاح ✓`;
+        document.getElementById('card-serial-badge').textContent = record.id;
+        document.getElementById('card-student-name').textContent = record.student;
+        document.getElementById('card-student-grade').textContent = `الصف ${record.grade} — الشعبة ${record.section}`;
+        document.getElementById('card-item-name').textContent = record.item;
+        document.getElementById('scan-location-select').value = record.location;
+        populateAvailableBoxDropdown();
+      }, 260);
+    }
+
+    function handleManualSerialScan() {
+      const input = document.getElementById('manual-serial-input');
+      const val = (input.value || '').trim();
+      if (!val) {
+        showToast('يرجى إدخال الرقم التسلسلي للملصق مثل W250318 أو W-1027', 'warning');
+        return;
+      }
+      simulateScan(val);
+      showToast(`تم فحص الرقم التسلسلي (${val.toUpperCase()}) وإظهار بيانات الطالبة`, 'info');
+    }
+
+    function storeScannedItemInStation() {
+      const record = state.tagCatalog[state.selectedScanId] || state.tagCatalog['W250318'];
+      const chosenBox = parseInt(document.getElementById('scan-box-select').value, 10) || 2;
+      const chosenLoc = document.getElementById('scan-location-select').value;
+
+      const existing = state.inventory.find(i => i.id === record.id);
+      if (existing) {
+        if (existing.status === 'تم التسليم') {
+          state.kpi.inStation += 1;
+        }
+        existing.status = 'في المحطة';
+        existing.box = chosenBox;
+        existing.location = chosenLoc;
+      } else {
+        state.inventory.unshift({
+          id: record.id,
+          item: record.item,
+          category: record.category,
+          student: `${record.student} (الصف ${record.grade} - ${record.section})`,
+          location: chosenLoc,
+          date: '14/10/2026',
+          box: chosenBox,
+          status: 'في المحطة',
+          icon: record.icon
+        });
+        state.kpi.total += 1;
+        state.kpi.inStation += 1;
+        state.kpi.thisWeek += 1;
+      }
+
+      updateKPIUI();
+      renderInventoryTable();
+      populateAvailableBoxDropdown();
+
+      state.selectedLockerNumber = chosenBox;
+      showToast(`تم حفظ (${record.item}) في الخزانة رقم ${String(chosenBox).padStart(2, '0')} وإرسال إشعار للطالبة ${record.student}!`, 'success');
+    }
+
+    function directReturnScannedItem() {
+      const record = state.tagCatalog[state.selectedScanId] || state.tagCatalog['W250318'];
+      state.kpi.total += 1;
+      state.kpi.returned += 1;
+      updateKPIUI();
+      showToast(`تم تسليم (${record.item}) بشكل فوري ومباشر للطالبة ${record.student}!`, 'success');
+    }
+
+    // =========================================================================
+    // 5. محطة "وصل" الرقمية (الخزائن المرقمة 01 إلى 16)
+    // =========================================================================
+    function renderLockerGrid() {
+      const grid = document.getElementById('locker-grid');
+      if (!grid) return;
+
+      let html = '';
+      for (let boxNum = 1; boxNum <= 16; boxNum++) {
+        const occupant = state.inventory.find(i => i.box === boxNum && i.status !== 'تم التسليم');
+        const isSelected = state.selectedLockerNumber === boxNum;
+        const boxLabel = String(boxNum).padStart(2, '0');
+
+        if (occupant) {
+          html += `
+            <button onclick="selectLocker(${boxNum})" class="locker-box p-3.5 rounded-2xl border-2 text-right relative transition ${
+              isSelected ? 'border-gold ring-4 ring-gold/30 bg-maroon text-white' : 'border-maroon bg-maroon text-white hover:bg-maroon-dark'
+            }">
+              <div class="flex items-center justify-between">
+                <span class="font-mono font-black text-xs bg-white/15 px-2 py-0.5 rounded-lg text-gold">خزانة ${boxLabel}</span>
+                <span class="text-[10px] font-bold bg-gold text-charcoal px-1.5 py-0.5 rounded">مشغولة</span>
+              </div>
+              <div class="my-3 flex items-center justify-center">
+                <i class="fa-solid ${occupant.icon} text-2xl text-gold"></i>
+              </div>
+              <div class="text-xs font-extrabold truncate">${occupant.item}</div>
+              <div class="text-[10px] text-gold-100 truncate mt-0.5">${occupant.student}</div>
+            </button>
+          `;
+        } else {
+          html += `
+            <button onclick="selectLocker(${boxNum})" class="locker-box p-3.5 rounded-2xl border-2 text-right relative transition ${
+              isSelected ? 'border-maroon ring-2 ring-maroon/20 bg-emerald-50' : 'border-emerald-200 bg-emerald-50/50 hover:bg-emerald-50'
+            }">
+              <div class="flex items-center justify-between">
+                <span class="font-mono font-black text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-lg">خزانة ${boxLabel}</span>
+                <span class="text-[10px] font-bold text-emerald-700">متاحة</span>
+              </div>
+              <div class="my-3 flex items-center justify-center">
+                <i class="fa-solid fa-box-open text-2xl text-emerald-400"></i>
+              </div>
+              <div class="text-xs font-bold text-emerald-900">خزانة فارغة</div>
+              <div class="text-[10px] text-emerald-600 mt-0.5">جاهزة لاستقبال غرض</div>
+            </button>
+          `;
+        }
+      }
+
+      grid.innerHTML = html;
+    }
+
+    function selectLocker(boxNum) {
+      state.selectedLockerNumber = boxNum;
+      renderLockerGrid();
+      renderLockerInspector(boxNum);
+    }
+
+    function renderLockerInspector(boxNum) {
+      const panel = document.getElementById('locker-inspector');
+      if (!panel) return;
+
+      const boxLabel = String(boxNum).padStart(2, '0');
+      const occupant = state.inventory.find(i => i.box === boxNum && i.status !== 'تم التسليم');
+
+      if (!occupant) {
+        panel.innerHTML = `
+          <div class="text-center py-6">
+            <div class="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mx-auto mb-3">
+              <i class="fa-solid fa-box-open"></i>
+            </div>
+            <span class="font-mono text-xs font-black bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">خزانة رقم ${boxLabel}</span>
+            <h4 class="text-base font-extrabold text-charcoal mt-3">هذه الخزانة متاحة حالياً</h4>
+            <p class="text-xs text-stone-500 mt-1">لا يوجد أي غرض مفقود بداخل الخزانة رقم ${boxLabel}، ويمكن استخدامها لتخزين غرض جديد.</p>
+            <button onclick="switchTab('scanner')" class="mt-5 w-full bg-maroon hover:bg-maroon-dark text-white font-bold text-xs py-2.5 px-4 rounded-xl transition">
+              <i class="fa-solid fa-qrcode ml-1"></i> مسح غرض جديد وإيداعه في الخزانة
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      panel.innerHTML = `
+        <div>
+          <div class="flex items-center justify-between border-b border-stone-200 pb-3 mb-4">
+            <div>
+              <span class="font-mono text-xs font-black bg-maroon text-gold px-2.5 py-1 rounded-lg">خزانة رقم ${boxLabel}</span>
+              <h4 class="text-base font-extrabold text-charcoal mt-1.5">بيانات الغرض المحفوظ</h4>
+            </div>
+            <div class="w-12 h-12 rounded-2xl bg-maroon-50 text-maroon flex items-center justify-center text-2xl">
+              <i class="fa-solid ${occupant.icon}"></i>
+            </div>
+          </div>
+
+          <div class="space-y-2.5 text-xs bg-stone-50 p-4 rounded-2xl border border-stone-200">
+            <div class="flex justify-between">
+              <span class="text-stone-500 font-bold">الرقم التسلسلي:</span>
+              <span class="font-mono font-bold text-maroon">${occupant.id}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-stone-500 font-bold">نوع الغرض:</span>
+              <span class="font-extrabold text-charcoal">${occupant.item}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-stone-500 font-bold">صاحبة الغرض:</span>
+              <span class="font-bold text-charcoal">${occupant.student}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-stone-500 font-bold">مكان العثور:</span>
+              <span class="font-semibold text-stone-700">${occupant.location}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-stone-500 font-bold">تاريخ الإيداع:</span>
+              <span class="font-mono text-stone-700">${occupant.date}</span>
+            </div>
+          </div>
+
+          <div class="mt-5 space-y-2.5">
+            <button onclick="returnItemById('${occupant.id}')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-3 px-4 rounded-xl shadow flex items-center justify-center gap-2 transition">
+              <i class="fa-solid fa-user-check"></i>
+              <span>التحقق من الطالبة وتسليم الغرض</span>
+            </button>
+            <button onclick="sendReminderNotification('${occupant.student}', '${occupant.item}')" class="w-full bg-gold hover:bg-gold-light text-charcoal font-bold text-xs py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 transition">
+              <i class="fa-solid fa-bell"></i>
+              <span>إرسال إشعار تذكير للطالبة بالحضور للمحطة</span>
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function sendReminderNotification(studentName, itemName) {
+      showToast(`تم إرسال إشعار تذكير إلى الطالبة (${studentName}) لاستلام (${itemName}) من محطة وصل.`, 'info');
+    }
+
+    // =========================================================================
+    // 6. بروتوكول الأغراض بدون ملصق والمطابقة الذكية
+    // =========================================================================
+    function loadUntaggedPreset(preset) {
+      if (preset === 'lunchbox') {
+        document.getElementById('untagged-type').value = 'صندوق طعام';
+        document.getElementById('untagged-color').value = 'وردي';
+        state.untaggedMatches = [
+          { id: 1, name: 'سارة محمد', grade: 'الصف التاسع - الشعبة أ', item: 'صندوق طعام وردي', confidence: 'تطابق 96%', notified: false, delivered: false },
+          { id: 2, name: 'مريم علي', grade: 'الصف التاسع - الشعبة ب', item: 'صندوق طعام وردي', confidence: 'تطابق 89%', notified: false, delivered: false },
+          { id: 3, name: 'عائشة خالد', grade: 'الصف العاشر - الشعبة 1', item: 'صندوق طعام وردي', confidence: 'تطابق 78%', notified: false, delivered: false }
+        ];
+      } else if (preset === 'pencilcase') {
+        document.getElementById('untagged-type').value = 'مقلمة مدرسية';
+        document.getElementById('untagged-color').value = 'أسود بقلوب وردية';
+        state.untaggedMatches = [
+          { id: 4, name: 'سارة محمد', grade: 'الصف التاسع - الشعبة أ', item: 'مقلمة سوداء بقلوب', confidence: 'تطابق 94%', notified: false, delivered: false },
+          { id: 5, name: 'مريم علي', grade: 'الصف التاسع - الشعبة ب', item: 'مقلمة مدرسية سوداء', confidence: 'تطابق 84%', notified: false, delivered: false }
+        ];
+      } else if (preset === 'bottle') {
+        document.getElementById('untagged-type').value = 'قارورة ماء';
+        document.getElementById('untagged-color').value = 'وردي معدني';
+        state.untaggedMatches = [
+          { id: 6, name: 'عائشة خالد', grade: 'الصف العاشر - الشعبة 1', item: 'قارورة ماء وردية', confidence: 'تطابق 92%', notified: false, delivered: false }
+        ];
+      }
+      renderUntaggedMatches();
+      showToast('تم تحميل صورة وبيانات الغرض غير الموسوم لإجراء المطابقة الذكية', 'info');
+    }
+
+    function runUntaggedMatcher() {
+      const type = document.getElementById('untagged-type').value;
+      const color = document.getElementById('untagged-color').value;
+      renderUntaggedMatches();
+      showToast(`تم البحث في بلاغات الطالبات عن (${type} - ${color}) والعثور على ${state.untaggedMatches.length} تطابقات محتملة!`, 'success');
+    }
+
+    function renderUntaggedMatches() {
+      const container = document.getElementById('untagged-matches-list');
+      if (!container) return;
+
+      container.innerHTML = state.untaggedMatches.map(m => `
+        <div class="p-3.5 rounded-2xl border border-stone-200 bg-stone-50 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div class="px-2.5 py-2 rounded-xl bg-maroon-50 text-maroon font-black text-xs border border-maroon/20">
+              ${m.confidence}
+            </div>
+            <div>
+              <div class="text-sm font-extrabold text-charcoal">${m.name}</div>
+              <div class="text-xs text-stone-600 font-semibold">${m.grade} • الغرض المطابق: ${m.item}</div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 flex-wrap">
+            ${
+              m.delivered
+                ? `<span class="bg-emerald-100 text-emerald-800 text-xs font-extrabold px-3 py-1.5 rounded-xl flex items-center gap-1.5">
+                     <i class="fa-solid fa-circle-check"></i> تم التحقق والتسليم للطالبة
+                   </span>`
+                : `
+                  ${
+                    m.notified
+                      ? `<span class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1.5 rounded-xl">تم إرسال الإشعار ✓</span>`
+                      : `<button onclick="notifySingleMatch(${m.id})" class="bg-maroon hover:bg-maroon-dark text-white text-xs font-bold px-3.5 py-2 rounded-xl shadow-sm transition flex items-center gap-1.5">
+                           <i class="fa-solid fa-paper-plane text-gold"></i>
+                           <span>إرسال إشعار</span>
+                         </button>`
+                  }
+                  <button onclick="confirmUntaggedDelivery(${m.id})" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3.5 py-2 rounded-xl shadow-sm transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-check"></i>
+                    <span>تأكيد التسليم</span>
+                  </button>
+                `
+            }
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function notifySingleMatch(matchId) {
+      const match = state.untaggedMatches.find(m => m.id === matchId);
+      if (match) {
+        match.notified = true;
+        renderUntaggedMatches();
+        showToast(`تم إرسال إشعار عبر النظام للطالبة (${match.name} - ${match.grade}) للتوجه إلى نقطة "وصل".`, 'info');
+      }
+    }
+
+    function notifyAllMatches() {
+      state.untaggedMatches.forEach(m => (m.notified = true));
+      renderUntaggedMatches();
+      showToast('تم إرسال إشعارات لجميع الطالبات المحتملات عبر نظام "وصل"!', 'info');
+    }
+
+    function confirmUntaggedDelivery(matchId) {
+      const match = state.untaggedMatches.find(m => m.id === matchId);
+      if (match && !match.delivered) {
+        match.delivered = true;
+        state.kpi.returned += 1;
+        state.kpi.inStation = Math.max(0, state.kpi.inStation - 1);
+        updateKPIUI();
+        renderUntaggedMatches();
+        showToast(`تم التحقق من الملكية وتسليم (${match.item}) إلى الطالبة ${match.name} بنجاح!`, 'success');
+      }
+    }
+
+    // =========================================================================
+    // 7. المحاكاة التلقائية والإشعارات
+    // =========================================================================
+    function runGuidedDemo() {
+      showToast('بدء المحاكاة التلقائية لنظام "وصل" الذكي للمفقودات المدرسية...', 'info');
+      triggerWorkflowStep(2);
+      setTimeout(() => {
+        storeScannedItemInStation();
+        setTimeout(() => {
+          switchTab('station');
+        }, 1600);
+      }, 1500);
+    }
+
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const colors = {
+        success: 'bg-emerald-700 border-emerald-400 text-white',
+        info: 'bg-charcoal border-gold text-white',
+        warning: 'bg-amber-600 border-white text-white'
+      };
+      const icons = {
+        success: 'fa-circle-check text-gold',
+        info: 'fa-bell text-gold',
+        warning: 'fa-triangle-exclamation text-white'
+      };
+
+      const toast = document.createElement('div');
+      toast.className = `pointer-events-auto p-3.5 rounded-2xl shadow-xl border-r-4 ${colors[type]} text-xs font-bold flex items-center gap-3 transform transition-all duration-300`;
+      toast.innerHTML = `
+        <i class="fa-solid ${icons[type]} text-base"></i>
+        <span class="leading-snug">${message}</span>
+      `;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 3600);
+    }
+
+    // تهيئة النظام عند تحميل الصفحة
+    window.onload = function () {
+      updateKPIUI();
+      renderInventoryTable();
+      populateAvailableBoxDropdown();
+      renderLockerGrid();
+      renderLockerInspector(3);
+      renderUntaggedMatches();
+    };
+  </script>
+</body>
+</html>
