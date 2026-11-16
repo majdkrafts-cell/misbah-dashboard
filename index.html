@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="html-root">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>نظام وصل الذكي للمفقودات المدرسية | مدارس الريان الخاصة</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Cairo & Tajawal -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            maroon: {
+              DEFAULT: '#8A1538',
+              dark: '#6D0F2B',
+              light: '#A91D47',
+              50: '#FDF2F5',
+              100: '#FCE4EB',
+            },
+            gold: {
+              DEFAULT: '#F5B800',
+              light: '#FFC72C',
+              dark: '#D9A000',
+              50: '#FFFBEB',
+              100: '#FEF3C7',
+            },
+            cream: '#FDFBF7',
+            charcoal: '#1E293B'
+          },
+          fontFamily: {
+            sans: ['Cairo', 'Tajawal', 'sans-serif'],
+            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #FDFBF7;
+      color: #1E293B;
+      font-family: 'Cairo', 'Tajawal', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* خط الليزر المتحرك للماسح الضوئي */
+    @keyframes scanLaser {
+      0% { top: 8%; opacity: 0.9; }
+      50% { top: 88%; opacity: 1; }
+      100% { top: 8%; opacity: 0.9; }
+    }
+    .laser-line {
+      position: absolute;
+      left: 6%;
+      right: 6%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #F5B800, #FF3B30, #F5B800, transparent);
+      box-shadow: 0 0 12px 2px rgba(245, 184, 0, 0.85);
+      animation: scanLaser 2s infinite ease-in-out;
+    }
+
+    /* شريط التمرير المخصص */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F4EFE6;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #8A1538;
+      border-radius: 4px;
+    }
+
+    /* تأثير خزائن المحطة */
+    .locker-box {
+      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .locker-box:hover {
+      transform: translateY(-3px);
+    }
+
+    /* خلفية زخرفية خفيفة */
+    .qatar-pattern {
+      background-image: radial-gradient(rgba(245, 184, 0, 0.14) 1px, transparent 1px);
+      background-size: 18px 18px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+  <!-- الهيدر الرسمي وهوية المدرسة والمشروع -->
+  <header class="bg-gradient-to-r from-maroon-dark via-maroon to-maroon-light text-white shadow-lg border-b-4 border-gold sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
+      <div class="flex flex-col lg:flex-row items-center justify-between gap-4">
+        
+        <!-- شعار وصل والعنوان الرئيسي -->
+        <div class="flex items-center gap-4">
+          <div class="relative flex-shrink-0 w-16 h-16 rounded-2xl bg-gold flex items-center justify-center shadow-md border-2 border-white">
+            <svg viewBox="0 0 64 64" class="w-11 h-11">
+              <path d="M32 4C19.8 4 10 13.8 10 26c0 15.2 22 34 22 34s22-18.8 22-34C54 13.8 44.2 4 32 4z" fill="#1E293B"/>
+              <path d="M26 17h12v3H26zM22 22c0-2.2 1.8-4 4-4h12c2.2 0 4 1.8 4 4v14c0 1.1-.9 2-2 2H24c-1.1 0-2-.9-2-2V22z" fill="#F5B800"/>
+              <rect x="26" y="25" width="12" height="7" rx="1.5" fill="#1E293B"/>
+            </svg>
+            <span class="absolute -bottom-1 -right-1 bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow border border-white">متصل</span>
+          </div>
+
+          <div>
+            <div class="flex items-center gap-2.5 flex-wrap">
+              <h1 class="text-xl sm:text-2xl font-black tracking-tight text-white">
+                نظام <span class="text-gold">وصل</span> الذكي للمفقودات المدرسية
+              </h1>
+              <span class="bg-white/15 text-gold-100 text-xs font-bold px-3 py-1 rounded-full border border-gold/40">
+                أخلاق • انضباط • تميز | الأمانة مسؤولية وقيمة نعيشها
+              </span>
+            </div>
+            <p class="text-xs sm:text-sm text-gold-100 font-semibold mt-1">
+              كل غرض يجد طريقه لصاحبه — مدرسة أكثر أماناً • مجتمع أكثر ترابطاً • إدارة أذكى
+            </p>
+          </div>
+        </div>
+
+        <!-- بيانات المدرسة وزر المحاكاة التلقائية -->
+        <div class="flex items-center gap-4 flex-wrap justify-center">
+          <div class="text-right border-l border-white/20 pl-4">
+            <div class="text-sm font-extrabold text-white">مدارس الريان الخاصة - بنات</div>
+            <div class="text-xs text-gold-100">وزارة التربية والتعليم والتعليم العالي - دولة قطر</div>
+          </div>
+
+          <button onclick="runGuidedDemo()" class="bg-gold hover:bg-gold-light text-charcoal font-extrabold text-xs sm:text-sm px-4 py-2.5 rounded-xl shadow-md flex items-center gap-2 transition transform active:scale-95">
+            <i class="fa-solid fa-play-circle text-maroon text-lg"></i>
+            <span>تشغيل محاكاة تلقائية للنظام</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- شريط خطوات عمل النظام التفاعلي (6 خطوات) -->
+  <section class="bg-white border-b border-stone-200 shadow-sm qatar-pattern">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      <div class="flex items-center justify-between mb-2.5">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-maroon animate-ping"></span>
+          <h2 class="text-xs sm:text-sm font-extrabold text-maroon">
+            كيف يعمل نظام وصل؟ (اضغطي على أي خطوة للانتقال المباشر وتجربتها عملياً)
+          </h2>
+        </div>
+        <span class="text-xs text-stone-500 hidden md:inline font-semibold">مسار ذكي متكامل من لحظة العثور على الغرض حتى عودته لطالبته</span>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2" id="workflow-ribbon">
+        <button onclick="triggerWorkflowStep(1)" id="step-btn-1" class="step-card group text-right p-2.5 rounded-xl border border-stone-200 bg-stone-50 hover:border-maroon hover:bg-maroon-50 transition flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-maroon text-white font-bold text-xs flex items-center justify-center flex-shrink-0 group-hover:bg-gold group-hover:text-charcoal transition">1</div>
+          <div class="overflow-hidden">
+            <div class="text-xs font-extrabold text-charcoal truncate">العثور على الغرض</div>
+            <div class="text-[11px] text-stone-500 truncate">وتقديمه لنقطة وصل</div>
+          </div>
+        </button>
+
+        <button onclick="triggerWorkflowStep(2)" id="step-btn-2" class="step-card group text-right p-2.5 rounded-xl border border-stone-200 bg-stone-50 hover:border-maroon hover:bg-maroon-50 transition flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-maroon text-white font-bold text-xs flex items-center justify-center flex-shrink-0 group-hover:bg-gold group-hover:text-charcoal transition">2</div>
+          <div class="overflow-hidden">
+            <div class="text-xs font-extrabold text-charcoal truncate">مسح الرمز أو الإدخال</div>
+            <div class="text-[11px] text-stone-500 truncate">قراءة QR أو الرقم</div>
+          </div>
+        </button>
+
+        <button onclick="triggerWorkflowStep(3)" id="step-btn-3" class="step-card group text-right p-2.5 rounded-xl border border-stone-200 bg-stone-50 hover:border-maroon hover:bg-maroon-50 transition flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-maroon text-white font-bold text-xs flex items-center justify-center flex-shrink-0 group-hover:bg-gold group-hover:text-charcoal transition">3</div>
+          <div class="overflow-hidden">
+            <div class="text-xs font-extrabold text-charcoal truncate">التعرف على الطالبة</div>
+            <div class="text-[11px] text-stone-500 truncate">إظهار اسم وصف الطالبة</div>
+          </div>
+        </button>
+
+        <button onclick="triggerWorkflowStep(4)" id="step-btn-4" class="step-card group text-right p-2.5 rounded-xl border border-stone-200 bg-stone-50 hover:border-maroon hover:bg-maroon-50 transition flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-maroon text-white font-bold text-xs flex items-center justify-center flex-shrink-0 group-hover:bg-gold group-hover:text-charcoal transition">4</div>
+          <div class="overflow-hidden">
+            <div class="text-xs font-extrabold text-charcoal truncate">الحفظ في محطة وصل</div>
+            <div class="text-[11px] text-stone-500 truncate">تخزين آمن ومرقم</div>
+          </div>
+        </button>
+
+        <button onclick="triggerWorkflowStep(5)" id="step-btn-5" class="step-card group text-right p-2.5 rounded-xl border border-stone-200 bg-stone-50 hover:border-maroon hover:bg-maroon-50 transition flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-maroon text-white font-bold text-xs flex items-center justify-center flex-shrink-0 group-hover:bg-gold group-hover:text-charcoal transition">5</div>
+          <div class="overflow-hidden">
+            <div class="text-xs font-extrabold text-charcoal truncate">إشعار الطالبة</div>
+            <div class="text-[11px] text-stone-500 truncate">تنبيه وتأكيد الملكية</div>
+          </div>
+        </button>
+
+        <button onclick="triggerWorkflowStep(6)" id="step-btn-6" class="step-card group text-right p-2.5 rounded-xl border border-stone-200 bg-stone-50 hover:border-maroon hover:bg-maroon-50 transition flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center flex-shrink-0 group-hover:bg-gold group-hover:text-charcoal transition">6</div>
+          <div class="overflow-hidden">
+            <div class="text-xs font-extrabold text-charcoal truncate">تسليم الغرض</div>
+            <div class="text-[11px] text-stone-500 truncate">إعادة الغرض لصاحبته</div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- المحتوى الرئيسي للتبويبات -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
+    
+    <!-- قائمة التبويبات العلوية -->
+    <div class="bg-white p-1.5 rounded-2xl shadow-sm border border-stone-200 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-1.5 mb-6">
+      
+      <button onclick="switchTab('dashboard')" id="tab-btn-dashboard" class="tab-btn flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl font-bold text-sm transition bg-maroon text-white shadow">
+        <i class="fa-solid fa-chart-pie text-gold text-lg"></i>
+        <div class="text-right">
+          <div>1. لوحة الإحصاءات</div>
+          <div class="text-[11px] font-normal opacity-85">المؤشرات الحية والاستبيان</div>
+        </div>
+      </button>
+
+      <button onclick="switchTab('qrscanner')" id="tab-btn-qrscanner" class="tab-btn flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl font-bold text-sm transition text-charcoal hover:bg-stone-100">
+        <i class="fa-solid fa-qrcode text-maroon text-lg"></i>
+        <div class="text-right">
+          <div>2. مسح رمز الاستجابة (QR)</div>
+          <div class="text-[11px] font-normal text-stone-500">مسح رموز الأغراض الأربعة</div>
+        </div>
+      </button>
+
+      <button onclick="switchTab('scanner')" id="tab-btn-scanner" class="tab-btn flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl font-bold text-sm transition text-charcoal hover:bg-stone-100">
+        <i class="fa-solid fa-barcode text-maroon text-lg"></i>
+        <div class="text-right">
+          <div>3. ماسح ملصق وصل</div>
+          <div class="text-[11px] font-normal text-stone-500">الرقم التسلسلي والبحث</div>
+        </div>
+      </button>
+
+      <button onclick="switchTab('station')" id="tab-btn-station" class="tab-btn flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl font-bold text-sm transition text-charcoal hover:bg-stone-100">
+        <i class="fa-solid fa-boxes-stacked text-maroon text-lg"></i>
+        <div class="text-right">
+          <div class="flex items-center gap-1.5">
+            <span>4. محطة وصل الرقمية</span>
+            <span id="station-badge-count" class="bg-gold text-charcoal text-[10px] font-extrabold px-2 py-0.5 rounded-full">7</span>
+          </div>
+          <div class="text-[11px] font-normal text-stone-500">الخزائن (01 - 16)</div>
+        </div>
+      </button>
+
+      <button onclick="switchTab('untagged')" id="tab-btn-untagged" class="tab-btn flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl font-bold text-sm transition text-charcoal hover:bg-stone-100">
+        <i class="fa-solid fa-camera-retro text-maroon text-lg"></i>
+        <div class="text-right">
+          <div>5. أغراض بدون ملصق</div>
+          <div class="text-[11px] font-normal text-stone-500">التصوير والمطابقة الذكية</div>
+        </div>
+      </button>
+
+    </div>
+
+    <!-- التبويبات الفردية -->
+    
+    <!-- 1. التبويب الأول: لوحة الإحصاءات -->
+    <div id="tab-dashboard" class="tab-panel space-y-6 pb-10">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- البطاقات الأربع للمؤشرات الحية -->
+        <div class="bg-white rounded-2xl p-5 border border-stone-200 shadow-sm flex items-center justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-1.5 h-full bg-maroon"></div>
+          <div>
+            <p class="text-xs font-bold text-stone-500">إجمالي الأغراض المسجلة</p>
+            <div class="flex items-baseline gap-1.5 mt-1">
+              <h3 class="text-3xl font-black text-charcoal" id="kpi-total">128</h3>
+              <span class="text-xs font-bold text-stone-500">غرضاً</span>
+            </div>
+          </div>
+          <div class="w-12 h-12 rounded-2xl bg-maroon-50 text-maroon flex items-center justify-center text-xl">
+            <i class="fa-solid fa-layer-group"></i>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 border border-stone-200 shadow-sm flex items-center justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-1.5 h-full bg-emerald-500"></div>
+          <div>
+            <p class="text-xs font-bold text-stone-500">الأغراض المستردة للطالبات</p>
+            <div class="flex items-baseline gap-2 mt-1">
+              <h3 class="text-3xl font-black text-emerald-600" id="kpi-returned">96</h3>
+              <span class="text-xs font-extrabold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full" id="kpi-rate">استعادة 75%</span>
+            </div>
+          </div>
+          <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl">
+            <i class="fa-solid fa-circle-check"></i>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 border border-stone-200 shadow-sm flex items-center justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-1.5 h-full bg-gold"></div>
+          <div>
+            <p class="text-xs font-bold text-stone-500">المحفوظة حالياً في المحطة</p>
+            <div class="flex items-baseline gap-1.5 mt-1">
+              <h3 class="text-3xl font-black text-amber-600" id="kpi-instation">32</h3>
+              <span class="text-xs font-bold text-stone-500">غرضاً</span>
+            </div>
+          </div>
+          <div class="w-12 h-12 rounded-2xl bg-gold-50 text-amber-600 flex items-center justify-center text-xl">
+            <i class="fa-solid fa-box-archive"></i>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 border border-stone-200 shadow-sm flex items-center justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-1.5 h-full bg-sky-500"></div>
+          <div>
+            <p class="text-xs font-bold text-stone-500">العثور عليها هذا الأسبوع</p>
+            <div class="flex items-baseline gap-1.5 mt-1">
+              <h3 class="text-3xl font-black text-sky-600" id="kpi-week">8</h3>
+              <span class="text-xs font-bold text-stone-500">أغراض</span>
+            </div>
+          </div>
+          <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center text-xl">
+            <i class="fa-solid fa-calendar-week"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-7 bg-white rounded-2xl p-6 border border-stone-200 shadow-sm">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-stone-100">
+            <div>
+              <span class="bg-maroon-50 text-maroon text-xs font-extrabold px-2.5 py-1 rounded-full">إثبات المشكلة</span>
+              <h3 class="text-base font-extrabold text-charcoal mt-2 flex items-center gap-2">
+                <i class="fa-solid fa-chart-bar text-maroon"></i>
+                <span>نتائج الاستبيان (مشاركة 120 طالبة)</span>
+              </h3>
+            </div>
+            <button onclick="filterInventoryByCategory('ALL')" class="text-xs font-bold text-maroon hover:underline">عرض جميع السجلات</button>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 my-4">
+            <div class="p-3.5 rounded-xl bg-maroon-50 border border-maroon/20 flex justify-between items-center">
+              <div>
+                <div class="text-xs font-bold text-charcoal">هل فقدتِ غرضاً مسبقاً؟</div>
+                <div class="text-[11px] text-stone-600 mt-0.5">نعم: <strong>85%</strong></div>
+              </div>
+              <div class="text-2xl font-black text-maroon">85%</div>
+            </div>
+            <div class="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 flex justify-between items-center">
+              <div>
+                <div class="text-xs font-bold text-charcoal">هل ستستخدمين نظام وصل؟</div>
+                <div class="text-[11px] text-stone-600 mt-0.5">نعم: <strong>92%</strong></div>
+              </div>
+              <div class="text-2xl font-black text-emerald-600">92%</div>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <div onclick="filterInventoryByCategory('آلة حاسبة')" class="cursor-pointer group">
+              <div class="flex justify-between text-xs font-bold mb-1">
+                <span class="group-hover:text-maroon transition">الآلة الحاسبة</span>
+                <span class="text-maroon font-extrabold">38%</span>
+              </div>
+              <div class="w-full h-3 bg-stone-100 rounded-full overflow-hidden">
+                <div class="h-full bg-maroon rounded-full" style="width: 38%"></div>
+              </div>
+            </div>
+            <div onclick="filterInventoryByCategory('قارورة ماء')" class="cursor-pointer group">
+              <div class="flex justify-between text-xs font-bold mb-1">
+                <span class="group-hover:text-maroon transition">قارورة الماء</span>
+                <span class="text-sky-700 font-extrabold">27%</span>
+              </div>
+              <div class="w-full h-3 bg-stone-100 rounded-full overflow-hidden">
+                <div class="h-full bg-sky-500 rounded-full" style="width: 27%"></div>
+              </div>
+            </div>
+            <div onclick="filterInventoryByCategory('مقلمة')" class="cursor-pointer group">
+              <div class="flex justify-between text-xs font-bold mb-1">
+                <span class="group-hover:text-maroon transition">المقلمة المدرسية</span>
+                <span class="text-amber-600 font-extrabold">18%</span>
+              </div>
+              <div class="w-full h-3 bg-stone-100 rounded-full overflow-hidden">
+                <div class="h-full bg-gold rounded-full" style="width: 18%"></div>
+              </div>
+            </div>
+            <div onclick="filterInventoryByCategory('كتاب')" class="cursor-pointer group">
+              <div class="flex justify-between text-xs font-bold mb-1">
+                <span class="group-hover:text-maroon transition">الكتاب المدرسي</span>
+                <span class="text-emerald-700 font-extrabold">11%</span>
+              </div>
+              <div class="w-full h-3 bg-stone-100 rounded-full overflow-hidden">
+                <div class="h-full bg-emerald-500 rounded-full" style="width: 11%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 bg-gradient-to-br from-maroon to-maroon-dark text-white rounded-2xl p-6 shadow-md flex flex-col justify-between">
+          <div>
+            <div class="inline-flex items-center gap-1.5 bg-gold/20 text-gold border border-gold/40 text-xs font-bold px-3 py-1 rounded-full mb-3">ماذا قالت طالباتنا؟</div>
+            <h3 class="text-lg font-extrabold">صوت الطالبات</h3>
+            <div class="space-y-2.5 mt-3 text-xs">
+              <div class="bg-white/10 p-3 rounded-xl border-r-4 border-gold">"أفقد أغراضي كثيراً خصوصاً في المختبر."</div>
+              <div class="bg-white/10 p-3 rounded-xl border-r-4 border-gold">"أحياناً لا يتم العثور على أغراضي أبداً."</div>
+              <div class="bg-white/10 p-3 rounded-xl border-r-4 border-emerald-400">"فكرة وصل ممتازة وستساعدنا كثيراً."</div>
+            </div>
+            <h4 class="text-xs font-extrabold text-gold mt-5 mb-2.5">لماذا نحتاج الحل؟</h4>
+            <div class="grid grid-cols-2 gap-2 text-[11px]">
+              <div class="bg-white/10 p-2.5 rounded-xl">صعوبة تحديد الصاحبة</div>
+              <div class="bg-white/10 p-2.5 rounded-xl">تراكم المفقودات</div>
+              <div class="bg-white/10 p-2.5 rounded-xl">تكاليف الشراء</div>
+              <div class="bg-white/10 p-2.5 rounded-xl">إهدار الوقت</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden">
+        <div class="p-5 border-b border-stone-200 flex flex-col md:flex-row justify-between gap-4">
+          <div>
+            <h3 class="text-base font-extrabold text-charcoal">سجل المفقودات الحي</h3>
+            <p class="text-xs text-stone-500">ابحثي بالاسم، الرقم التسلسلي، أو الغرض</p>
+          </div>
+          <div class="flex gap-2">
+            <input type="text" id="inventory-search" oninput="renderInventoryTable()" placeholder="ابحثي هنا..." class="px-3 py-1.5 text-xs rounded-xl border border-stone-300 w-56" />
+            <select id="inventory-status-filter" onchange="renderInventoryTable()" class="text-xs px-3 rounded-xl border border-stone-300">
+              <option value="ALL">جميع الحالات</option>
+              <option value="في المحطة">في المحطة</option>
+              <option value="تم التسليم">تم التسليم</option>
+            </select>
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-right text-xs">
+            <thead class="bg-stone-100 text-stone-700 border-b">
+              <tr>
+                <th class="py-3 px-4">الرقم</th>
+                <th class="py-3 px-4">الغرض</th>
+                <th class="py-3 px-4">الطالبة</th>
+                <th class="py-3 px-4">مكان وتاريخ العثور</th>
+                <th class="py-3 px-4">الخزانة</th>
+                <th class="py-3 px-4">الحالة</th>
+              </tr>
+            </thead>
+            <tbody id="inventory-tbody" class="divide-y divide-stone-200"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. التبويب الثاني: قسم مسح الـ QR -->
+    <div id="tab-qrscanner" class="tab-panel hidden space-y-6 pb-10">
+      <div class="bg-gradient-to-r from-maroon to-maroon-light text-white rounded-3xl p-6 md:p-8 shadow-lg">
+        <span class="bg-gold text-charcoal text-xs font-black px-3 py-1 rounded-full">مسح QR</span>
+        <h2 class="text-2xl font-black mt-2">اختبري مسح رموز QR الحقيقية للأغراض</h2>
+        <p class="text-xs sm:text-sm text-gold-100 mt-2">وجّهي كاميرا هاتفك الذكي نحو أي من رموز QR أدناه لفتح بطاقة الغرض مباشرة على هاتفك.</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div onclick="openQrItemModal('bottle')" class="bg-white rounded-3xl p-5 border-2 border-stone-200 hover:border-maroon shadow-sm cursor-pointer transition transform hover:-translate-y-1 text-center group">
+          <div class="bg-sky-50 rounded-2xl p-4 mb-4 relative overflow-hidden">
+            <!-- ضعي مسار صورة قارورة الماء الحقيقية هنا بدلاً من الرابط -->
+            <img src="bottle.jpg" alt="قارورة" class="w-32 h-32 object-cover mx-auto rounded-xl shadow" onerror="this.src='https://placehold.co/400x400/8A1538/FFFFFF?text=قارورة+ماء'" />
+            <span class="absolute top-2 right-2 bg-sky-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">W-1027</span>
+          </div>
+          <h3 class="font-extrabold text-charcoal text-sm">قارورة ماء</h3>
+          <div class="mt-3 bg-stone-50 rounded-xl p-3 border border-stone-100 flex flex-col items-center">
+            <img id="qr-code-bottle" src="" alt="QR Code" class="w-24 h-24 rounded-lg shadow-sm border border-stone-200 p-1 bg-white" />
+            <span class="mt-2 text-[10px] font-bold text-stone-500"><i class="fa-solid fa-camera text-maroon mr-1"></i> امسحي الرمز بهاتفك</span>
+          </div>
+        </div>
+
+        <div onclick="openQrItemModal('calculator')" class="bg-white rounded-3xl p-5 border-2 border-stone-200 hover:border-maroon shadow-sm cursor-pointer transition transform hover:-translate-y-1 text-center group">
+          <div class="bg-amber-50 rounded-2xl p-4 mb-4 relative overflow-hidden">
+            <!-- ضعي مسار صورة الآلة الحاسبة الحقيقية هنا بدلاً من الرابط -->
+            <img src="calculator.jpg" alt="حاسبة" class="w-32 h-32 object-cover mx-auto rounded-xl shadow" onerror="this.src='https://placehold.co/400x400/1E293B/F5B800?text=آلة+حاسبة'" />
+            <span class="absolute top-2 right-2 bg-maroon text-white text-[10px] font-bold px-2 py-0.5 rounded-full">W250318</span>
+          </div>
+          <h3 class="font-extrabold text-charcoal text-sm">آلة حاسبة علمية</h3>
+          <div class="mt-3 bg-stone-50 rounded-xl p-3 border border-stone-100 flex flex-col items-center">
+            <img id="qr-code-calculator" src="" alt="QR Code" class="w-24 h-24 rounded-lg shadow-sm border border-stone-200 p-1 bg-white" />
+            <span class="mt-2 text-[10px] font-bold text-stone-500"><i class="fa-solid fa-camera text-maroon mr-1"></i> امسحي الرمز بهاتفك</span>
+          </div>
+        </div>
+
+        <div onclick="openQrItemModal('pouch')" class="bg-white rounded-3xl p-5 border-2 border-stone-200 hover:border-maroon shadow-sm cursor-pointer transition transform hover:-translate-y-1 text-center group">
+          <div class="bg-rose-50 rounded-2xl p-4 mb-4 relative overflow-hidden">
+            <!-- ضعي مسار صورة المقلمة الحقيقية هنا بدلاً من الرابط -->
+            <img src="pouch.jpg" alt="مقلمة" class="w-32 h-32 object-cover mx-auto rounded-xl shadow" onerror="this.src='https://placehold.co/400x400/E11D48/FFFFFF?text=مقلمة+مدرسية'" />
+            <span class="absolute top-2 right-2 bg-rose-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">W-1051</span>
+          </div>
+          <h3 class="font-extrabold text-charcoal text-sm">مقلمة مدرسية</h3>
+          <div class="mt-3 bg-stone-50 rounded-xl p-3 border border-stone-100 flex flex-col items-center">
+            <img id="qr-code-pouch" src="" alt="QR Code" class="w-24 h-24 rounded-lg shadow-sm border border-stone-200 p-1 bg-white" />
+            <span class="mt-2 text-[10px] font-bold text-stone-500"><i class="fa-solid fa-camera text-maroon mr-1"></i> امسحي الرمز بهاتفك</span>
+          </div>
+        </div>
+
+        <div onclick="openQrItemModal('book')" class="bg-white rounded-3xl p-5 border-2 border-stone-200 hover:border-maroon shadow-sm cursor-pointer transition transform hover:-translate-y-1 text-center group">
+          <div class="bg-emerald-50 rounded-2xl p-4 mb-4 relative overflow-hidden">
+            <!-- ضعي مسار صورة الكتاب الحقيقية هنا بدلاً من الرابط -->
+            <img src="book.jpg" alt="كتاب" class="w-32 h-32 object-cover mx-auto rounded-xl shadow" onerror="this.src='https://placehold.co/400x400/059669/FFFFFF?text=كتاب+الرياضيات'" />
+            <span class="absolute top-2 right-2 bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">W-1032</span>
+          </div>
+          <h3 class="font-extrabold text-charcoal text-sm">كتاب الرياضيات</h3>
+          <div class="mt-3 bg-stone-50 rounded-xl p-3 border border-stone-100 flex flex-col items-center">
+            <img id="qr-code-book" src="" alt="QR Code" class="w-24 h-24 rounded-lg shadow-sm border border-stone-200 p-1 bg-white" />
+            <span class="mt-2 text-[10px] font-bold text-stone-500"><i class="fa-solid fa-camera text-maroon mr-1"></i> امسحي الرمز بهاتفك</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. التبويب الثالث: ماسح ملصق وصل -->
+    <div id="tab-scanner" class="tab-panel hidden space-y-6 pb-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <div class="lg:col-span-5 space-y-4">
+          <div class="bg-white rounded-2xl p-5 border border-stone-200 shadow-sm">
+            <span class="bg-maroon-50 text-maroon text-xs font-extrabold px-2.5 py-1 rounded-full">أمثلة للأدوات الموسومة</span>
+            <h3 class="text-base font-extrabold text-charcoal mt-2">اختاري غرضاً لمحاكاة مسحه ضوئياً</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+              <button onclick="simulateScan('W250318')" class="p-3 rounded-xl border-2 border-stone-200 hover:border-maroon text-right flex items-start gap-3">
+                <div class="w-10 h-10 rounded-xl bg-maroon text-white flex justify-center items-center"><i class="fa-solid fa-calculator"></i></div>
+                <div><div class="text-xs font-extrabold">آلة حاسبة</div><div class="text-[11px] text-maroon">W250318</div></div>
+              </button>
+              <button onclick="simulateScan('W-1027')" class="p-3 rounded-xl border-2 border-stone-200 hover:border-maroon text-right flex items-start gap-3">
+                <div class="w-10 h-10 rounded-xl bg-sky-600 text-white flex justify-center items-center"><i class="fa-solid fa-bottle-water"></i></div>
+                <div><div class="text-xs font-extrabold">قارورة ماء</div><div class="text-[11px] text-maroon">W-1027</div></div>
+              </button>
+              <button onclick="simulateScan('W-1032')" class="p-3 rounded-xl border-2 border-stone-200 hover:border-maroon text-right flex items-start gap-3">
+                <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex justify-center items-center"><i class="fa-solid fa-book"></i></div>
+                <div><div class="text-xs font-extrabold">كتاب الرياضيات</div><div class="text-[11px] text-maroon">W-1032</div></div>
+              </button>
+              <button onclick="simulateScan('W-1051')" class="p-3 rounded-xl border-2 border-stone-200 hover:border-maroon text-right flex items-start gap-3">
+                <div class="w-10 h-10 rounded-xl bg-amber-600 text-white flex justify-center items-center"><i class="fa-solid fa-pen-ruler"></i></div>
+                <div><div class="text-xs font-extrabold">مقلمة مدرسية</div><div class="text-[11px] text-maroon">W-1051</div></div>
+              </button>
+            </div>
+            
+            <div class="mt-5 pt-4 border-t border-stone-200 flex gap-2">
+              <input type="text" id="manual-serial-input" placeholder="رقم مثل W250318" class="flex-1 px-3 py-2 text-xs rounded-xl border border-stone-300" />
+              <button onclick="handleManualSerialScan()" class="bg-maroon text-white px-4 py-2 text-xs rounded-xl">فحص</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7">
+          <div class="bg-charcoal text-white rounded-3xl p-6 shadow-xl border-4 border-stone-700">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+              <div class="flex flex-col items-center">
+                <div class="relative w-56 h-64 rounded-2xl bg-stone-900 border-2 border-gold/60 flex flex-col items-center justify-center p-4 overflow-hidden">
+                  <div id="scanner-laser" class="laser-line"></div>
+                  <div class="bg-white text-charcoal rounded-2xl p-3.5 w-44 text-center">
+                    <div class="font-black text-maroon text-sm">وصل</div>
+                    <div class="my-2 p-2 bg-stone-100 rounded-xl"><i class="fa-solid fa-qrcode text-6xl"></i></div>
+                    <div id="tag-preview-id" class="font-mono font-black text-xs">W250318</div>
+                  </div>
+                  <p id="scan-status-text" class="text-[11px] text-gold mt-3 font-bold text-center">بانتظار مسح الغرض...</p>
+                </div>
+              </div>
+
+              <div id="student-result-card" class="bg-white text-charcoal rounded-2xl p-5 shadow-lg border-t-4 border-emerald-500">
+                <div class="flex items-center justify-between mb-3">
+                  <span class="bg-emerald-100 text-emerald-800 text-xs font-extrabold px-2 py-1 rounded-full">تم العثور على البيانات</span>
+                  <span id="card-serial-badge" class="font-mono text-xs font-bold text-maroon bg-maroon-50 px-2 py-0.5 rounded">W250318</span>
+                </div>
+                <div class="space-y-2.5 text-xs py-2">
+                  <div class="flex justify-between"><span class="font-bold">الطالبة:</span><span id="card-student-name" class="font-extrabold">سارة محمد</span></div>
+                  <div class="flex justify-between"><span class="font-bold">الصف:</span><span id="card-student-grade" class="font-bold">التاسع أ</span></div>
+                  <div class="flex justify-between"><span class="font-bold">الغرض:</span><span id="card-item-name" class="font-bold">آلة حاسبة</span></div>
+                  <div class="flex justify-between items-center"><span class="font-bold">تخصيص خزانة:</span>
+                    <select id="scan-box-select" class="text-xs font-bold bg-gold-50 border border-gold rounded-lg px-2 py-1"></select>
+                  </div>
+                </div>
+                <div class="space-y-2 mt-4">
+                  <button onclick="storeScannedItemInStation()" class="w-full bg-maroon text-white font-bold text-xs py-2.5 rounded-xl">حفظ في الخزانة وإشعار الطالبة</button>
+                  <button onclick="directReturnScannedItem()" class="w-full bg-emerald-600 text-white font-bold text-xs py-2 rounded-xl">تسليم فوري</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 4. التبويب الرابع: محطة وصل (الخزائن) -->
+    <div id="tab-station" class="tab-panel hidden space-y-6 pb-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-8 bg-white rounded-3xl p-6 border-2 border-stone-200 shadow-sm">
+          <div class="flex justify-between items-center pb-4 mb-5 border-b border-stone-200">
+            <h3 class="text-lg font-black text-maroon">محطة "وصل" الذكية (01 إلى 16)</h3>
+            <div class="flex items-center gap-3 text-xs font-bold">
+              <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-maroon"></span> مشغولة</span>
+              <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-emerald-100 border border-emerald-500"></span> متاحة</span>
+            </div>
+          </div>
+          <div id="locker-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3"></div>
+        </div>
+        <div class="lg:col-span-4">
+          <div id="locker-inspector" class="bg-white rounded-3xl p-6 border-2 border-maroon/20 shadow-md sticky top-24"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. التبويب الخامس: أغراض بدون ملصق -->
+    <div id="tab-untagged" class="tab-panel hidden space-y-6 pb-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-5 bg-white rounded-2xl p-6 border border-stone-200 shadow-sm space-y-4">
+          <h4 class="text-sm font-extrabold text-charcoal">تسجيل غرض بدون ملصق</h4>
+          <div>
+            <label class="block text-xs font-bold mb-2">أمثلة:</label>
+            <div class="grid grid-cols-3 gap-2">
+              <button onclick="loadUntaggedPreset('lunchbox')" class="p-2 rounded-xl border border-stone-200 text-center"><div class="text-[11px] mt-1 font-bold">صندوق طعام</div></button>
+              <button onclick="loadUntaggedPreset('pencilcase')" class="p-2 rounded-xl border border-stone-200 text-center"><div class="text-[11px] mt-1 font-bold">مقلمة</div></button>
+              <button onclick="loadUntaggedPreset('bottle')" class="p-2 rounded-xl border border-stone-200 text-center"><div class="text-[11px] mt-1 font-bold">قارورة ماء</div></button>
+            </div>
+          </div>
+          <div class="space-y-3 pt-2">
+            <div><label class="block text-xs font-bold mb-1">النوع:</label><input type="text" id="untagged-type" class="w-full px-3 py-2 text-xs rounded-xl border border-stone-300" /></div>
+            <div class="grid grid-cols-2 gap-3">
+              <div><label class="block text-xs font-bold mb-1">اللون:</label><input type="text" id="untagged-color" class="w-full px-3 py-2 text-xs rounded-xl border border-stone-300" /></div>
+              <div><label class="block text-xs font-bold mb-1">المكان:</label><input type="text" id="untagged-location" class="w-full px-3 py-2 text-xs rounded-xl border border-stone-300" /></div>
+            </div>
+            <button onclick="runUntaggedMatcher()" class="w-full bg-maroon text-white font-bold text-xs py-3 rounded-xl mt-2">بحث عن مطابقة وإشعار الطالبات</button>
+          </div>
+        </div>
+        <div class="lg:col-span-7 space-y-4">
+          <div class="bg-white rounded-2xl p-6 border border-stone-200 shadow-sm">
+            <h4 class="text-sm font-extrabold text-charcoal mb-4">نتائج المطابقة المحتملة</h4>
+            <div id="untagged-matches-list" class="space-y-3"></div>
+          </div>
+          <div class="bg-white rounded-2xl p-5 border border-stone-200 shadow-sm">
+            <h4 class="text-xs font-extrabold text-maroon mb-2">سياسة الـ 30 يوماً للمفقودات</h4>
+            <p class="text-[11px] text-stone-600">إذا لم يتم التعرف على الغرض، يحفظ 30 يوماً في نقطة وصل، يُعلن عنه داخلياً، ثم يتم التبرع به وفق سياسة المدرسة.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- نافذة QR المنبثقة Modal -->
+  <div id="qr-item-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border-4 border-gold relative">
+      <button onclick="closeQrItemModal()" class="absolute top-4 left-4 w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center font-bold text-stone-600 hover:bg-maroon hover:text-white transition"><i class="fa-solid fa-xmark"></i></button>
+      <div class="text-center pb-4 border-b border-stone-200">
+        <h3 id="modal-item-title" class="text-xl font-black mt-2">غرض</h3>
+        <p id="modal-item-serial" class="font-mono text-xs font-bold text-maroon mt-0.5">W-0000</p>
+      </div>
+      <div class="my-5 flex justify-center"><img id="modal-item-img" src="" class="w-48 h-48 object-cover rounded-2xl shadow-md border-2 border-stone-200" /></div>
+      <div class="space-y-3 bg-stone-50 p-4 rounded-2xl text-xs">
+        <div class="flex justify-between"><span class="font-bold">الطالبة:</span><span id="modal-student-name" class="font-extrabold">الاسم</span></div>
+        <div class="flex justify-between"><span class="font-bold">الصف:</span><span id="modal-student-grade" class="font-bold">الصف</span></div>
+        <div class="flex justify-between"><span class="font-bold">رقم الخزانة:</span><span id="modal-item-box" class="font-extrabold bg-gold/30 px-2 rounded">00</span></div>
+      </div>
+      <div class="mt-6 flex gap-3">
+        <button onclick="closeQrItemModal(); switchTab('station');" class="flex-1 bg-maroon text-white font-bold text-xs py-3 rounded-xl transition">الذهاب للمحطة</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- التوست -->
+  <div id="toast-container" class="fixed bottom-5 left-5 z-50 space-y-2 max-w-sm w-full pointer-events-none"></div>
+
+  <!-- سكربت الجافاسكريبت المكتمل -->
+  <script>
+    // 1. حالة النظام الشاملة (State)
+    const state = {
+      kpi: { total: 128, returned: 96, inStation: 32, thisWeek: 8 },
+      selectedScanId: 'W250318',
+      selectedLockerNumber: 3,
+      
+      tagDatabase: {
+        'W250318': { type: 'آلة حاسبة علمية', student: 'سارة محمد', grade: 'التاسع أ' },
+        'W-1027': { type: 'قارورة ماء', student: 'مريم علي', grade: 'العاشر 2' },
+        'W-1032': { type: 'كتاب الرياضيات', student: 'عائشة خالد', grade: 'العاشر 1' },
+        'W-1068': { type: 'كتاب العلوم', student: 'نورة الكواري', grade: 'الثامن ب' },
+        'W-1051': { type: 'مقلمة مدرسية', student: 'فاطمة المري', grade: 'التاسع أ' },
+        'W-1080': { type: 'حقيبة مدرسية', student: 'دانة المهندي', grade: 'الحادي عشر 1' }
+      },
+
+      qrItemsDatabase: {
+        'bottle': { title: 'قارورة ماء وردية', serial: 'W-1027', img: 'bottle.jpg', student: 'مريم علي', grade: 'العاشر 2', location: 'المكتبة', box: '01' },
+        'calculator': { title: 'آلة حاسبة', serial: 'W250318', img: 'calculator.jpg', student: 'سارة محمد', grade: 'التاسع أ', location: 'المختبر', box: '03' },
+        'pouch': { title: 'مقلمة مدرسية', serial: 'W-1051', img: 'pouch.jpg', student: 'فاطمة المري', grade: 'التاسع أ', location: 'الساحة', box: '11' },
+        'book': { title: 'كتاب الرياضيات', serial: 'W-1032', img: 'book.jpg', student: 'عائشة خالد', grade: 'العاشر 1', location: 'الفصل', box: '05' }
+      },
+
+      inventory: [
+        { id: 'W-1027', name: 'قارورة ماء', student: 'مريم علي', location: 'المكتبة', date: '22/10/2026', locker: '01', status: 'في المحطة' },
+        { id: 'W250318', name: 'آلة حاسبة', student: 'سارة محمد', location: 'المختبر', date: '21/10/2026', locker: '03', status: 'في المحطة' },
+        { id: 'W-1032', name: 'كتاب رياضيات', student: 'عائشة خالد', location: 'الفصل', date: '20/10/2026', locker: '05', status: 'في المحطة' },
+        { id: 'W-0099', name: 'سماعات أذن', student: 'نوف حمد', location: 'الساحة', date: '19/10/2026', locker: '-', status: 'تم التسليم' }
+      ],
+
+      lockers: Array.from({length: 16}, (_, i) => {
+        const isOccupied = [1, 3, 5, 8, 11, 14, 15].includes(i + 1);
+        return {
+          id: i + 1,
+          isOccupied: isOccupied,
+          itemSerial: isOccupied ? (i===0 ? 'W-1027' : i===2 ? 'W250318' : i===4 ? 'W-1032' : `W-100${i}`) : null,
+          itemName: isOccupied ? (i===0 ? 'قارورة ماء' : i===2 ? 'آلة حاسبة' : 'غرض محفوظ') : null,
+          studentName: isOccupied ? (i===0 ? 'مريم علي' : i===2 ? 'سارة محمد' : 'طالبة') : null
+        };
+      })
+    };
+
+    // 2. وظائف الواجهة (UI) والتنقل
+    function switchTab(tabId) {
+      const tabs = ['dashboard', 'qrscanner', 'scanner', 'station', 'untagged'];
+      tabs.forEach(t => {
+        document.getElementById(`tab-${t}`)?.classList.toggle('hidden', t !== tabId);
+        const btn = document.getElementById(`tab-btn-${t}`);
+        if(btn) {
+          btn.className = t === tabId 
+            ? 'tab-btn flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl font-bold text-sm transition bg-maroon text-white shadow'
+            : 'tab-btn flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl font-bold text-sm transition text-charcoal hover:bg-stone-100';
+        }
+      });
+      if(tabId === 'station') { renderLockerGrid(); renderLockerInspector(state.selectedLockerNumber); }
+      if(tabId === 'scanner') populateAvailableBoxDropdown();
+    }
+
+    function triggerWorkflowStep(stepNum) {
+      if(stepNum <= 2) switchTab('scanner');
+      else if(stepNum === 3) { switchTab('scanner'); simulateScan('W250318'); }
+      else if(stepNum === 4 || stepNum === 5) { switchTab('scanner'); simulateScan('W250318'); }
+      else if(stepNum === 6) { switchTab('station'); state.selectedLockerNumber = 3; renderLockerGrid(); renderLockerInspector(3); }
+    }
+
+    // 3. النافذة المنبثقة QR
+    function openQrItemModal(itemKey) {
+      const data = state.qrItemsDatabase[itemKey];
+      if(!data) return;
+      document.getElementById('modal-item-title').textContent = data.title;
+      document.getElementById('modal-item-serial').textContent = `الرقم التسلسلي: ${data.serial}`;
+      document.getElementById('modal-item-img').src = data.img;
+      document.getElementById('modal-student-name').textContent = data.student;
+      document.getElementById('modal-student-grade').textContent = data.grade;
+      document.getElementById('modal-item-box').textContent = `خزانة رقم ${data.box}`;
+      
+      document.getElementById('qr-item-modal').classList.remove('hidden');
+      document.getElementById('qr-item-modal').classList.add('flex');
+    }
+
+    function closeQrItemModal() {
+      document.getElementById('qr-item-modal').classList.add('hidden');
+      document.getElementById('qr-item-modal').classList.remove('flex');
+    }
+
+    // 4. المحطة والإحصاءات
+    function renderInventoryTable() {
+      const tbody = document.getElementById('inventory-tbody');
+      if(!tbody) return;
+      
+      const search = document.getElementById('inventory-search')?.value.toLowerCase() || '';
+      const filter = document.getElementById('inventory-status-filter')?.value || 'ALL';
+      
+      tbody.innerHTML = '';
+      state.inventory.forEach(item => {
+        if(filter !== 'ALL' && item.status !== filter) return;
+        if(search && !item.name.toLowerCase().includes(search) && !item.id.toLowerCase().includes(search) && !item.student.toLowerCase().includes(search)) return;
+        
+        tbody.innerHTML += `
+          <tr class="hover:bg-stone-50 transition border-b">
+            <td class="py-3 px-4 font-mono font-bold text-maroon">${item.id}</td>
+            <td class="py-3 px-4 font-bold text-charcoal">${item.name}</td>
+            <td class="py-3 px-4 text-stone-600">${item.student}</td>
+            <td class="py-3 px-4 text-stone-500">${item.location}<br><span class="text-[10px]">${item.date}</span></td>
+            <td class="py-3 px-4 font-bold">${item.locker !== '-' ? 'خزانة '+item.locker : '-'}</td>
+            <td class="py-3 px-4 font-extrabold ${item.status === 'في المحطة' ? 'text-amber-600' : 'text-emerald-600'}">${item.status}</td>
+          </tr>`;
+      });
+    }
+
+    function renderLockerGrid() {
+      const grid = document.getElementById('locker-grid');
+      if(!grid) return;
+      grid.innerHTML = '';
+      let occupiedCount = 0;
+      
+      state.lockers.forEach(locker => {
+        const num = locker.id.toString().padStart(2, '0');
+        if(locker.isOccupied) occupiedCount++;
+        
+        const cssClass = locker.isOccupied 
+          ? `bg-maroon hover:bg-maroon-dark text-white border-maroon shadow-md cursor-pointer ${state.selectedLockerNumber === locker.id ? 'ring-4 ring-gold' : ''}`
+          : `bg-stone-50 border-stone-200 text-stone-400 hover:bg-emerald-50 cursor-pointer ${state.selectedLockerNumber === locker.id ? 'ring-2 ring-emerald-400' : ''}`;
+          
+        grid.innerHTML += `
+          <button onclick="renderLockerInspector(${locker.id})" class="locker-box p-4 rounded-2xl border-2 flex flex-col items-center justify-center transition ${cssClass}">
+            <div class="text-2xl font-black">${num}</div>
+            <div class="text-[10px] font-bold mt-1">${locker.isOccupied ? 'مشغولة' : 'متاحة'}</div>
+          </button>`;
+      });
+      document.getElementById('station-badge-count').textContent = occupiedCount;
+    }
+
+    function renderLockerInspector(id) {
+      state.selectedLockerNumber = id;
+      renderLockerGrid();
+      const panel = document.getElementById('locker-inspector');
+      const locker = state.lockers.find(l => l.id === id);
+      const num = locker.id.toString().padStart(2, '0');
+      
+      if(!locker.isOccupied) {
+        panel.innerHTML = `
+          <div class="text-center py-10 opacity-70">
+            <i class="fa-solid fa-box-open text-5xl text-stone-300 mb-3"></i>
+            <h4 class="font-extrabold text-charcoal">الخزانة رقم ${num} متاحة وفارغة</h4>
+          </div>`;
+      } else {
+        panel.innerHTML = `
+          <div class="flex items-center justify-between mb-4 pb-3 border-b">
+            <h4 class="font-extrabold text-maroon text-lg">الخزانة رقم ${num}</h4>
+            <span class="bg-maroon-50 text-maroon text-xs font-bold px-2 py-1 rounded">مشغولة</span>
+          </div>
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between"><span class="font-bold">الغرض:</span><span class="font-extrabold">${locker.itemName}</span></div>
+            <div class="flex justify-between"><span class="font-bold">الرقم التسلسلي:</span><span class="font-mono text-maroon font-bold">${locker.itemSerial}</span></div>
+            <div class="flex justify-between"><span class="font-bold">طالبة:</span><span class="font-bold">${locker.studentName}</span></div>
+          </div>
+          <button onclick="releaseLocker(${locker.id})" class="w-full mt-6 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-hand-holding-hand"></i> التحقق وتسليم الغرض
+          </button>`;
+      }
+    }
+
+    function releaseLocker(id) {
+      const locker = state.lockers.find(l => l.id === id);
+      if(locker) {
+        locker.isOccupied = false;
+        state.kpi.inStation--;
+        state.kpi.returned++;
+        updateKPIUI();
+        renderLockerGrid();
+        renderLockerInspector(id);
+        renderInventoryTable();
+        showToast(`تم تسليم الغرض من الخزانة ${id} للطالبة بنجاح`, 'success');
+      }
+    }
+
+    function simulateScan(serial) {
+      document.getElementById('manual-serial-input').value = serial;
+      document.getElementById('scanner-laser').style.animationDuration = '0.5s';
+      document.getElementById('scan-status-text').textContent = 'جاري المسح...';
+      
+      setTimeout(() => {
+        document.getElementById('scanner-laser').style.animationDuration = '2s';
+        const data = state.tagDatabase[serial];
+        if(data) {
+          state.selectedScanId = serial;
+          document.getElementById('tag-preview-id').textContent = serial;
+          document.getElementById('card-serial-badge').textContent = serial;
+          document.getElementById('card-student-name').textContent = data.student;
+          document.getElementById('card-student-grade').textContent = data.grade;
+          document.getElementById('card-item-name').textContent = data.type;
+          document.getElementById('scan-status-text').textContent = 'تم التعرف على الملصق بنجاح ✓';
+          populateAvailableBoxDropdown();
+          showToast(`تم قراءة بيانات الطالبة ${data.student}`, 'info');
+        }
+      }, 600);
+    }
+
+    function handleManualSerialScan() {
+      const val = document.getElementById('manual-serial-input').value.toUpperCase().trim();
+      if(state.tagDatabase[val]) simulateScan(val);
+      else showToast('الرقم التسلسلي غير موجود في النظام', 'error');
+    }
+
+    function populateAvailableBoxDropdown() {
+      const sel = document.getElementById('scan-box-select');
+      if(!sel) return;
+      sel.innerHTML = '';
+      const available = state.lockers.filter(l => !l.isOccupied);
+      available.forEach(l => {
+        sel.innerHTML += `<option value="${l.id}">خزانة ${l.id.toString().padStart(2, '0')}</option>`;
+      });
+    }
+
+    function storeScannedItemInStation() {
+      const boxId = parseInt(document.getElementById('scan-box-select').value);
+      const locker = state.lockers.find(l => l.id === boxId);
+      if(locker) {
+        locker.isOccupied = true;
+        locker.itemSerial = state.selectedScanId;
+        locker.itemName = state.tagDatabase[state.selectedScanId].type;
+        locker.studentName = state.tagDatabase[state.selectedScanId].student;
+        
+        state.kpi.inStation++;
+        state.kpi.total++;
+        updateKPIUI();
+        
+        showToast(`تم حفظ الغرض في الخزانة ${boxId} وإرسال إشعار للطالبة`, 'success');
+        switchTab('station');
+        state.selectedLockerNumber = boxId;
+        renderLockerGrid();
+        renderLockerInspector(boxId);
+      }
+    }
+
+    function directReturnScannedItem() {
+      state.kpi.total++;
+      state.kpi.returned++;
+      updateKPIUI();
+      showToast('تم تسجيل تسليم الغرض الفوري للطالبة بنجاح', 'success');
+      switchTab('dashboard');
+    }
+
+    // 5. الأغراض بدون ملصق
+    function loadUntaggedPreset(type) {
+      if(type === 'lunchbox') {
+        document.getElementById('untagged-type').value = 'صندوق طعام';
+        document.getElementById('untagged-color').value = 'وردي';
+      } else if(type === 'pencilcase') {
+        document.getElementById('untagged-type').value = 'مقلمة مدرسية';
+        document.getElementById('untagged-color').value = 'أسود وأحمر';
+      } else {
+        document.getElementById('untagged-type').value = 'قارورة ماء';
+        document.getElementById('untagged-color').value = 'وردي معدني';
+      }
+    }
+
+    function runUntaggedMatcher() {
+      showToast('جاري تحليل البيانات والبحث عن الطالبات المحتملات...', 'info');
+      setTimeout(renderUntaggedMatches, 1000);
+    }
+
+    function renderUntaggedMatches() {
+      const list = document.getElementById('untagged-matches-list');
+      if(!list) return;
+      list.innerHTML = `
+        <div class="flex items-center justify-between p-3 bg-stone-50 border rounded-xl">
+          <div><div class="font-extrabold text-charcoal">سارة محمد</div><div class="text-[10px] text-stone-500">فقدت صندوقاً بالساحة (تطابق 90%)</div></div>
+          <button class="bg-maroon text-white text-xs px-3 py-1.5 rounded-lg">إشعار</button>
+        </div>
+        <div class="flex items-center justify-between p-3 bg-stone-50 border rounded-xl">
+          <div><div class="font-extrabold text-charcoal">مريم علي</div><div class="text-[10px] text-stone-500">فقدت صندوقاً بالفصل (تطابق 75%)</div></div>
+          <button class="bg-maroon text-white text-xs px-3 py-1.5 rounded-lg">إشعار</button>
+        </div>
+      `;
+    }
+
+    // دعم عام
+    function updateKPIUI() {
+      document.getElementById('kpi-total').textContent = state.kpi.total;
+      document.getElementById('kpi-returned').textContent = state.kpi.returned;
+      document.getElementById('kpi-instation').textContent = state.kpi.inStation;
+      document.getElementById('kpi-week').textContent = state.kpi.thisWeek;
+    }
+
+    function filterInventoryByCategory(cat) { switchTab('dashboard'); document.getElementById('inventory-search').value = cat === 'ALL' ? '' : cat; renderInventoryTable(); }
+
+    function showToast(msg, type='info') {
+      const c = document.getElementById('toast-container');
+      const div = document.createElement('div');
+      div.className = `p-3 rounded-xl shadow-lg text-white text-xs font-bold flex items-center gap-2 transform transition-all translate-y-0 opacity-100 ${type === 'success' ? 'bg-emerald-600' : type === 'error' ? 'bg-red-600' : 'bg-charcoal'}`;
+      div.innerHTML = `<i class="fa-solid ${type==='success'?'fa-check':type==='error'?'fa-xmark':'fa-info-circle'}"></i> ${msg}`;
+      c.appendChild(div);
+      setTimeout(() => { div.style.opacity = '0'; setTimeout(() => div.remove(), 300); }, 3000);
+    }
+
+    function runGuidedDemo() {
+      showToast('بدء محاكاة نظام وصل...', 'info');
+      switchTab('scanner');
+      setTimeout(() => simulateScan('W250318'), 1000);
+      setTimeout(() => storeScannedItemInStation(), 3500);
+    }
+
+    // وظيفة لتوليد رموز QR الحقيقية بناءً على رابط الموقع الحالي
+    function generateRealQRCodes() {
+      // الحصول على رابط الموقع
+      let baseUrl = window.location.href.split('?')[0]; 
+      
+      // حل مشكلة فتح الملف محلياً (من الكمبيوتر مباشرة) لتظهر الرموز للمعاينة
+      if (baseUrl.startsWith('file://') || baseUrl.startsWith('blob:') || baseUrl.includes('localhost') || baseUrl.includes('googleusercontent')) {
+        // رابط افتراضي مؤقت للتجربة فقط
+        baseUrl = 'https://alrayyan-schools.github.io/wasl-demo/'; 
+      }
+
+      const items = ['bottle', 'calculator', 'pouch', 'book'];
+      
+      items.forEach(item => {
+        // إنشاء الرابط المخصص لكل غرض
+        const itemUrl = `${baseUrl}?item=${item}`;
+        const qrImageElement = document.getElementById(`qr-code-${item}`);
+        
+        if (qrImageElement) {
+          // استخدام API مجاني وسريع لتحويل الرابط إلى صورة QR
+          qrImageElement.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(itemUrl)}&margin=1`;
+        }
+      });
+    }
+
+    window.onload = function() {
+      updateKPIUI(); renderInventoryTable(); populateAvailableBoxDropdown(); renderLockerGrid(); renderLockerInspector(3);
+      
+      // استدعاء توليد رموز QR فور تحميل الصفحة
+      generateRealQRCodes();
+      
+      const urlParams = new URLSearchParams(window.location.search);
+      const itemParam = urlParams.get('item');
+      if(itemParam && state.qrItemsDatabase[itemParam]) {
+        switchTab('qrscanner');
+        setTimeout(() => openQrItemModal(itemParam), 350);
+      }
+    };
+  </script>
+</body>
+</html>
